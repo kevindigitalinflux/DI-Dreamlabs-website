@@ -1,0 +1,47 @@
+/* Brand fonts — self-hosted via fontsource (perf: only the weights we use) */
+@import '@fontsource/montserrat/600.css'; /* SemiBold — H2/H3 */
+@import '@fontsource/montserrat/700.css'; /* Bold — H1 */
+@import '@fontsource/montserrat/800.css'; /* ExtraBold — display */
+@import '@fontsource/dm-sans/300.css'; /* Light — captions only */
+@import '@fontsource/dm-sans/400.css'; /* Regular — body */
+@import '@fontsource/dm-sans/500.css'; /* Medium — body emphasis */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Type scale mapping (Brief §8.1) — use these utility combos in components:
+ *  Display: font-heading font-extrabold text-4xl md:text-[5rem]  leading-[1.05]
+ *  H1:      font-heading font-bold      text-[2rem] md:text-5xl  leading-[1.1]
+ *  H2:      font-heading font-semibold  text-2xl   md:text-[2rem] leading-[1.2]
+ *  H3:      font-heading font-semibold  text-lg    md:text-[1.375rem] leading-[1.3]
+ *  Body:    font-body    font-normal    text-base  md:text-lg    leading-relaxed
+ *  Caption: font-body    font-light     text-[0.8125rem] md:text-sm leading-snug
+ */
+
+@layer base {
+  body {
+    @apply bg-offwhite font-body text-navy-deep antialiased;
+  }
+
+  ::selection {
+    @apply bg-violet-ray text-offwhite;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-violet-ray ring-offset-2;
+  }
+
+  /* Global reduced-motion kill switch (Brief §9) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

@@ -55,3 +55,6 @@ export const ContactPage = () => (
     </Section>
   </>
 )
+
+/** React Router lazy-route entry. */
+export const Component = ContactPage

@@ -121,3 +121,6 @@ export const HowItWorksPage = () => (
     </Section>
   </>
 )
+
+/** React Router lazy-route entry. */
+export const Component = HowItWorksPage

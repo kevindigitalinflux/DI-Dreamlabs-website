@@ -1,5 +1,7 @@
 import { Head } from 'vite-react-ssg'
 import { CONTACT_EMAIL, CONTACT_PHONE, SITE_NAME, SITE_URL } from '@/lib/config'
+import montserrat800 from '@fontsource/montserrat/files/montserrat-latin-800-normal.woff2?url'
+import dmSans400 from '@fontsource/dm-sans/files/dm-sans-latin-400-normal.woff2?url'
 
 type SeoProps = {
   title: string
@@ -44,6 +46,9 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {/* LCP-critical fonts: display headline + body */}
+      <link rel="preload" as="font" type="font/woff2" href={montserrat800} crossOrigin="anonymous" />
+      <link rel="preload" as="font" type="font/woff2" href={dmSans400} crossOrigin="anonymous" />
       <link rel="canonical" href={url} />
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
       <meta property="og:type" content="website" />

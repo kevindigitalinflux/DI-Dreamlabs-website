@@ -45,3 +45,6 @@ export const BottleneckCheckPage = () => {
     </div>
   )
 }
+
+/** React Router lazy-route entry. */
+export const Component = BottleneckCheckPage

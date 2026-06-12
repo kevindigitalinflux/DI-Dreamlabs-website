@@ -9,10 +9,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        violet: { ray: '#8B32FF' },
+        violet: {
+          ray: '#8B32FF',
+          // Text-only tint: small violet text on Deep Navy needs 4.5:1 (AA);
+          // Violet Ray itself is 3.42:1 there. Never use for fills/CTAs.
+          text: '#A866FF',
+        },
         navy: { deep: '#040F49' },
         rebecca: '#64378B',
-        magenta: { bloom: '#F0386B' },
+        magenta: {
+          bloom: '#F0386B',
+          // Text-only tint: error copy on light surfaces needs 4.5:1 (AA);
+          // Magenta Bloom itself is 3.83:1 on white. Borders stay bloom.
+          text: '#D81B53',
+        },
         cyan: { strong: '#00DFDF' },
         offwhite: '#F4F4F8',
       },

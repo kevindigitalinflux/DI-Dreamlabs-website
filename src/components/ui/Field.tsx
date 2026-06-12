@@ -25,7 +25,7 @@ const FieldShell = ({ label, error, hint, children }: FieldShellProps) => {
       </label>
       {children({ inputId, describedBy })}
       {error ? (
-        <p id={messageId} className="font-body text-sm font-medium text-magenta-bloom">
+        <p id={messageId} className="font-body text-sm font-medium text-magenta-text">
           {error}
         </p>
       ) : hint ? (

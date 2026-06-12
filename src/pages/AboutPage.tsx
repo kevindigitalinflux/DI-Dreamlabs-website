@@ -99,3 +99,6 @@ export const AboutPage = () => (
     </Section>
   </>
 )
+
+/** React Router lazy-route entry. */
+export const Component = AboutPage

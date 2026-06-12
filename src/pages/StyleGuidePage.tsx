@@ -147,3 +147,6 @@ export const StyleGuidePage = () => (
     </section>
   </div>
 )
+
+/** React Router lazy-route entry. */
+export const Component = StyleGuidePage

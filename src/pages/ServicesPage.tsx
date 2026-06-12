@@ -156,3 +156,6 @@ export const ServicesPage = () => (
     </Section>
   </>
 )
+
+/** React Router lazy-route entry. */
+export const Component = ServicesPage

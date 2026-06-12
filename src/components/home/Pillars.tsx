@@ -32,7 +32,7 @@ export const Pillars = () => (
           </p>
           <Link
             to="/services"
-            className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-violet-ray transition-transform group-hover:translate-x-1"
+            className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-violet-text transition-transform group-hover:translate-x-1"
           >
             Explore product engineering <ArrowRightIcon className="h-4 w-4" aria-hidden />
           </Link>

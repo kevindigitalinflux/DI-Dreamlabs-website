@@ -44,8 +44,8 @@ export const SiteNav = () => {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `font-body text-sm font-medium transition-colors hover:text-violet-ray ${
-                  isActive ? 'text-violet-ray' : 'text-offwhite'
+                `font-body text-sm font-medium transition-colors hover:text-violet-text ${
+                  isActive ? 'text-violet-text' : 'text-offwhite'
                 }`
               }
             >

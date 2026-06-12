@@ -37,3 +37,6 @@ export const ResourcePage = () => {
     </>
   )
 }
+
+/** React Router lazy-route entry. */
+export const Component = ResourcePage

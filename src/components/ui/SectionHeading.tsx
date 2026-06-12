@@ -21,7 +21,7 @@ export const SectionHeading = ({
       {eyebrow && (
         <p
           className={`font-heading text-sm font-semibold uppercase tracking-[0.2em] ${
-            surface === 'dark' ? 'text-violet-ray' : 'text-rebecca'
+            surface === 'dark' ? 'text-violet-text' : 'text-rebecca'
           }`}
         >
           {eyebrow}

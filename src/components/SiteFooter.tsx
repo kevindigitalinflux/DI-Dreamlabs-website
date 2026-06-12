@@ -38,7 +38,7 @@ export const SiteFooter = () => (
             <li key={to}>
               <Link
                 to={to}
-                className="font-body text-sm text-offwhite/80 transition-colors hover:text-violet-ray"
+                className="font-body text-sm text-offwhite/80 transition-colors hover:text-violet-text"
               >
                 {label}
               </Link>
@@ -65,10 +65,10 @@ export const SiteFooter = () => (
           © {new Date().getFullYear()} Digital Influx Dreamlabs Ltd. All rights reserved.
         </p>
         <div className="flex gap-6">
-          <Link to="/privacy" className="font-body text-xs text-offwhite/60 hover:text-violet-ray">
+          <Link to="/privacy" className="font-body text-xs text-offwhite/60 hover:text-violet-text">
             Privacy
           </Link>
-          <Link to="/terms" className="font-body text-xs text-offwhite/60 hover:text-violet-ray">
+          <Link to="/terms" className="font-body text-xs text-offwhite/60 hover:text-violet-text">
             Terms
           </Link>
         </div>

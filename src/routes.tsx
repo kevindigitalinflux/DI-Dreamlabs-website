@@ -3,6 +3,7 @@ import { SiteLayout } from '@/layouts/SiteLayout'
 import { PageStub } from '@/pages/PageStub'
 import { StyleGuidePage } from '@/pages/StyleGuidePage'
 import { HomePage } from '@/pages/HomePage'
+import { BottleneckCheckPage } from '@/pages/BottleneckCheckPage'
 
 /**
  * Site map per Brief §5. Every route here is pre-rendered to static HTML
@@ -17,7 +18,7 @@ export const routes: RouteRecord[] = [
       { path: 'services', element: <PageStub title="Services" /> },
       { path: 'industries', element: <PageStub title="Industries" /> },
       { path: 'how-it-works', element: <PageStub title="How It Works" /> },
-      { path: 'tools/bottleneck-check', element: <PageStub title="Bottleneck Check" /> },
+      { path: 'tools/bottleneck-check', element: <BottleneckCheckPage /> },
       { path: 'about', element: <PageStub title="About" /> },
       { path: 'faq', element: <PageStub title="FAQ" /> },
       { path: 'contact', element: <PageStub title="Contact" /> },

@@ -4,6 +4,7 @@ import { Method } from '@/components/home/Method'
 import { Pillars } from '@/components/home/Pillars'
 import { WhyDreamlabs } from '@/components/home/WhyDreamlabs'
 import { Industries } from '@/components/home/Industries'
+import { CalculatorSection } from '@/components/home/CalculatorSection'
 import { Proof } from '@/components/home/Proof'
 import { Faq } from '@/components/home/Faq'
 import { FinalCta } from '@/components/home/FinalCta'
@@ -24,6 +25,7 @@ export const HomePage = () => (
     <Pillars />
     <WhyDreamlabs />
     <Industries />
+    <CalculatorSection />
     {SHOW_PROOF && <Proof />}
     <Faq />
     <FinalCta />

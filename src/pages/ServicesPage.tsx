@@ -1,0 +1,151 @@
+import { PageHero } from '@/components/PageHero'
+import { Section } from '@/components/Section'
+import { Reveal } from '@/components/Reveal'
+import { SectionHeading } from '@/components/ui/SectionHeading'
+import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import { AuditIcon, BuildIcon, FlaskIcon, OwnIcon } from '@/components/icons'
+
+const ENGINEERING_DELIVERABLES = [
+  'A free audit that maps where AI genuinely earns its keep in your business',
+  'Product design built around your team, not a template',
+  'End-to-end engineering and deployment — we ship it, not a spec for it',
+  'Training and handover so your team runs it with confidence',
+] as const
+
+const AUTOMATION_DELIVERABLES = [
+  'The bottleneck costing you the most, identified and measured',
+  'A custom automated system that removes it',
+  'A bespoke app to run or monitor the system — clear enough for anyone on the team',
+  'Connections to the software you already use, so nothing gets ripped out',
+] as const
+
+/** Deep dive on the two service pillars (Brief §5). */
+export const ServicesPage = () => (
+  <>
+    <PageHero
+      eyebrow="Services"
+      title="Two ways to get your unfair advantage"
+      lede="Whichever door you come in through, the result is the same: a working system, built for your business, owned by you outright."
+    />
+
+    <Section surface="workshop">
+      <Reveal>
+        <SectionHeading
+          eyebrow="Pillar one"
+          title="AI Product Engineering"
+          lede="For when you know there's a better way to run your business — you just need someone to build it."
+          surface="light"
+          align="left"
+        />
+      </Reveal>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <Reveal>
+          <Card surface="light" className="h-full">
+            <FlaskIcon className="h-8 w-8 text-violet-ray" aria-hidden />
+            <h3 className="mt-4 font-heading text-lg font-semibold text-navy-deep">What you get</h3>
+            <ul className="mt-3 space-y-2">
+              {ENGINEERING_DELIVERABLES.map((item) => (
+                <li key={item} className="flex gap-2 font-body text-sm leading-relaxed text-navy-deep/80">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-ray" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </Reveal>
+        <Reveal delay={100}>
+          <Card surface="light" className="h-full">
+            <h3 className="font-heading text-lg font-semibold text-navy-deep">
+              A real example of the shape of it
+            </h3>
+            <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/80">
+              A cleaning company kept losing evening enquiries to voicemail. We built an
+              AI-powered assistant that answers every call, gives a quote from their own price
+              list, and books the job straight into their schedule. The owner sees every booking
+              on one screen — and owns the whole thing.
+            </p>
+            <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
+              That is the pattern: one painful, expensive gap, closed by a product designed
+              around how you already work.
+            </p>
+          </Card>
+        </Reveal>
+      </div>
+    </Section>
+
+    <Section surface="dream">
+      <Reveal>
+        <SectionHeading
+          eyebrow="Pillar two"
+          title="Automated Systems"
+          lede="For when the work gets done — but the admin around it eats your week."
+          surface="dark"
+          align="left"
+        />
+      </Reveal>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <Reveal>
+          <Card surface="dark" className="h-full">
+            <BuildIcon className="h-8 w-8 text-cyan-strong" aria-hidden />
+            <h3 className="mt-4 font-heading text-lg font-semibold text-offwhite">What you get</h3>
+            <ul className="mt-3 space-y-2">
+              {AUTOMATION_DELIVERABLES.map((item) => (
+                <li key={item} className="flex gap-2 font-body text-sm leading-relaxed text-offwhite/80">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-strong" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </Reveal>
+        <Reveal delay={100}>
+          <Card surface="dark" className="h-full">
+            <h3 className="font-heading text-lg font-semibold text-offwhite">
+              A real example of the shape of it
+            </h3>
+            <p className="mt-3 font-body text-sm leading-relaxed text-offwhite/80">
+              A maintenance firm's engineers wrote job sheets on paper; the office typed them up,
+              invoiced from them, and chased the gaps. We replaced the loop with a simple app:
+              engineers tap through the job on site, invoices generate themselves, and the office
+              dashboard shows every job live.
+            </p>
+            <p className="mt-4 font-body text-sm leading-relaxed text-offwhite/80">
+              Eleven hours of typing a week, gone — and the system belongs to them, not to us.
+            </p>
+          </Card>
+        </Reveal>
+      </div>
+    </Section>
+
+    <Section surface="workshop">
+      <Reveal>
+        <SectionHeading
+          eyebrow="The engagement"
+          title="How an engagement actually runs"
+          surface="light"
+        />
+      </Reveal>
+      <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-3">
+        {[
+          { icon: AuditIcon, label: 'Free audit', detail: 'A week or less, no cost' },
+          { icon: BuildIcon, label: 'Build & pilot', detail: '2–8 weeks on real work' },
+          { icon: OwnIcon, label: 'Own & scale', detail: 'Yours outright, forever' },
+        ].map(({ icon: Icon, label, detail }, i) => (
+          <Reveal key={label} delay={i * 80} className="text-center">
+            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy-deep text-cyan-strong">
+              <Icon className="h-7 w-7" aria-hidden />
+            </span>
+            <h3 className="mt-4 font-heading text-base font-semibold text-navy-deep">{label}</h3>
+            <p className="mt-1 font-body text-sm text-navy-deep/70">{detail}</p>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal className="mt-12 text-center">
+        <Button variant="primary" href="/contact">
+          Start with the free audit
+        </Button>
+      </Reveal>
+    </Section>
+  </>
+)

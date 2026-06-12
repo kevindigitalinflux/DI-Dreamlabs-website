@@ -1,13 +1,21 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import { SiteLayout } from '@/layouts/SiteLayout'
-import { PageStub } from '@/pages/PageStub'
-import { StyleGuidePage } from '@/pages/StyleGuidePage'
 import { HomePage } from '@/pages/HomePage'
+import { ServicesPage } from '@/pages/ServicesPage'
+import { IndustriesPage } from '@/pages/IndustriesPage'
+import { HowItWorksPage } from '@/pages/HowItWorksPage'
 import { BottleneckCheckPage } from '@/pages/BottleneckCheckPage'
+import { AboutPage } from '@/pages/AboutPage'
+import { FaqPage } from '@/pages/FaqPage'
+import { ContactPage } from '@/pages/ContactPage'
+import { PrivacyPage, TermsPage } from '@/pages/LegalPages'
+import { ResourcePage } from '@/pages/ResourcePage'
+import { NotFoundPage } from '@/pages/NotFoundPage'
+import { StyleGuidePage } from '@/pages/StyleGuidePage'
 
 /**
- * Site map per Brief §5. Every route here is pre-rendered to static HTML
- * at build time by vite-react-ssg. Lazy imports keep route chunks small.
+ * Site map per Brief §5. Every concrete route is pre-rendered to static HTML
+ * at build time by vite-react-ssg.
  */
 export const routes: RouteRecord[] = [
   {
@@ -15,18 +23,18 @@ export const routes: RouteRecord[] = [
     element: <SiteLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'services', element: <PageStub title="Services" /> },
-      { path: 'industries', element: <PageStub title="Industries" /> },
-      { path: 'how-it-works', element: <PageStub title="How It Works" /> },
+      { path: 'services', element: <ServicesPage /> },
+      { path: 'industries', element: <IndustriesPage /> },
+      { path: 'how-it-works', element: <HowItWorksPage /> },
       { path: 'tools/bottleneck-check', element: <BottleneckCheckPage /> },
-      { path: 'about', element: <PageStub title="About" /> },
-      { path: 'faq', element: <PageStub title="FAQ" /> },
-      { path: 'contact', element: <PageStub title="Contact" /> },
-      { path: 'privacy', element: <PageStub title="Privacy Policy" /> },
-      { path: 'terms', element: <PageStub title="Terms" /> },
-      { path: 'resources/:slug', element: <PageStub title="Resources — coming soon" /> },
+      { path: 'about', element: <AboutPage /> },
+      { path: 'faq', element: <FaqPage /> },
+      { path: 'contact', element: <ContactPage /> },
+      { path: 'privacy', element: <PrivacyPage /> },
+      { path: 'terms', element: <TermsPage /> },
+      { path: 'resources/:slug', element: <ResourcePage /> },
       { path: 'style-guide', element: <StyleGuidePage /> },
-      { path: '*', element: <PageStub title="Page not found" /> },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
 ]

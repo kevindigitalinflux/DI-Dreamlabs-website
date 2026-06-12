@@ -1,6 +1,7 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import { SiteLayout } from '@/layouts/SiteLayout'
 import { PageStub } from '@/pages/PageStub'
+import { StyleGuidePage } from '@/pages/StyleGuidePage'
 
 /**
  * Site map per Brief §5. Every route here is pre-rendered to static HTML
@@ -22,7 +23,7 @@ export const routes: RouteRecord[] = [
       { path: 'privacy', element: <PageStub title="Privacy Policy" /> },
       { path: 'terms', element: <PageStub title="Terms" /> },
       { path: 'resources/:slug', element: <PageStub title="Resources — coming soon" /> },
-      { path: 'style-guide', element: <PageStub title="Style Guide" /> },
+      { path: 'style-guide', element: <StyleGuidePage /> },
       { path: '*', element: <PageStub title="Page not found" /> },
     ],
   },

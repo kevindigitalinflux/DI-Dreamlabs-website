@@ -39,3 +39,6 @@ export const ArrowRightIcon = (props: IconProps) => (
     <path d="M4 12h16m-6-6 6 6-6 6" />
   </svg>
 )
+
+export * from './brand'
+export * from './industries'

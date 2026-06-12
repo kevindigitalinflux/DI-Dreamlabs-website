@@ -4,6 +4,7 @@ import type { Industry } from '@/lib/calculator'
 import { BottleneckCalculator } from '@/components/interactive/calculator/BottleneckCalculator'
 import { Section } from '@/components/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { Seo, breadcrumbs } from '@/lib/Seo'
 
 /**
  * Standalone Bottleneck Check (Brief §5) — SEO page + shareable lead magnet.
@@ -18,6 +19,12 @@ export const BottleneckCheckPage = () => {
 
   return (
     <div className="pt-16">
+      <Seo
+        title="Free Bottleneck Check — What Is Your Bottleneck Costing You?"
+        description="Free tool for UK service SMEs: answer four quick questions and see what your biggest operational bottleneck costs every month, in hours and pounds."
+        path="/tools/bottleneck-check"
+        jsonLd={[breadcrumbs(['Bottleneck Check', '/tools/bottleneck-check'])]}
+      />
       <Section surface="dream" orbs>
         <SectionHeading
           eyebrow="Free tool"

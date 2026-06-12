@@ -6,6 +6,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { StatCounter } from '@/components/ui/StatCounter'
 import { GlowOrb } from '@/components/ui/GlowOrb'
 import * as Icons from '@/components/icons'
+import { Seo } from '@/lib/Seo'
 
 const SWATCHES = [
   ['Violet Ray', 'bg-violet-ray', '#8B32FF'],
@@ -21,6 +22,7 @@ const ICON_ENTRIES = Object.entries(Icons).filter(([name]) => name.endsWith('Ico
 /** Internal design-system review page — not linked from navigation. */
 export const StyleGuidePage = () => (
   <div className="pt-16">
+    <Seo title="Style Guide" description="Internal design system reference." path="/style-guide" noIndex />
     {/* Dark surface demos */}
     <section className="relative overflow-hidden bg-navy-deep px-6 py-20">
       <GlowOrb colour="violet" className="-left-20 top-10 h-96 w-96" />

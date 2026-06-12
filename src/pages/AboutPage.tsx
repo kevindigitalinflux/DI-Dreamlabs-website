@@ -5,6 +5,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { POSITIONING_LINE } from '@/lib/config'
+import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const PILLARS = [
   {
@@ -27,6 +28,12 @@ const PILLARS = [
 /** Brand story, Academy pipeline, why Dreamlabs exists (Brief §5). */
 export const AboutPage = () => (
   <>
+    <Seo
+      title="About — Why Dreamlabs Exists"
+      description="Digital Influx Dreamlabs Ltd: an AI agency built for SMEs, powered by the Digital Influx Academy talent pipeline. Enterprise capability, human-scale pricing."
+      path="/about"
+      jsonLd={[breadcrumbs(['About', '/about'])]}
+    />
     <PageHero
       eyebrow="About"
       title='"Dreamlabs" is not just a name. It is a promise.'

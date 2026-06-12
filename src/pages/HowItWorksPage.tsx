@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { AuditIcon, BuildIcon, GuaranteeIcon, OwnIcon, PilotIcon } from '@/components/icons'
 import { FAQ_ITEMS } from '@/lib/faqContent'
+import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const STEPS = [
   {
@@ -48,6 +49,12 @@ const PILOT_FAQS = FAQ_ITEMS.filter((item) =>
 /** The process page — Free Audit → Build → Pilot → Own & Scale (Brief §5). */
 export const HowItWorksPage = () => (
   <>
+    <Seo
+      title="How It Works — Free Audit, Build, Pilot, Own"
+      description="Our four-step process: free audit, 2–8 week build, pilot on real work before any retainer, then you own the system outright — backed by a money-back guarantee."
+      path="/how-it-works"
+      jsonLd={[breadcrumbs(['How It Works', '/how-it-works'])]}
+    />
     <PageHero
       eyebrow="How it works"
       title="From first chat to a system you own"

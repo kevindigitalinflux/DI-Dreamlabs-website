@@ -5,6 +5,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { AuditIcon, BuildIcon, FlaskIcon, OwnIcon } from '@/components/icons'
+import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const ENGINEERING_DELIVERABLES = [
   'A free audit that maps where AI genuinely earns its keep in your business',
@@ -23,6 +24,12 @@ const AUTOMATION_DELIVERABLES = [
 /** Deep dive on the two service pillars (Brief §5). */
 export const ServicesPage = () => (
   <>
+    <Seo
+      title="Services — AI Product Engineering & Automated Systems"
+      description="Two service pillars: AI product engineering (free audit, design, build, deploy) and custom automated systems with a bespoke app. Built for UK service SMEs — you own everything."
+      path="/services"
+      jsonLd={[breadcrumbs(['Services', '/services'])]}
+    />
     <PageHero
       eyebrow="Services"
       title="Two ways to get your unfair advantage"

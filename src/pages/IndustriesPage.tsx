@@ -12,6 +12,7 @@ import {
   MaintenanceIcon,
   TradesIcon,
 } from '@/components/icons'
+import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const INDUSTRY_BLOCKS = [
   {
@@ -67,6 +68,12 @@ const INDUSTRY_BLOCKS = [
 /** Blue-collar verticals, each with its own bottleneck framing (Brief §5). */
 export const IndustriesPage = () => (
   <>
+    <Seo
+      title="Industries — Cleaning, Facilities, Maintenance, Construction, Trades, Logistics"
+      description="AI automation for blue-collar businesses: cleaning, facilities, maintenance, construction, trades and logistics. See the bottleneck we fix first in your industry."
+      path="/industries"
+      jsonLd={[breadcrumbs(['Industries', '/industries'])]}
+    />
     <PageHero
       eyebrow="Industries"
       title="Your industry's bottlenecks, not generic ones"

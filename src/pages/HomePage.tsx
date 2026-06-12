@@ -9,6 +9,7 @@ import { Proof } from '@/components/home/Proof'
 import { Faq } from '@/components/home/Faq'
 import { FinalCta } from '@/components/home/FinalCta'
 import { SHOW_PROOF } from '@/lib/config'
+import { Seo } from '@/lib/Seo'
 
 /**
  * Flagship scroll narrative (Brief §7). Section rhythm alternates Deep Navy
@@ -19,6 +20,11 @@ import { SHOW_PROOF } from '@/lib/config'
  */
 export const HomePage = () => (
   <>
+    <Seo
+      title="DI Dreamlabs"
+      description="AI-powered systems for cleaning, construction, trades and logistics businesses. Free audit, pilot before any retainer, and you own everything we build. Enterprise capability, human-scale pricing."
+      path="/"
+    />
     <HeroAssembly />
     <PainPoints />
     <Method />

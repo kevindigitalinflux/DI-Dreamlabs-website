@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
+import { Seo } from '@/lib/Seo'
 
 /*
  * NOTE FOR KEVIN: standard GDPR-aware boilerplate for a UK Ltd collecting
@@ -18,6 +19,11 @@ const Prose = ({ children }: { children: ReactNode }) => (
 /** Privacy policy (Brief §5 — GDPR/legal). */
 export const PrivacyPage = () => (
   <>
+    <Seo
+      title="Privacy Policy"
+      description="How Digital Influx Dreamlabs Ltd collects, uses and protects your data on di-dreamlabs.com."
+      path="/privacy"
+    />
     <PageHero eyebrow="Legal" title="Privacy Policy" lede="Last updated: June 2026" />
     <Section surface="workshop">
       <Prose>
@@ -77,6 +83,11 @@ export const PrivacyPage = () => (
 /** Terms of use (Brief §5 — GDPR/legal). */
 export const TermsPage = () => (
   <>
+    <Seo
+      title="Terms of Use"
+      description="Terms of use for di-dreamlabs.com, operated by Digital Influx Dreamlabs Ltd."
+      path="/terms"
+    />
     <PageHero eyebrow="Legal" title="Terms of Use" lede="Last updated: June 2026" />
     <Section surface="workshop">
       <Prose>

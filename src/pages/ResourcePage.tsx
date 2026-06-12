@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Button } from '@/components/ui/Button'
+import { Seo } from '@/lib/Seo'
 
 /**
  * Scaffold for the future content-marketing programme — "bottleneck
@@ -12,6 +13,12 @@ export const ResourcePage = () => {
   const { slug } = useParams()
   return (
     <>
+      <Seo
+        title="Resources — Coming Soon"
+        description="Bottleneck breakdowns, industry by industry. Coming soon."
+        path={`/resources/${slug ?? ''}`}
+        noIndex
+      />
       <PageHero
         eyebrow="Resources"
         title="Bottleneck breakdowns are on the way"

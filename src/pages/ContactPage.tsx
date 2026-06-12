@@ -4,10 +4,17 @@ import { Reveal } from '@/components/Reveal'
 import { ContactForm } from '@/components/interactive/ContactForm'
 import { BOOKING_URL, CONTACT_ADDRESS, CONTACT_EMAIL } from '@/lib/config'
 import { ScheduleIcon } from '@/components/icons'
+import { Seo, breadcrumbs } from '@/lib/Seo'
 
 /** Free-audit booking + contact form (Brief §5, P0). */
 export const ContactPage = () => (
   <>
+    <Seo
+      title="Contact — Book Your Free Audit"
+      description="Book a free, no-pressure audit for your business. Tell us what slows you down; we'll show you what it costs and how an AI-powered system would fix it."
+      path="/contact"
+      jsonLd={[breadcrumbs(['Contact', '/contact'])]}
+    />
     <PageHero
       eyebrow="Contact"
       title="Book your free audit"

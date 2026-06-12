@@ -66,6 +66,25 @@
     70%  { opacity: 0.5; }
     100% { transform: translateY(-1.1rem) scale(1); opacity: 0; }
   }
+
+  /* Tactile grain overlay for Deep Navy dream sections — keeps the glow warm
+     rather than sterile (Brief §4). SVG turbulence noise, very low opacity. */
+  .hero-grain {
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Gentle ambient pulse for the static (reduced-motion) constellation.
+     The global reduced-motion kill switch clamps this to a single frame. */
+  .hero-constellation-pulse {
+    animation: constellation-breathe 6s ease-in-out infinite;
+  }
+
+  @keyframes constellation-breathe {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.5; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

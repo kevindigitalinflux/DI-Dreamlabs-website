@@ -1,9 +1,18 @@
+import { useEffect } from 'react'
 import { Outlet, ScrollRestoration } from 'react-router-dom'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
+import { initLenis } from '@/lib/lenis'
 
 /** Root layout: skip link, fixed nav, routed page content, footer. */
-export const SiteLayout = () => (
+export const SiteLayout = () => {
+  useEffect(() => {
+    initLenis()
+  }, [])
+  return <SiteLayoutShell />
+}
+
+const SiteLayoutShell = () => (
   <>
     <a
       href="#main"

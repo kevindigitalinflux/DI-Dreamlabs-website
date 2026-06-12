@@ -1,15 +1,29 @@
 import type { RouteRecord } from 'vite-react-ssg'
+import { SiteLayout } from '@/layouts/SiteLayout'
+import { PageStub } from '@/pages/PageStub'
 
-/** Placeholder route table — full site map wired in Task 0.4. */
+/**
+ * Site map per Brief §5. Every route here is pre-rendered to static HTML
+ * at build time by vite-react-ssg. Lazy imports keep route chunks small.
+ */
 export const routes: RouteRecord[] = [
   {
     path: '/',
-    element: (
-      <main className="flex min-h-screen items-center justify-center bg-navy-deep">
-        <h1 className="font-heading text-4xl font-extrabold text-offwhite">
-          DI Dreamlabs
-        </h1>
-      </main>
-    ),
+    element: <SiteLayout />,
+    children: [
+      { index: true, element: <PageStub title="DI Dreamlabs" /> },
+      { path: 'services', element: <PageStub title="Services" /> },
+      { path: 'industries', element: <PageStub title="Industries" /> },
+      { path: 'how-it-works', element: <PageStub title="How It Works" /> },
+      { path: 'tools/bottleneck-check', element: <PageStub title="Bottleneck Check" /> },
+      { path: 'about', element: <PageStub title="About" /> },
+      { path: 'faq', element: <PageStub title="FAQ" /> },
+      { path: 'contact', element: <PageStub title="Contact" /> },
+      { path: 'privacy', element: <PageStub title="Privacy Policy" /> },
+      { path: 'terms', element: <PageStub title="Terms" /> },
+      { path: 'resources/:slug', element: <PageStub title="Resources — coming soon" /> },
+      { path: 'style-guide', element: <PageStub title="Style Guide" /> },
+      { path: '*', element: <PageStub title="Page not found" /> },
+    ],
   },
 ]

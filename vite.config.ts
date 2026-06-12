@@ -10,6 +10,6 @@ export default defineConfig({
     },
   },
   ssgOptions: {
-    formatting: 'minify',
+    formatting: 'none',
   },
 })

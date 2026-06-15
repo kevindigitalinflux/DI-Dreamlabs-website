@@ -39,7 +39,7 @@ export const Method = () => {
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
-    <Section surface="workshop">
+    <Section surface="workshop" elevateContent id="dreamlabs-method">
       <Reveal>
         <SectionHeading
           eyebrow="The Dreamlabs method"

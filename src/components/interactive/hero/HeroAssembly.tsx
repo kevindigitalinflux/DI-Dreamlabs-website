@@ -51,7 +51,7 @@ export const HeroAssembly = () => {
 
   return (
     <div ref={containerRef} className="relative overflow-hidden bg-navy-deep">
-      <section className="relative flex h-screen items-center px-6 md:px-16 lg:px-24">
+      <section className="relative flex h-screen flex-col justify-start px-6 pt-28 md:px-16 md:pt-36 lg:px-24">
 
         {/* Full-bleed video background */}
         <video

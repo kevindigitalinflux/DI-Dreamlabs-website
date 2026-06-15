@@ -63,10 +63,12 @@ type LayerSpec = {
 }
 
 // Cloud layers — back (furthest/largest/slowest) → front (closest/smallest/fastest).
+// Counts and vertical spread build a dense bank filling the lower ~half of the
+// viewport (it is the "Sound Familiar?" background, so it reads near-opaque).
 const CLOUD_SPECS: LayerSpec[] = [
-  { depth: 'back', travelVh: 60, targetOpacity: 0.5, blurPx: 3, count: 4, sizeRange: [520, 680], bottomRange: [-6, 10] },
-  { depth: 'mid', travelVh: 90, targetOpacity: 0.7, blurPx: 1.5, count: 5, sizeRange: [380, 480], bottomRange: [-4, 4] },
-  { depth: 'front', travelVh: 120, targetOpacity: 0.9, blurPx: 0.5, count: 5, sizeRange: [240, 340], bottomRange: [-12, -2] },
+  { depth: 'back', travelVh: 70, targetOpacity: 0.85, blurPx: 2.5, count: 6, sizeRange: [460, 640], bottomRange: [16, 50] },
+  { depth: 'mid', travelVh: 100, targetOpacity: 0.95, blurPx: 1, count: 7, sizeRange: [360, 520], bottomRange: [2, 30] },
+  { depth: 'front', travelVh: 130, targetOpacity: 1, blurPx: 0, count: 8, sizeRange: [240, 400], bottomRange: [-14, 14] },
 ]
 
 // Bubble layers — back (small/many/slow) → front (large/few/fast).

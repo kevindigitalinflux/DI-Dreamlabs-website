@@ -26,7 +26,12 @@ export const HeroAssembly = () => {
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      if (prefersReduced) return
+      if (prefersReduced) {
+        // No entrance animation, but the content must still be visible
+        // (the .hero-enter elements ship with opacity-0 for the animated path).
+        gsap.set('.hero-enter', { opacity: 1, y: 0 })
+        return
+      }
 
       gsap.fromTo(
         '.hero-enter',

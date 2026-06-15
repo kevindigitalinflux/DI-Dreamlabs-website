@@ -14,10 +14,8 @@ export type ShapePlacement = {
   scale: number
   /** Cloud variant index (0–3); 0 for bubbles (single shape). */
   variant: number
-  /** Rendered size in px (bubbles 8–64; clouds use width below). */
-  size: number
-  /** Base cloud width in px (ignored for bubbles). */
-  width: number
+  /** Rendered size in px — cloud width or bubble diameter. */
+  sizePx: number
   /** Resting vertical offset from the bottom of the viewport, in vh. */
   bottomVh: number
   /** Ambient-drift phase offset (0–1) so layers don't move in lockstep. */
@@ -96,8 +94,7 @@ const buildLayer = (
       x: Math.min(1, Math.max(0, band)),
       scale: 0.85 + rand() * 0.3,
       variant: kind === 'cloud' ? Math.floor(rand() * 4) : 0,
-      size: kind === 'bubble' ? sizeOrWidth : sizeOrWidth,
-      width: kind === 'cloud' ? sizeOrWidth : sizeOrWidth,
+      sizePx: sizeOrWidth,
       bottomVh: lerp(spec.bottomRange[0], spec.bottomRange[1], rand()),
       phase: rand(),
     }

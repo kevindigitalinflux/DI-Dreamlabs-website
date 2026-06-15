@@ -41,8 +41,8 @@ describe('buildAtmosphere', () => {
     const { bubbles } = buildAtmosphere({ seed: 7, mobile: false })
     bubbles.forEach((l) =>
       l.placements.forEach((p) => {
-        expect(p.size).toBeGreaterThanOrEqual(8)
-        expect(p.size).toBeLessThanOrEqual(64)
+        expect(p.sizePx).toBeGreaterThanOrEqual(8)
+        expect(p.sizePx).toBeLessThanOrEqual(64)
         expect(p.x).toBeGreaterThanOrEqual(0)
         expect(p.x).toBeLessThanOrEqual(1)
       }),
@@ -57,5 +57,17 @@ describe('buildAtmosphere', () => {
         expect(p.variant).toBeLessThanOrEqual(3)
       }),
     )
+  })
+
+  it('produces different layouts for different seeds', () => {
+    const a = buildAtmosphere({ seed: 1, mobile: false })
+    const b = buildAtmosphere({ seed: 2, mobile: false })
+    expect(a).not.toEqual(b)
+  })
+
+  it('shortens mobile parallax travel to ~60% of desktop', () => {
+    const desk = buildAtmosphere({ seed: 7, mobile: false })
+    const mob = buildAtmosphere({ seed: 7, mobile: true })
+    expect(mob.clouds[2]!.travelVh).toBeCloseTo(desk.clouds[2]!.travelVh * 0.6, 5)
   })
 })

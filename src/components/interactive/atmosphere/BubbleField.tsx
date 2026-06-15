@@ -17,7 +17,7 @@ export const BubbleField = ({ layers }: BubbleFieldProps) => (
         data-depth={layer.depth}
         data-travel={layer.travelVh}
         data-opacity={layer.targetOpacity}
-        style={{ transform: 'translateY(110%)', opacity: 0, filter: `blur(${layer.blurPx}px)` }}
+        style={{ opacity: 0, filter: `blur(${layer.blurPx}px)` }}
       >
         <div className="atmos-layer-drift absolute inset-0 will-change-transform">
           {layer.placements.map((p, i) => (

@@ -8,12 +8,12 @@
 export const AtmosphereDefs = () => (
   <svg aria-hidden width="0" height="0" className="absolute">
     <defs>
-      <linearGradient id="atmos-cloud-body" gradientUnits="userSpaceOnUse" x1="0" y1="14" x2="0" y2="126">
+      <linearGradient id="atmos-cloud-body" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="150">
         <stop offset="0%" stopColor="#3B2261" />
         <stop offset="55%" stopColor="#5A3088" />
         <stop offset="100%" stopColor="#7E47A4" />
       </linearGradient>
-      <linearGradient id="atmos-cloud-rim" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="134">
+      <linearGradient id="atmos-cloud-rim" gradientUnits="userSpaceOnUse" x1="0" y1="118" x2="0" y2="160">
         <stop offset="0%" stopColor="#CE8EC6" />
         <stop offset="100%" stopColor="#F9BBD4" />
       </linearGradient>

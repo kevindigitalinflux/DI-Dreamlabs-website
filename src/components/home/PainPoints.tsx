@@ -2,6 +2,7 @@ import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
+import { SfCloudBackground } from '@/components/interactive/atmosphere/SfCloudBackground'
 import {
   InventoryIcon,
   MissedCallIcon,
@@ -46,7 +47,13 @@ const PAIN_POINTS = [
 
 /** Section 1 — name the pain before pitching the solution (Brief §7). */
 export const PainPoints = () => (
-  <Section surface="dream" orbs elevateContent id="sound-familiar">
+  <Section
+    surface="dream"
+    elevateContent
+    id="sound-familiar"
+    className="z-10"
+    background={<SfCloudBackground />}
+  >
     <Reveal>
       <SectionHeading
         eyebrow="Sound familiar?"

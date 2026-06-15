@@ -65,10 +65,13 @@ type LayerSpec = {
 // Cloud layers — back (furthest/largest/slowest) → front (closest/smallest/fastest).
 // Counts and vertical spread build a dense bank filling the lower ~half of the
 // viewport (it is the "Sound Familiar?" background, so it reads near-opaque).
+// bottomRange is a PERCENT of the section height (CloudField positions by %):
+// front sits low and dense, back drifts high and sparse, together filling the
+// section as a dreamlike cloud field with a solid bank along the bottom.
 const CLOUD_SPECS: LayerSpec[] = [
-  { depth: 'back', travelVh: 80, targetOpacity: 0.8, blurPx: 2.5, count: 6, sizeRange: [440, 620], bottomRange: [34, 74] },
-  { depth: 'mid', travelVh: 110, targetOpacity: 0.92, blurPx: 1, count: 8, sizeRange: [360, 520], bottomRange: [10, 46] },
-  { depth: 'front', travelVh: 140, targetOpacity: 1, blurPx: 0, count: 9, sizeRange: [250, 410], bottomRange: [-16, 18] },
+  { depth: 'back', travelVh: 80, targetOpacity: 0.85, blurPx: 2.5, count: 7, sizeRange: [440, 620], bottomRange: [46, 94] },
+  { depth: 'mid', travelVh: 110, targetOpacity: 0.95, blurPx: 1, count: 9, sizeRange: [360, 520], bottomRange: [16, 58] },
+  { depth: 'front', travelVh: 140, targetOpacity: 1, blurPx: 0, count: 10, sizeRange: [250, 410], bottomRange: [-18, 26] },
 ]
 
 // Bubble layers — back (small/many/slow) → front (large/few/fast).

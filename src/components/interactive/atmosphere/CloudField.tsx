@@ -4,9 +4,11 @@ import { CloudShape } from './cloudShapes'
 type CloudFieldProps = { layers: LayerConfig[] }
 
 /**
- * Renders the three Rebecca-Purple cloud depth layers (spec §5). Layers start
- * below the fold (translateY 110%) and are raised by the orchestrator. Inner
- * `.atmos-layer-drift` wrapper is reserved for the ambient horizontal drift.
+ * Renders the three Rebecca-Purple cloud depth layers as a section background
+ * (spec §5). Clouds are distributed across the section height (back highest,
+ * front lowest/densest) and are visible at rest — they are the permanent
+ * "Sound Familiar?" background. The `.atmos-layer-scroll` wrapper is available
+ * for internal parallax and `.atmos-layer-drift` for the ambient drift.
  */
 export const CloudField = ({ layers }: CloudFieldProps) => (
   <div className="absolute inset-0">
@@ -17,7 +19,7 @@ export const CloudField = ({ layers }: CloudFieldProps) => (
         data-depth={layer.depth}
         data-travel={layer.travelVh}
         data-opacity={layer.targetOpacity}
-        style={{ opacity: 0, filter: `blur(${layer.blurPx}px)` }}
+        style={{ opacity: layer.targetOpacity, filter: `blur(${layer.blurPx}px)` }}
       >
         <div className="atmos-layer-drift absolute inset-0 will-change-transform">
           {layer.placements.map((p, i) => (
@@ -27,7 +29,7 @@ export const CloudField = ({ layers }: CloudFieldProps) => (
               className="absolute h-auto"
               style={{
                 left: `${p.x * 100}%`,
-                bottom: `${p.bottomVh}vh`,
+                bottom: `${p.bottomVh}%`,
                 width: `${p.sizePx}px`,
                 transform: `translateX(-50%) scale(${p.scale})`,
               }}

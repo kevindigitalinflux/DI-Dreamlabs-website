@@ -1,5 +1,4 @@
 import { HeroAssembly } from '@/components/interactive/hero/HeroAssembly'
-import { ScrollAtmosphere } from '@/components/interactive/atmosphere/ScrollAtmosphere'
 import { PainPoints } from '@/components/home/PainPoints'
 import { Method } from '@/components/home/Method'
 import { Pillars } from '@/components/home/Pillars'
@@ -21,7 +20,6 @@ import { Seo } from '@/lib/Seo'
  */
 export const HomePage = () => (
   <>
-    <ScrollAtmosphere />
     <Seo
       title="DI Dreamlabs"
       description="AI-powered systems for cleaning, construction, trades and logistics businesses. Free audit, pilot before any retainer, and you own everything we build. Enterprise capability, human-scale pricing."

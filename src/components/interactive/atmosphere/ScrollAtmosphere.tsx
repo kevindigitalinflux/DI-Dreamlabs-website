@@ -36,6 +36,7 @@ export const ScrollAtmosphere = () => {
       const cloudLayers = gsap.utils.toArray<HTMLElement>('.atmos-cloud-layer', root)
       const driftWraps = gsap.utils.toArray<HTMLElement>('.atmos-layer-drift', root)
       const hero = document.querySelector('#main section') as HTMLElement | null
+      const heroContent = document.querySelector('.hero-content') as HTMLElement | null
       const method = document.querySelector('#dreamlabs-method') as HTMLElement | null
 
       // Reduced motion: clouds static at rest, no pin/scrub/ambient (spec §8).
@@ -73,20 +74,27 @@ export const ScrollAtmosphere = () => {
           riseTl.to(el, { yPercent: 120 - travel, ease: 'none' }, 0)
           riseTl.to(el, { opacity: target, ease: 'none', duration: 0.4 }, 0)
         })
+        // The hero headline/CTA recede as the clouds climb, so the bank veils
+        // the whole hero by the end of the pin (then "Sound Familiar?" emerges).
+        if (heroContent) {
+          riseTl.to(heroContent, { opacity: 0, yPercent: -8, ease: 'none', duration: 0.45 }, 0.5)
+        }
       }
 
-      // Clouds fade out as "The Dreamlabs Method" rises into view, so the fixed
-      // layer never sits in front of later sections. Fade the ROOT container
-      // (not the layers) so this doesn't fight the rise timeline's per-layer
-      // opacity. Transition 2 will layer the bubbles into this same hand-off.
+      // Clouds are PERMANENT through "Sound Familiar?" (its dreamlike
+      // background). They only fade right at the hand-off, once "The Dreamlabs
+      // Method" is already covering the upper half of the viewport, so the
+      // fixed layer never bleeds in front of later sections. Fade the ROOT
+      // container (not the layers) so this doesn't fight the rise timeline.
+      // Transition 2 will layer the bubbles into this same hand-off.
       if (method) {
         gsap.to(root, {
           opacity: 0,
           ease: 'none',
           scrollTrigger: {
             trigger: method,
-            start: 'top bottom',
-            end: 'top center',
+            start: 'top center',
+            end: 'top top',
             scrub: 0.6,
           },
         })

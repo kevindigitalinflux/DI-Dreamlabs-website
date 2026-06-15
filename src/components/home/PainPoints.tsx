@@ -58,7 +58,7 @@ export const PainPoints = () => (
     <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {PAIN_POINTS.map(({ icon: Icon, title, body }, i) => (
         <Reveal key={title} delay={i * 100}>
-          <Card surface="dark" className="h-full">
+          <Card surface="glass" className="h-full">
             <Icon className="h-8 w-8 text-cyan-strong" aria-hidden />
             <h3 className="mt-4 font-heading text-lg font-semibold text-offwhite">{title}</h3>
             <p className="mt-2 font-body text-sm leading-relaxed text-offwhite/75">{body}</p>

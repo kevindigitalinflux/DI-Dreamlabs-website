@@ -93,7 +93,7 @@ export const CloudShape = ({ variant, className = '', style }: CloudProps) => {
   return (
     <svg
       viewBox="0 0 240 150"
-      className={className}
+      className={`overflow-visible ${className}`}
       style={style}
       aria-hidden
       preserveAspectRatio="xMidYMax meet"

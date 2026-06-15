@@ -1,26 +1,21 @@
 /**
- * Shared SVG filters + gradients for the atmosphere, rendered once. The "goo"
- * filter merges overlapping ellipses into one soft puffy blob (spec §3.1);
- * gradients give clouds inner depth and bubbles a glowing core (spec §3.2).
- * Exact brand hex: Rebecca #64378B, Violet Ray #8B32FF.
+ * Shared SVG gradients for the atmosphere, rendered once (spec §3). Lo-fi flat
+ * cloud look: a deep Rebecca-Purple body gradient with a soft pink rim-light
+ * underside (matching the reference sky art); bubbles keep a Violet-Ray glowing
+ * core. Brand anchor: Rebecca #64378B, Violet Ray #8B32FF. The pink rim is a
+ * deliberate art accent requested for the lo-fi cloud style.
  */
 export const AtmosphereDefs = () => (
   <svg aria-hidden width="0" height="0" className="absolute">
     <defs>
-      <filter id="atmos-goo">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-        <feColorMatrix
-          in="blur"
-          mode="matrix"
-          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"
-          result="goo"
-        />
-        <feBlend in="SourceGraphic" in2="goo" />
-      </filter>
-      <linearGradient id="atmos-cloud-fill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#7A45A8" />
-        <stop offset="60%" stopColor="#64378B" />
-        <stop offset="100%" stopColor="#4F2B70" />
+      <linearGradient id="atmos-cloud-body" gradientUnits="userSpaceOnUse" x1="0" y1="14" x2="0" y2="126">
+        <stop offset="0%" stopColor="#3B2261" />
+        <stop offset="55%" stopColor="#5A3088" />
+        <stop offset="100%" stopColor="#7E47A4" />
+      </linearGradient>
+      <linearGradient id="atmos-cloud-rim" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="134">
+        <stop offset="0%" stopColor="#CE8EC6" />
+        <stop offset="100%" stopColor="#F9BBD4" />
       </linearGradient>
       <radialGradient id="atmos-bubble-fill" cx="38%" cy="34%" r="68%">
         <stop offset="0%" stopColor="#A866FF" />

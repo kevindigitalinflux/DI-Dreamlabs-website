@@ -8,13 +8,27 @@ import { Seo } from '@/lib/Seo'
 export const AtmospherePreviewPage = () => {
   const cfg = buildAtmosphere({ seed: 7, mobile: false })
   return (
-    <div className="min-h-screen bg-navy-deep px-6 py-24">
+    <div
+      className="min-h-screen px-6 py-24"
+      style={{ background: 'linear-gradient(to bottom, #5B3E8E 0%, #8A5BA6 45%, #E6A6C4 100%)' }}
+    >
       <Seo title="Atmosphere Preview" description="Internal scratch page." path="/atmosphere-preview" noIndex />
       <AtmosphereDefs />
       <h1 className="font-heading text-2xl font-bold text-offwhite">Clouds (Rebecca Purple)</h1>
       <div className="mt-6 flex flex-wrap items-end gap-6">
         {[0, 1, 2, 3].map((v) => (
-          <CloudShape key={v} variant={v} className="h-auto w-64" />
+          <CloudShape key={v} variant={v} className="h-auto w-72" />
+        ))}
+      </div>
+      {/* Overlapping cluster to judge density against the reference sky */}
+      <div className="relative mt-10 h-64 w-full">
+        {[0, 1, 2, 3, 1, 2].map((v, i) => (
+          <CloudShape
+            key={i}
+            variant={v}
+            className="absolute h-auto"
+            style={{ left: `${i * 16}%`, bottom: `${(i % 3) * 18}px`, width: `${260 - (i % 3) * 30}px` }}
+          />
         ))}
       </div>
       <h2 className="mt-16 font-heading text-2xl font-bold text-offwhite">Bubbles (Violet Ray)</h2>

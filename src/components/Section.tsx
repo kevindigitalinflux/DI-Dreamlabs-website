@@ -9,13 +9,15 @@ type SectionProps = {
   orbs?: boolean
   className?: string
   id?: string
+  /** Lifts content above the fixed scroll atmosphere (z-50). Spec §3. */
+  elevateContent?: boolean
 }
 
 /**
  * Homepage section shell. The dream/workshop alternation IS the brand story:
  * dream → reality → dream → reality (Brief §8.2).
  */
-export const Section = ({ surface, children, orbs = false, className = '', id }: SectionProps) => (
+export const Section = ({ surface, children, orbs = false, className = '', id, elevateContent = false }: SectionProps) => (
   <section
     id={id}
     className={`relative overflow-hidden px-6 py-20 md:py-28 ${
@@ -29,6 +31,6 @@ export const Section = ({ surface, children, orbs = false, className = '', id }:
         <GlowOrb colour="rebecca" className="-left-24 bottom-0 h-80 w-80" />
       </>
     )}
-    <div className="relative mx-auto max-w-content">{children}</div>
+    <div className={`relative mx-auto max-w-content ${elevateContent ? 'z-50' : ''}`}>{children}</div>
   </section>
 )

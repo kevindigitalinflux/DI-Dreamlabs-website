@@ -46,7 +46,7 @@ const PAIN_POINTS = [
 
 /** Section 1 — name the pain before pitching the solution (Brief §7). */
 export const PainPoints = () => (
-  <Section surface="dream" orbs>
+  <Section surface="dream" orbs elevateContent id="sound-familiar">
     <Reveal>
       <SectionHeading
         eyebrow="Sound familiar?"

@@ -5,7 +5,7 @@
  * Exact brand hex: Rebecca #64378B, Violet Ray #8B32FF.
  */
 export const AtmosphereDefs = () => (
-  <svg aria-hidden width="0" height="0" className="absolute" style={{ position: 'absolute' }}>
+  <svg aria-hidden width="0" height="0" className="absolute">
     <defs>
       <filter id="atmos-goo">
         <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />

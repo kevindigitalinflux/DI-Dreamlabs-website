@@ -54,6 +54,11 @@ export const PainPoints = () => (
     className="z-10"
     background={<SfCloudBackground />}
   >
+    {/* Extra height at section top — cloud territory for the parallax transition.
+        Content position is unchanged; this just gives the clouds room to breathe
+        before the heading appears. */}
+    <div aria-hidden className="h-[40vh]" />
+
     <Reveal>
       <SectionHeading
         eyebrow="Sound familiar?"

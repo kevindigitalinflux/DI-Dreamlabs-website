@@ -69,9 +69,9 @@ type LayerSpec = {
 // front sits low and dense, back drifts high and sparse, together filling the
 // section as a dreamlike cloud field with a solid bank along the bottom.
 const CLOUD_SPECS: LayerSpec[] = [
-  { depth: 'back', travelVh: 80, targetOpacity: 0.85, blurPx: 2.5, count: 7, sizeRange: [440, 620], bottomRange: [46, 94] },
-  { depth: 'mid', travelVh: 110, targetOpacity: 0.95, blurPx: 1, count: 9, sizeRange: [360, 520], bottomRange: [16, 58] },
-  { depth: 'front', travelVh: 140, targetOpacity: 1, blurPx: 0, count: 10, sizeRange: [250, 410], bottomRange: [-18, 26] },
+  { depth: 'back', travelVh: 80, targetOpacity: 0.85, blurPx: 2.5, count: 8, sizeRange: [440, 620], bottomRange: [55, 115] },
+  { depth: 'mid', travelVh: 110, targetOpacity: 0.95, blurPx: 1, count: 12, sizeRange: [340, 520], bottomRange: [10, 85] },
+  { depth: 'front', travelVh: 140, targetOpacity: 1, blurPx: 0, count: 14, sizeRange: [220, 400], bottomRange: [-24, 28] },
 ]
 
 // Bubble layers — back (small/many/slow) → front (large/few/fast).

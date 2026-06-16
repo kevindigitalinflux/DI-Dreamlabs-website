@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { MenuIcon, CloseIcon } from '@/components/icons'
 
 const NAV_LINKS = [
@@ -10,12 +10,36 @@ const NAV_LINKS = [
   { to: '/faq', label: 'FAQ' },
 ] as const
 
-/** Fixed site navigation — Deep Navy glass bar with animated logo bubbles. */
+/**
+ * Fixed site navigation — Deep Navy glass bar with animated logo bubbles.
+ * Transparent over the homepage hero's video (only at the very top of the
+ * page, before any scroll); solid everywhere else, matching every other
+ * route's normal behaviour.
+ */
 export const SiteNav = () => {
   const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
+  const [transparent, setTransparent] = useState(pathname === '/')
+
+  useEffect(() => {
+    if (pathname !== '/') {
+      setTransparent(false)
+      return
+    }
+    const onScroll = () => setTransparent(window.scrollY < 10)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [pathname])
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-offwhite/10 bg-navy-deep/80 backdrop-blur-md">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        transparent
+          ? 'border-transparent bg-transparent'
+          : 'border-offwhite/10 bg-navy-deep/80 backdrop-blur-md'
+      }`}
+    >
       <nav
         aria-label="Main"
         className="mx-auto flex h-16 max-w-content items-center justify-between px-6"

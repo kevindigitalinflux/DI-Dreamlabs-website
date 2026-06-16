@@ -3,6 +3,8 @@ import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Button } from '@/components/ui/Button'
 import { ChevronDownIcon } from '@/components/icons'
+import { HeroCloudHint } from './HeroCloudHint'
+import { HeroCloudWipe } from './HeroCloudWipe'
 
 gsap.registerPlugin(useGSAP)
 
@@ -49,9 +51,13 @@ export const HeroAssembly = () => {
     { scope: containerRef },
   )
 
+  // z-20 keeps this above the "Sound familiar?" section (z-10) for the whole
+  // pin duration — without it, that section (positioned at the same document
+  // slot since the pin reserves no space) paints over the hero/clouds the
+  // moment any scroll happens, regardless of wipe progress.
   return (
-    <div ref={containerRef} className="relative overflow-hidden bg-navy-deep">
-      <section className="relative flex h-screen flex-col justify-start px-6 pt-28 md:px-16 md:pt-36 lg:px-24">
+    <div ref={containerRef} data-hero className="relative z-20 overflow-hidden bg-navy-deep">
+      <section className="relative flex h-screen flex-col justify-start px-6 pt-20 md:px-16 md:pt-28 lg:px-24">
 
         {/* Full-bleed video background */}
         <video
@@ -75,9 +81,12 @@ export const HeroAssembly = () => {
           aria-hidden
         />
 
+        <HeroCloudHint />
+        <HeroCloudWipe />
+
         {/* Left-aligned content */}
         <div className="hero-content relative z-50 max-w-2xl">
-          <p className="hero-enter mb-4 font-body text-sm font-semibold uppercase tracking-widest text-cyan-strong opacity-0">
+          <p className="hero-enter mb-3 font-body text-sm font-semibold uppercase tracking-widest text-cyan-strong opacity-0">
             AI-Powered Operations · Built for Trade Businesses
           </p>
 
@@ -88,12 +97,12 @@ export const HeroAssembly = () => {
             </span>
           </h1>
 
-          <p className="hero-enter mt-6 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
+          <p className="hero-enter mt-4 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
             We build AI-powered systems for cleaning, construction, trades and logistics
             businesses. You own everything we build — and it starts with a free audit.
           </p>
 
-          <div className="hero-enter mt-10 flex flex-col gap-4 opacity-0 sm:flex-row">
+          <div className="hero-enter mt-8 flex flex-col gap-4 opacity-0 sm:flex-row">
             <Button variant="primary" href="/contact">
               Get your free audit
             </Button>
@@ -104,7 +113,7 @@ export const HeroAssembly = () => {
         </div>
 
         {/* Scroll cue */}
-        <div className="hero-cue absolute bottom-6 left-1/2 z-50 -translate-x-1/2 text-offwhite/60 motion-safe:animate-bounce">
+        <div className="hero-cue absolute bottom-6 left-1/2 z-[70] -translate-x-1/2 text-offwhite/60 motion-safe:animate-bounce">
           <ChevronDownIcon className="h-6 w-6" aria-hidden />
           <span className="sr-only">Scroll to continue</span>
         </div>

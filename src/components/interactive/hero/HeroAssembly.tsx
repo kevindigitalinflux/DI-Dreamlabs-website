@@ -51,10 +51,11 @@ export const HeroAssembly = () => {
     { scope: containerRef },
   )
 
-  // z-20 keeps this above the "Sound familiar?" section (z-10) for the whole
-  // pin duration — without it, that section (positioned at the same document
-  // slot since the pin reserves no space) paints over the hero/clouds the
-  // moment any scroll happens, regardless of wipe progress.
+  // z-20 is a defensive safeguard against the "Sound familiar?" section
+  // (z-10) — the pin now reserves its own scroll distance (see
+  // HeroCloudWipe), so the two never actually share document space, but this
+  // keeps hero on top during any transient overlap (e.g. fast-scroll pin
+  // anticipation).
   return (
     <div ref={containerRef} data-hero className="relative z-20 overflow-hidden bg-navy-deep">
       <section className="relative flex h-screen flex-col justify-start px-6 pt-20 md:px-16 md:pt-28 lg:px-24">

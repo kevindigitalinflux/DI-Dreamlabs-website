@@ -55,21 +55,14 @@ export const HeroCloudWipe = () => {
           end: () => '+=' + window.innerHeight * 1.6,
           scrub: true,
           pin: hero,
-          pinSpacing: false,
           anticipatePin: 1,
-          // Hero needs to outrank the SF section (z-10) only while actively
-          // pinned, so the wipe can't be seen through early. Once unpinned,
-          // GSAP leaves hero translated down by the pin's full scroll
-          // distance — since hero is as tall as the gap it translated
-          // through, it keeps physically overlapping SF's content for a long
-          // stretch afterward. Dropping z-index back down on release lets SF
-          // (z-10) win that overlap, same as before hero had any z-index.
-          // GSAP wraps the pinned element in a `.pin-spacer` div that copies
-          // its z-index at pin setup — that wrapper, not hero itself, is the
-          // actual sibling competing for stacking order, so it's the one that
-          // needs toggling.
-          onLeave: () => gsap.set(hero.parentElement ?? hero, { zIndex: 0 }),
-          onEnterBack: () => gsap.set(hero.parentElement ?? hero, { zIndex: 20 }),
+          // pinSpacing defaults to true — GSAP inserts a spacer reserving the
+          // full scroll distance, so the SF section starts exactly where the
+          // pin ends. Without it (tried previously), the pin consumes scroll
+          // distance out of SF's own document space instead of adding to it,
+          // so SF's heading is already scrolled past by the time hero
+          // unpins — it only becomes visible mid-card-grid, well into the
+          // section, looking like a sudden cut instead of a handoff.
         },
       })
 

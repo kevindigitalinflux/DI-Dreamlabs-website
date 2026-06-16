@@ -54,18 +54,23 @@ export const PainPoints = () => (
     className="z-10"
     background={<SfCloudBackground />}
   >
-    {/* Extra height at section top — cloud territory for the parallax transition.
-        Content position is unchanged; this just gives the clouds room to breathe
-        before the heading appears. */}
-    <div aria-hidden className="h-[40vh]" />
+    {/* Small breathing gap — just enough for the handoff from the hero's
+        clouds to not feel instant, without pushing the heading far down. */}
+    <div aria-hidden className="h-[8vh]" />
 
+    {/* Frosted panel — same treatment as the cards below (bg-navy-deep/55 +
+        backdrop-blur-md) so the heading stays legible no matter which cloud
+        the seeded layout happens to place behind it, instead of bare text
+        sitting directly on the cloud field. */}
     <Reveal>
-      <SectionHeading
-        eyebrow="Sound familiar?"
-        title="The bottlenecks quietly eating your week"
-        lede="Every growing service business hits the same walls. They are not a sign something is wrong — they are a sign you have outgrown the way things are done by hand."
-        surface="dark"
-      />
+      <div className="mx-auto max-w-2xl rounded-card border border-offwhite/15 bg-navy-deep/55 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
+        <SectionHeading
+          eyebrow="Sound familiar?"
+          title="The bottlenecks quietly eating your week"
+          lede="Every growing service business hits the same walls. They are not a sign something is wrong — they are a sign you have outgrown the way things are done by hand."
+          surface="dark"
+        />
+      </div>
     </Reveal>
     <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {PAIN_POINTS.map(({ icon: Icon, title, body }, i) => (

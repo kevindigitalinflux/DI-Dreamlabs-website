@@ -46,13 +46,14 @@ export const HeroCloudWipe = () => {
       const hero = document.querySelector('[data-hero]') as HTMLElement | null
       if (!hero) return
 
-      // More scroll runway than one viewport height — gives the rise and the
-      // backdrop fade room to play out gradually instead of snapping shut.
+      // Scroll runway for the rise + backdrop fade to play out gradually
+      // instead of snapping shut. Kept just over one viewport so the pin
+      // doesn't eat too much scroll before SF's content appears underneath.
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: hero,
           start: 'top top',
-          end: () => '+=' + window.innerHeight * 1.6,
+          end: () => '+=' + window.innerHeight * 1.1,
           scrub: true,
           pin: hero,
           anticipatePin: 1,

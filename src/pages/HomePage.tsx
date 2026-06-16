@@ -1,6 +1,5 @@
 import { HeroAssembly } from '@/components/interactive/hero/HeroAssembly'
 import { PainPoints } from '@/components/home/PainPoints'
-import { MethodBubbleWipe } from '@/components/interactive/atmosphere/MethodBubbleWipe'
 import { Method } from '@/components/home/Method'
 import { Pillars } from '@/components/home/Pillars'
 import { WhyDreamlabs } from '@/components/home/WhyDreamlabs'
@@ -28,7 +27,6 @@ export const HomePage = () => (
     />
     <HeroAssembly />
     <PainPoints />
-    <MethodBubbleWipe />
     <Method />
     <Pillars />
     <WhyDreamlabs />

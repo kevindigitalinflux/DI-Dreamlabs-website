@@ -34,7 +34,7 @@ export const SiteNav = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-[9999] border-b transition-colors duration-300 ${
         transparent
           ? 'border-transparent bg-transparent'
           : 'border-offwhite/10 bg-navy-deep/80 backdrop-blur-md'

@@ -15,11 +15,11 @@ export const CloudField = ({ layers }: CloudFieldProps) => (
     {layers.map((layer) => (
       <div
         key={layer.depth}
-        className="atmos-layer-scroll atmos-cloud-layer absolute inset-0 will-change-transform"
+        className="atmos-layer-scroll atmos-cloud-layer absolute inset-0"
         data-depth={layer.depth}
         data-travel={layer.travelVh}
         data-opacity={layer.targetOpacity}
-        style={{ opacity: layer.targetOpacity, filter: `blur(${layer.blurPx}px)` }}
+        style={{ opacity: layer.targetOpacity, filter: layer.blurPx > 0 ? `blur(${layer.blurPx}px)` : undefined }}
       >
         <div className="atmos-layer-drift absolute inset-0 will-change-transform">
           {layer.placements.map((p, i) => (

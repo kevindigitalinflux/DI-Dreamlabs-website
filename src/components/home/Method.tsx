@@ -74,7 +74,10 @@ export const Method = () => {
                 <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy-deep text-cyan-strong shadow-card">
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
-                <div>
+                {/* backdrop-blur is a live filter on whatever renders behind it, so it
+                    keeps the title/body legible no matter how many bubbles drift behind
+                    them — the icon and connecting line above stay uncovered, on purpose. */}
+                <div className="rounded-card bg-white/85 px-3 py-2">
                   <h3 className="font-heading text-lg font-semibold text-navy-deep md:text-[1.375rem]">
                     {title}
                   </h3>

@@ -69,16 +69,24 @@ type LayerSpec = {
 // front sits low and dense, back drifts high and sparse, together filling the
 // section as a dreamlike cloud field with a solid bank along the bottom.
 const CLOUD_SPECS: LayerSpec[] = [
-  { depth: 'back', travelVh: 80, targetOpacity: 0.85, blurPx: 2.5, count: 8, sizeRange: [440, 620], bottomRange: [55, 115] },
-  { depth: 'mid', travelVh: 110, targetOpacity: 0.95, blurPx: 1, count: 12, sizeRange: [340, 520], bottomRange: [10, 85] },
+  { depth: 'back', travelVh: 80, targetOpacity: 0.85, blurPx: 0, count: 8, sizeRange: [440, 620], bottomRange: [55, 115] },
+  { depth: 'mid', travelVh: 110, targetOpacity: 0.95, blurPx: 0, count: 12, sizeRange: [340, 520], bottomRange: [10, 85] },
   { depth: 'front', travelVh: 140, targetOpacity: 1, blurPx: 0, count: 14, sizeRange: [220, 400], bottomRange: [-24, 28] },
 ]
 
-// Bubble layers — back (small/many/slow) → front (large/few/fast).
+// Bubble layers — back (small/many/slow) → front (large/few/fast). This is
+// Method's full-section background (bottomRange is a PERCENT of the section
+// height, same convention as CloudField), so coverage needs to reach all the
+// way to the top of the section, not just settle near the bottom. back/mid
+// skew heavily toward the top of their range (and overshoot past 100% — the
+// section is overflow-hidden, so the excess just clips) so the small, faint
+// bubbles read as a dense continuation of SfBubbleHint's peek at the bottom
+// of "Sound Familiar?"; front (largest, most opaque) stays a bit lower so it
+// doesn't crowd the section heading card.
 const BUBBLE_SPECS: LayerSpec[] = [
-  { depth: 'back', travelVh: 55, targetOpacity: 0.4, blurPx: 2, count: 12, sizeRange: [8, 22], bottomRange: [-10, 40] },
-  { depth: 'mid', travelVh: 85, targetOpacity: 0.65, blurPx: 1, count: 9, sizeRange: [20, 40], bottomRange: [-10, 30] },
-  { depth: 'front', travelVh: 115, targetOpacity: 0.9, blurPx: 0, count: 6, sizeRange: [40, 64], bottomRange: [-12, 20] },
+  { depth: 'back', travelVh: 55, targetOpacity: 0.4, blurPx: 0, count: 18, sizeRange: [8, 22], bottomRange: [20, 130] },
+  { depth: 'mid', travelVh: 85, targetOpacity: 0.65, blurPx: 0, count: 14, sizeRange: [20, 40], bottomRange: [0, 115] },
+  { depth: 'front', travelVh: 115, targetOpacity: 0.9, blurPx: 0, count: 10, sizeRange: [40, 64], bottomRange: [-10, 85] },
 ]
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
@@ -91,6 +99,7 @@ const buildLayer = (
 ): LayerConfig => {
   const count = mobile ? Math.ceil(spec.count / 2) : spec.count
   const travelVh = mobile ? spec.travelVh * 0.6 : spec.travelVh
+
   const placements: ShapePlacement[] = Array.from({ length: count }, (_, i) => {
     // Spread shapes across the width in jittered bands so they never tile.
     const band = (i + rand() * 0.8) / count

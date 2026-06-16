@@ -30,15 +30,26 @@ export const HeroCloudWipe = () => {
   const canvasRef = useRef<HTMLDivElement>(null)
   const backdropRef = useRef<HTMLDivElement>(null)
   const [mobile, setMobile] = useState(false)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     setMobile(window.matchMedia('(max-width: 767px)').matches)
+    setReady(true)
   }, [])
 
   const cfg = buildAtmosphere({ seed: 7, mobile })
 
   useGSAP(
     () => {
+      // Wait for the real mobile/desktop value to resolve post-mount before
+      // creating the ScrollTrigger. Without this guard, the first run (using
+      // the SSR-safe `mobile: false` default) creates a real pin, which then
+      // gets reverted and recreated once `mobile` resolves — and that
+      // revert/recreate cycle was observed to double the pin's scroll
+      // distance on mobile (measured: ~1858px instead of the intended
+      // ~928px). Creating the ScrollTrigger
+      // exactly once, only after `ready`, avoids the bug entirely.
+      if (!ready) return
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
       const canvas = canvasRef.current
       const backdrop = backdropRef.current
@@ -90,7 +101,7 @@ export const HeroCloudWipe = () => {
         })
       })
     },
-    { scope: wipeRef, dependencies: [mobile] },
+    { scope: wipeRef, dependencies: [ready, mobile] },
   )
 
   return (

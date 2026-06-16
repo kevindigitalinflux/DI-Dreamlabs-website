@@ -14,10 +14,10 @@ describe('buildAtmosphere', () => {
     expect(cfg.bubbles.map((l) => l.depth)).toEqual(['back', 'mid', 'front'])
   })
 
-  it('caps shape counts per layer (≤14 clouds, ≤12 bubbles)', () => {
+  it('caps shape counts per layer (≤14 clouds, ≤18 bubbles)', () => {
     const cfg = buildAtmosphere({ seed: 7, mobile: false })
     cfg.clouds.forEach((l) => expect(l.placements.length).toBeLessThanOrEqual(14))
-    cfg.bubbles.forEach((l) => expect(l.placements.length).toBeLessThanOrEqual(12))
+    cfg.bubbles.forEach((l) => expect(l.placements.length).toBeLessThanOrEqual(18))
   })
 
   it('increases parallax travel and opacity from back to front', () => {

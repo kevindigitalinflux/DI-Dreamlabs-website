@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { MethodBubbleBackground } from '@/components/interactive/atmosphere/MethodBubbleBackground'
 import { AuditIcon, BuildIcon, GuaranteeIcon, OwnIcon, PilotIcon } from '@/components/icons'
 
 const STEPS = [
@@ -39,14 +40,23 @@ export const Method = () => {
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
-    <Section surface="workshop" elevateContent id="dreamlabs-method">
+    <Section
+      surface="workshop"
+      elevateContent
+      id="dreamlabs-method"
+      background={<MethodBubbleBackground />}
+    >
+      {/* Frosted panel — light counterpart to the SF heading treatment, so
+          the heading stays legible no matter which bubble drifts behind it. */}
       <Reveal>
-        <SectionHeading
-          eyebrow="The Dreamlabs method"
-          title="A path with no leap of faith required"
-          lede="Four steps, and the risky ones are on us."
-          surface="light"
-        />
+        <div className="mx-auto max-w-2xl rounded-card border border-navy-deep/10 bg-white/70 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
+          <SectionHeading
+            eyebrow="The Dreamlabs method"
+            title="A path with no leap of faith required"
+            lede="Four steps, and the risky ones are on us."
+            surface="light"
+          />
+        </div>
       </Reveal>
 
       <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl">

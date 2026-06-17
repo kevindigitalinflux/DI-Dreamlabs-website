@@ -96,7 +96,7 @@ export const Pillars = () => (
           </p>
           <div className="mt-6 flex-1 overflow-hidden rounded-card">
             <img
-              src="/images/services/end-to-end-product.png"
+              src="/images/services/end-to-end-product.jpg"
               alt="End-to-end product development illustration"
               className="h-48 w-full object-contain"
             />

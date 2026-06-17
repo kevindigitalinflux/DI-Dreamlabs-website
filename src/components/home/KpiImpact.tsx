@@ -72,45 +72,52 @@ const UP_METRICS: KpiMetricData[] = [
     suffix: '×',
     direction: 'up',
   },
+  {
+    label: 'Your free time',
+    sublabel: 'A scalable business should let you live your life, not just run it',
+    value: 8,
+    suffix: ' hrs/wk',
+    direction: 'up',
+  },
 ]
 
-/** Section 4 — KPI impact split: what we make go down vs up (Brief §7). */
+/**
+ * Section 4 — KPI impact split.
+ *
+ * Uses a flat 4-cell CSS grid (2 cols × 2 rows) so headings share a row and
+ * both metric lists always start at the same vertical position, regardless of
+ * heading height.
+ */
 export const KpiImpact = () => (
   <Section surface="dream">
-    <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-      {/* Going down */}
-      <div>
-        <h3 className="relative font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug">
-          {/* Invisible placeholder reserves height so layout doesn't jump during typing */}
-          <span className="invisible select-none" aria-hidden>
-            In simple terms, we make these go down
-          </span>
-          <span className="absolute inset-0">
-            <TypingText text="In simple terms, we make these go down" />
-          </span>
-        </h3>
-        <div className="mt-6 divide-y divide-offwhite/10">
-          {DOWN_METRICS.map((m) => (
-            <KpiMetric key={m.label} {...m} />
-          ))}
-        </div>
+    {/*
+      Flat grid: row 1 = headings, row 2 = metric lists.
+      CSS grid makes both cells in row 1 the same height (taller wins),
+      so the metric rows are always perfectly top-aligned.
+    */}
+    <div className="grid gap-x-20 gap-y-8 lg:grid-cols-2">
+      {/* Row 1 — left heading */}
+      <h3 className="min-h-[2.5rem] font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug">
+        <TypingText text="In simple terms, we make these go down" />
+      </h3>
+
+      {/* Row 1 — right heading */}
+      <h3 className="min-h-[2.5rem] font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug">
+        <TypingText text="And we make these go up" charDelay={60} />
+      </h3>
+
+      {/* Row 2 — left metrics */}
+      <div className="divide-y divide-offwhite/10">
+        {DOWN_METRICS.map((m) => (
+          <KpiMetric key={m.label} {...m} />
+        ))}
       </div>
 
-      {/* Going up */}
-      <div>
-        <h3 className="relative font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug">
-          <span className="invisible select-none" aria-hidden>
-            And we make these go up
-          </span>
-          <span className="absolute inset-0">
-            <TypingText text="And we make these go up" charDelay={60} />
-          </span>
-        </h3>
-        <div className="mt-6 divide-y divide-offwhite/10">
-          {UP_METRICS.map((m) => (
-            <KpiMetric key={m.label} {...m} />
-          ))}
-        </div>
+      {/* Row 2 — right metrics */}
+      <div className="divide-y divide-offwhite/10">
+        {UP_METRICS.map((m) => (
+          <KpiMetric key={m.label} {...m} />
+        ))}
       </div>
     </div>
 

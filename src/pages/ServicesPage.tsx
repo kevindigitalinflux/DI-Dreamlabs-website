@@ -10,14 +10,14 @@ import { Seo, breadcrumbs } from '@/lib/Seo'
 const ENGINEERING_DELIVERABLES = [
   'A free audit that maps where AI genuinely earns its keep in your business',
   'Product design built around your team, not a template',
-  'End-to-end engineering and deployment — we ship it, not a spec for it',
+  'End-to-end engineering and deployment, we ship it, not a spec for it',
   'Training and handover so your team runs it with confidence',
 ] as const
 
 const AUTOMATION_DELIVERABLES = [
   'The bottleneck costing you the most, identified and measured',
   'A custom automated system that removes it',
-  'A bespoke app to run or monitor the system — clear enough for anyone on the team',
+  'A bespoke app to run or monitor the system, clear enough for anyone on the team',
   'Connections to the software you already use, so nothing gets ripped out',
 ] as const
 
@@ -25,8 +25,8 @@ const AUTOMATION_DELIVERABLES = [
 export const ServicesPage = () => (
   <>
     <Seo
-      title="Services — AI Product Engineering & Automated Systems"
-      description="Two service pillars: AI product engineering (free audit, design, build, deploy) and custom automated systems with a bespoke app. Built for UK service SMEs — you own everything."
+      title="Services: AI Product Engineering & Automated Systems"
+      description="Two service pillars: AI product engineering (free audit, design, build, deploy) and custom automated systems with a bespoke app. Built for UK service SMEs, you own everything."
       path="/services"
       jsonLd={[breadcrumbs(['Services', '/services'])]}
     />
@@ -41,7 +41,7 @@ export const ServicesPage = () => (
         <SectionHeading
           eyebrow="Pillar one"
           title="AI Product Engineering"
-          lede="For when you know there's a better way to run your business — you just need someone to build it."
+          lede="For when you know there's a better way to run your business, you just need someone to build it."
           surface="light"
           align="left"
         />
@@ -70,7 +70,7 @@ export const ServicesPage = () => (
               A cleaning company kept losing evening enquiries to voicemail. We built an
               AI-powered assistant that answers every call, gives a quote from their own price
               list, and books the job straight into their schedule. The owner sees every booking
-              on one screen — and owns the whole thing.
+              on one screen, and owns the whole thing.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
               That is the pattern: one painful, expensive gap, closed by a product designed
@@ -86,7 +86,7 @@ export const ServicesPage = () => (
         <SectionHeading
           eyebrow="Pillar two"
           title="Automated Systems"
-          lede="For when the work gets done — but the admin around it eats your week."
+          lede="For when the work gets done, but the admin around it eats your week."
           surface="dark"
           align="left"
         />
@@ -118,7 +118,7 @@ export const ServicesPage = () => (
               dashboard shows every job live.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-offwhite/80">
-              Eleven hours of typing a week, gone — and the system belongs to them, not to us.
+              Eleven hours of typing a week, gone, and the system belongs to them, not to us.
             </p>
           </Card>
         </Reveal>

@@ -10,7 +10,7 @@ import { Seo, breadcrumbs } from '@/lib/Seo'
 export const FaqPage = () => (
   <>
     <Seo
-      title="FAQ — Cost, Ownership, Timelines, Guarantee"
+      title="FAQ: Cost, Ownership, Timelines, Guarantee"
       description="Straight answers about working with Dreamlabs: what it costs, who owns the system, how long it takes, what happens if it doesn't work, and whether your team will use it."
       path="/faq"
       jsonLd={[
@@ -28,7 +28,7 @@ export const FaqPage = () => (
     <PageHero
       eyebrow="FAQ"
       title="Straight answers to fair questions"
-      lede="If yours is not here, ask us directly — we reply within one working day."
+      lede="If yours is not here, ask us directly, we reply within one working day."
     />
     <Section surface="workshop">
       <Reveal className="mx-auto max-w-3xl">
@@ -36,7 +36,7 @@ export const FaqPage = () => (
       </Reveal>
       <Reveal className="mt-12 text-center">
         <Button variant="primary" href="/contact">
-          Ask us anything — book the free audit
+          Ask us anything, book the free audit
         </Button>
       </Reveal>
     </Section>

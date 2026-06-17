@@ -42,7 +42,7 @@ const INDUSTRIES = [
     icon: TradesIcon,
     name: 'Trades',
     image: '/images/industries/trades.jpg',
-    bottleneck: 'Quotes out the same day, not the same week — before the lead goes cold.',
+    bottleneck: 'Quotes out the same day, not the same week, before the lead goes cold.',
   },
   {
     icon: LogisticsIcon,
@@ -64,7 +64,7 @@ export const Industries = () => (
       <SectionHeading
         eyebrow="Industries we serve"
         title="Built for the businesses that build the world"
-        lede="If your work happens in vans, on sites, and in buildings — not just behind desks — you are exactly who we built Dreamlabs for."
+        lede="If your work happens in vans, on sites, and in buildings, not just behind desks, you are exactly who we built Dreamlabs for."
         surface="dark"
       />
     </Reveal>

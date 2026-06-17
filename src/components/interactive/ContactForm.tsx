@@ -49,10 +49,10 @@ export const ContactForm = () => {
     return (
       <div className="rounded-card bg-white p-8 text-center shadow-card" aria-live="polite">
         <h3 className="font-heading text-xl font-semibold text-navy-deep">
-          Got it — we'll be in touch.
+          Got it, we'll be in touch.
         </h3>
         <p className="mt-3 font-body text-base leading-relaxed text-navy-deep/75">
-          Expect a reply within one working day. No pitch deck, no pressure — just a conversation
+          Expect a reply within one working day. No pitch deck, no pressure, just a conversation
           about your bottleneck.
         </p>
       </div>
@@ -98,7 +98,7 @@ export const ContactForm = () => {
       </div>
       <TextArea
         label="What's slowing you down?"
-        hint="A sentence or two is plenty — we'll dig into the detail together."
+        hint="A sentence or two is plenty, we'll dig into the detail together."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />

@@ -20,7 +20,7 @@ export const BottleneckCheckPage = () => {
   return (
     <div className="pt-16">
       <Seo
-        title="Free Bottleneck Check — What Is Your Bottleneck Costing You?"
+        title="Free Bottleneck Check: What Is Your Bottleneck Costing You?"
         description="Free tool for UK service SMEs: answer four quick questions and see what your biggest operational bottleneck costs every month, in hours and pounds."
         path="/tools/bottleneck-check"
         jsonLd={[breadcrumbs(['Bottleneck Check', '/tools/bottleneck-check'])]}
@@ -29,7 +29,7 @@ export const BottleneckCheckPage = () => {
         <SectionHeading
           eyebrow="Free tool"
           title="The Bottleneck Check"
-          lede="Find out what your biggest operational headache costs every month — in hours and in pounds. Four questions, instant answer, no obligation."
+          lede="Find out what your biggest operational headache costs every month, in hours and in pounds. Four questions, instant answer, no obligation."
           surface="dark"
         />
         <div className="mx-auto mt-12 max-w-3xl">

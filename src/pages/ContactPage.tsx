@@ -10,7 +10,7 @@ import { Seo, breadcrumbs } from '@/lib/Seo'
 export const ContactPage = () => (
   <>
     <Seo
-      title="Contact — Book Your Free Audit"
+      title="Contact: Book Your Free Audit"
       description="Book a free, no-pressure audit for your business. Tell us what slows you down; we'll show you what it costs and how an AI-powered system would fix it."
       path="/contact"
       jsonLd={[breadcrumbs(['Contact', '/contact'])]}
@@ -18,7 +18,7 @@ export const ContactPage = () => (
     <PageHero
       eyebrow="Contact"
       title="Book your free audit"
-      lede="No pitch, no pressure, no invoice. Tell us what is slowing you down, and we will show you what it is costing — and what we would do about it."
+      lede="No pitch, no pressure, no invoice. Tell us what is slowing you down, and we will show you what it is costing, and what we would do about it."
     />
     <Section surface="workshop">
       <div className="grid gap-10 lg:grid-cols-5">

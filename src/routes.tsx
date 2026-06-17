@@ -26,6 +26,7 @@ export const routes: RouteRecord[] = [
       { path: 'terms', lazy: () => import('@/pages/LegalPages').then((m) => ({ Component: m.TermsPage })) },
       { path: 'resources/:slug', lazy: () => import('@/pages/ResourcePage') },
       { path: 'style-guide', lazy: () => import('@/pages/StyleGuidePage') },
+      { path: 'atmosphere-preview', lazy: () => import('@/pages/AtmospherePreviewPage') },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

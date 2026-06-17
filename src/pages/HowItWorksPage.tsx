@@ -12,31 +12,31 @@ import { Seo, breadcrumbs } from '@/lib/Seo'
 const STEPS = [
   {
     icon: AuditIcon,
-    title: 'Step 1 — Free audit',
+    title: 'Step 1: Free audit',
     duration: 'About a week',
     detail:
       'We visit (or video call), watch how work actually flows, and talk to the people doing it. You get a written breakdown: the bottlenecks we found, what each one costs you monthly, and what we would build first. It costs nothing and you keep the breakdown either way.',
   },
   {
     icon: BuildIcon,
-    title: 'Step 2 — Build',
+    title: 'Step 2: Build',
     duration: '2–8 weeks',
     detail:
-      'We design and build the system around your real jobs and your real team. You see working software early — usually within the first fortnight — and your feedback steers the build, not a change-request form.',
+      'We design and build the system around your real jobs and your real team. You see working software early, usually within the first fortnight, and your feedback steers the build, not a change-request form.',
   },
   {
     icon: PilotIcon,
-    title: 'Step 3 — Pilot',
+    title: 'Step 3: Pilot',
     duration: '2–4 weeks on real work',
     detail:
-      'The system runs on live jobs with your team using it for real. We measure the difference against the audit numbers. No retainer starts until the pilot proves itself — and if it does not, the money-back guarantee applies.',
+      'The system runs on live jobs with your team using it for real. We measure the difference against the audit numbers. No retainer starts until the pilot proves itself, and if it does not, the money-back guarantee applies.',
   },
   {
     icon: OwnIcon,
-    title: 'Step 4 — Own & scale',
+    title: 'Step 4: Own & scale',
     duration: 'Ongoing, on your terms',
     detail:
-      'Everything transfers to your name: code, accounts, data. You can run it yourself from day one. If you want us to keep improving it, that is a choice — never a dependency.',
+      'Everything transfers to your name: code, accounts, data. You can run it yourself from day one. If you want us to keep improving it, that is a choice, never a dependency.',
   },
 ] as const
 
@@ -50,15 +50,15 @@ const PILOT_FAQS = FAQ_ITEMS.filter((item) =>
 export const HowItWorksPage = () => (
   <>
     <Seo
-      title="How It Works — Free Audit, Build, Pilot, Own"
-      description="Our four-step process: free audit, 2–8 week build, pilot on real work before any retainer, then you own the system outright — backed by a money-back guarantee."
+      title="How It Works: Free Audit, Build, Pilot, Own"
+      description="Our four-step process: free audit, 2–8 week build, pilot on real work before any retainer, then you own the system outright, backed by a money-back guarantee."
       path="/how-it-works"
       jsonLd={[breadcrumbs(['How It Works', '/how-it-works'])]}
     />
     <PageHero
       eyebrow="How it works"
       title="From first chat to a system you own"
-      lede="Four steps. The expensive mistakes — paying upfront, getting locked in, buying promises — are designed out."
+      lede="Four steps. The expensive mistakes, paying upfront, getting locked in, buying promises, are designed out."
     />
 
     <Section surface="workshop">
@@ -96,7 +96,7 @@ export const HowItWorksPage = () => (
           <p className="font-body text-base leading-relaxed text-offwhite/80">
             Before we build, we agree in writing what the system must do and what result it must
             deliver. If the pilot does not hit that bar and we cannot fix it, you get your money
-            back. Not credit, not a discount on more work — your money back.
+            back. Not credit, not a discount on more work, your money back.
           </p>
         </div>
       </Reveal>

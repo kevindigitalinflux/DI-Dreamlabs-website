@@ -21,7 +21,7 @@ const INDUSTRY_BLOCKS = [
     name: 'Cleaning',
     image: '/images/industries/cleaning.jpg',
     pain: 'Disputed work, no-shows discovered too late, and clients asking "did anyone actually come?"',
-    fix: 'Photo-verified proof of work, live shift visibility, and automated client updates — so disputes end before they start.',
+    fix: 'Photo-verified proof of work, live shift visibility, and automated client updates, so disputes end before they start.',
   },
   {
     icon: FacilitiesIcon,
@@ -44,7 +44,7 @@ const INDUSTRY_BLOCKS = [
     slug: 'construction',
     name: 'Construction',
     image: '/images/industries/construction.jpg',
-    pain: 'Site and office live in different worlds — progress, variations and delays travel by phone call.',
+    pain: 'Site and office live in different worlds, and progress, variations and delays travel by phone call.',
     fix: 'Site updates captured in seconds on a phone, flowing straight into programmes, valuations and client reports.',
   },
   {
@@ -61,7 +61,7 @@ const INDUSTRY_BLOCKS = [
     name: 'Logistics',
     image: '/images/industries/logistics.jpg',
     pain: 'Stock counts drift, job statuses live in drivers\' heads, and the depot phone never stops.',
-    fix: 'Live stock and job tracking with automatic alerts before things run out — not after.',
+    fix: 'Live stock and job tracking with automatic alerts before things run out, not after.',
   },
 ] as const
 
@@ -69,7 +69,7 @@ const INDUSTRY_BLOCKS = [
 export const IndustriesPage = () => (
   <>
     <Seo
-      title="Industries — Cleaning, Facilities, Maintenance, Construction, Trades, Logistics"
+      title="Industries: Cleaning, Facilities, Maintenance, Construction, Trades, Logistics"
       description="AI automation for blue-collar businesses: cleaning, facilities, maintenance, construction, trades and logistics. See the bottleneck we fix first in your industry."
       path="/industries"
       jsonLd={[breadcrumbs(['Industries', '/industries'])]}
@@ -77,7 +77,7 @@ export const IndustriesPage = () => (
     <PageHero
       eyebrow="Industries"
       title="Your industry's bottlenecks, not generic ones"
-      lede="We build for the businesses that build and run the physical world. Find yours below — and what we'd fix first."
+      lede="We build for the businesses that build and run the physical world. Find yours below, and what we'd fix first."
     />
     {INDUSTRY_BLOCKS.map(({ icon: Icon, slug, name, image, pain, fix }, i) => (
       <Section key={slug} surface={i % 2 === 0 ? 'workshop' : 'dream'}>

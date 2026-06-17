@@ -63,7 +63,7 @@ export const CalculatorResult = ({ answers, estimate, onRestart }: CalculatorRes
       {!unlocked ? (
         <form onSubmit={handleUnlock} className="mx-auto mt-8 max-w-md" noValidate>
           <p className="text-center font-body text-base font-medium text-navy-deep">
-            See the full breakdown — what that costs in pounds, and how we'd claw it back.
+            See the full breakdown: what that costs in pounds, and how we'd claw it back.
           </p>
           <div className="mt-5 grid gap-4">
             <Input
@@ -109,7 +109,7 @@ export const CalculatorResult = ({ answers, estimate, onRestart }: CalculatorRes
             {estimate.confidence === 'high'
               ? 'A bottleneck this size usually pays for its own fix several times over in year one.'
               : estimate.confidence === 'low'
-                ? 'A modest leak — but modest leaks compound. Worth a look while it is cheap to fix.'
+                ? 'A modest leak, but modest leaks compound. Worth a look while it is cheap to fix.'
                 : 'Squarely in the range where an automated system pays for itself within months.'}
           </p>
           <details className="mx-auto mt-6 max-w-md rounded-card bg-white p-4 text-left shadow-card">

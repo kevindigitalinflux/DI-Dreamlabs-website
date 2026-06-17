@@ -46,7 +46,7 @@ export const Pillars = () => (
           </h3>
           <p className="mt-3 font-body text-base leading-relaxed text-offwhite/75">
             We hunt down the bottleneck that costs you the most and replace it with a custom
-            automation — always paired with a bespoke app your team actually understands.
+            automation, always paired with a bespoke app your team actually understands.
           </p>
           <p className="mt-4 rounded-card bg-navy-deep/60 p-4 font-body text-sm leading-relaxed text-offwhite/70">
             <span className="font-medium text-offwhite">The kind of problem it solves:</span>{' '}

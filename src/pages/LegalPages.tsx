@@ -34,15 +34,15 @@ export const PrivacyPage = () => (
         <h2>What we collect</h2>
         <ul>
           <li>
-            <strong>Contact details you give us</strong> — name, email, company and industry when
+            <strong>Contact details you give us:</strong> name, email, company and industry when
             you request a free audit, use the Bottleneck Check, or join the newsletter.
           </li>
           <li>
-            <strong>Bottleneck Check answers</strong> — the options you select, stored with your
+            <strong>Bottleneck Check answers:</strong> the options you select, stored with your
             contact details so the audit conversation starts informed.
           </li>
           <li>
-            <strong>Basic technical data</strong> — necessary logs (such as IP address) processed
+            <strong>Basic technical data:</strong> necessary logs (such as IP address) processed
             by our hosting provider, Cloudflare, to run and protect the site.
           </li>
         </ul>
@@ -67,7 +67,7 @@ export const PrivacyPage = () => (
         <h2>Your rights</h2>
         <p>
           You can request a copy of your data, ask us to correct or delete it, or object to
-          processing at any time — email us and we will action it within 30 days. You can also
+          processing at any time, email us and we will action it within 30 days. You can also
           complain to the ICO (ico.org.uk).
         </p>
         <h2>Contact</h2>
@@ -99,13 +99,13 @@ export const TermsPage = () => (
         <h2>The Bottleneck Check</h2>
         <p>
           Estimates from the Bottleneck Check are illustrative, based on typical figures for UK
-          service SMEs. They are not financial advice and actual results vary — the free audit
+          service SMEs. They are not financial advice and actual results vary, and the free audit
           exists precisely to replace estimates with your real numbers.
         </p>
         <h2>Intellectual property</h2>
         <p>
           The Dreamlabs name, logo, and site content belong to Digital Influx Dreamlabs Ltd.
-          Client engagements are governed by their own written agreements — including the
+          Client engagements are governed by their own written agreements, including the
           ownership handover and money-back guarantee terms described on this site.
         </p>
         <h2>Liability</h2>

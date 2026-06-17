@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { MethodBubbleBackground } from '@/components/interactive/atmosphere/MethodBubbleBackground'
 import { AuditIcon, BuildIcon, GuaranteeIcon, OwnIcon, PilotIcon } from '@/components/icons'
 
 const STEPS = [
@@ -14,7 +15,7 @@ const STEPS = [
   {
     icon: BuildIcon,
     title: '2. Build',
-    body: 'We design and build your system around your real jobs, your team, and the way you already work — not a template.',
+    body: 'We design and build your system around your real jobs, your team, and the way you already work, not a template.',
   },
   {
     icon: PilotIcon,
@@ -24,7 +25,7 @@ const STEPS = [
   {
     icon: OwnIcon,
     title: '4. Own & scale',
-    body: 'The system is yours outright — code, data, everything. We stay on only if you want us to help it grow.',
+    body: 'The system is yours outright: code, data, everything. We stay on only if you want us to help it grow.',
   },
 ] as const
 
@@ -39,14 +40,23 @@ export const Method = () => {
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
-    <Section surface="workshop">
+    <Section
+      surface="workshop"
+      elevateContent
+      id="dreamlabs-method"
+      background={<MethodBubbleBackground />}
+    >
+      {/* Frosted panel — light counterpart to the SF heading treatment, so
+          the heading stays legible no matter which bubble drifts behind it. */}
       <Reveal>
-        <SectionHeading
-          eyebrow="The Dreamlabs method"
-          title="A path with no leap of faith required"
-          lede="Four steps, and the risky ones are on us."
-          surface="light"
-        />
+        <div className="mx-auto max-w-2xl rounded-card border border-navy-deep/10 bg-white/70 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
+          <SectionHeading
+            eyebrow="The Dreamlabs method"
+            title="A path with no leap of faith required"
+            lede="Four steps, and the risky ones are on us."
+            surface="light"
+          />
+        </div>
       </Reveal>
 
       <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl">
@@ -64,7 +74,10 @@ export const Method = () => {
                 <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy-deep text-cyan-strong shadow-card">
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
-                <div>
+                {/* backdrop-blur is a live filter on whatever renders behind it, so it
+                    keeps the title/body legible no matter how many bubbles drift behind
+                    them — the icon and connecting line above stay uncovered, on purpose. */}
+                <div className="rounded-card bg-white/85 px-3 py-2">
                   <h3 className="font-heading text-lg font-semibold text-navy-deep md:text-[1.375rem]">
                     {title}
                   </h3>

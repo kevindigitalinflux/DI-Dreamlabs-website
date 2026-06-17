@@ -2,6 +2,7 @@ import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
+import { SfCloudBackground } from '@/components/interactive/atmosphere/SfCloudBackground'
 import {
   InventoryIcon,
   MissedCallIcon,
@@ -25,7 +26,7 @@ const PAIN_POINTS = [
   {
     icon: VisibilityIcon,
     title: 'No real-time job visibility',
-    body: 'You find out a job went wrong when the client rings you — not when it happened.',
+    body: 'You find out a job went wrong when the client rings you, not when it happened.',
   },
   {
     icon: QuoteIcon,
@@ -35,7 +36,7 @@ const PAIN_POINTS = [
   {
     icon: PaperworkIcon,
     title: 'Paper-based admin',
-    body: 'Timesheets, job sheets, invoices — hours of typing up things that were already written down once.',
+    body: 'Timesheets, job sheets, invoices: hours of typing up things that were already written down once.',
   },
   {
     icon: InventoryIcon,
@@ -46,19 +47,35 @@ const PAIN_POINTS = [
 
 /** Section 1 — name the pain before pitching the solution (Brief §7). */
 export const PainPoints = () => (
-  <Section surface="dream" orbs>
+  <Section
+    surface="dream"
+    elevateContent
+    id="sound-familiar"
+    className="z-10"
+    background={<SfCloudBackground />}
+  >
+    {/* Small breathing gap — just enough for the handoff from the hero's
+        clouds to not feel instant, without pushing the heading far down. */}
+    <div aria-hidden className="h-[8vh]" />
+
+    {/* Frosted panel — same treatment as the cards below (bg-navy-deep/55 +
+        backdrop-blur-md) so the heading stays legible no matter which cloud
+        the seeded layout happens to place behind it, instead of bare text
+        sitting directly on the cloud field. */}
     <Reveal>
-      <SectionHeading
-        eyebrow="Sound familiar?"
-        title="The bottlenecks quietly eating your week"
-        lede="Every growing service business hits the same walls. They are not a sign something is wrong — they are a sign you have outgrown the way things are done by hand."
-        surface="dark"
-      />
+      <div className="mx-auto max-w-2xl rounded-card border border-offwhite/15 bg-navy-deep/55 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
+        <SectionHeading
+          eyebrow="Sound familiar?"
+          title="The bottlenecks quietly eating your week"
+          lede="Every growing service business hits the same walls. They are not a sign something is wrong, they are a sign you have outgrown the way things are done by hand."
+          surface="dark"
+        />
+      </div>
     </Reveal>
     <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {PAIN_POINTS.map(({ icon: Icon, title, body }, i) => (
         <Reveal key={title} delay={i * 100}>
-          <Card surface="dark" className="h-full">
+          <Card surface="glass" className="h-full">
             <Icon className="h-8 w-8 text-cyan-strong" aria-hidden />
             <h3 className="mt-4 font-heading text-lg font-semibold text-offwhite">{title}</h3>
             <p className="mt-2 font-body text-sm leading-relaxed text-offwhite/75">{body}</p>

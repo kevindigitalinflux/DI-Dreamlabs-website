@@ -7,6 +7,13 @@ type Props = {
   className?: string
   /** Milliseconds between characters. Default: 50. */
   charDelay?: number
+  /**
+   * Optional external trigger. When provided, the internal IntersectionObserver
+   * is bypassed and this value controls when typing starts. Use this when the
+   * component renders as an empty inline span (zero bounding box) which prevents
+   * the internal observer from detecting viewport entry reliably.
+   */
+  trigger?: boolean
 }
 
 /**
@@ -14,11 +21,14 @@ type Props = {
  * Provides aria-label so screen readers announce the full text immediately.
  * Under prefers-reduced-motion the text appears instantly.
  */
-export const TypingText = ({ text, className, charDelay = 50 }: Props) => {
+export const TypingText = ({ text, className, charDelay = 50, trigger }: Props) => {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-10%' })
+  const internalInView = useInView(ref, { once: true, margin: '-10%' })
   const reduceMotion = useReducedMotion()
   const [count, setCount] = useState(0)
+
+  // External trigger takes precedence; fall back to internal IntersectionObserver.
+  const inView = trigger !== undefined ? trigger : internalInView
 
   useEffect(() => {
     if (!inView) return

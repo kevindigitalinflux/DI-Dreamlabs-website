@@ -10,7 +10,8 @@ export const Pillars = () => (
     <Reveal>
       <SectionHeading
         eyebrow="What we do"
-        title="Two ways in. One result: a system you own."
+        title="We fix what's costing you the most. Here's how."
+        lede="Whether the problem is in your product, your ops, or your admin, we build the system that removes it. You own it outright."
         surface="dark"
       />
     </Reveal>
@@ -22,13 +23,14 @@ export const Pillars = () => (
             AI Product Engineering
           </h3>
           <p className="mt-3 font-body text-base leading-relaxed text-offwhite/75">
-            We find where AI genuinely earns its keep in your business, then design, build and
-            deploy the product end to end.
+            For owners who know there's a smarter way to run their business but don't have the
+            time or team to build it. We design and deploy the AI product that closes the gap,
+            from first call to live system.
           </p>
           <p className="mt-4 rounded-card bg-navy-deep/60 p-4 font-body text-sm leading-relaxed text-offwhite/70">
-            <span className="font-medium text-offwhite">The kind of problem it solves:</span>{' '}
-            "Customers ring after hours and we lose the job" becomes an assistant that answers,
-            quotes and books while you sleep.
+            <span className="font-medium text-offwhite">A typical win:</span>{' '}
+            "Customers ring after hours and we lose the job" becomes an AI assistant that answers,
+            quotes from your own price list, and books the job while you sleep.
           </p>
           <Link
             to="/services"
@@ -45,13 +47,14 @@ export const Pillars = () => (
             Automated Systems
           </h3>
           <p className="mt-3 font-body text-base leading-relaxed text-offwhite/75">
-            We hunt down the bottleneck that costs you the most and replace it with a custom
-            automation, always paired with a bespoke app your team actually understands.
+            For teams where the work gets done, but the hours before and after it eat your week.
+            We find the biggest drain, build an automation that removes it, and give your team a
+            simple app to run it.
           </p>
           <p className="mt-4 rounded-card bg-navy-deep/60 p-4 font-body text-sm leading-relaxed text-offwhite/70">
-            <span className="font-medium text-offwhite">The kind of problem it solves:</span>{' '}
-            "Friday afternoons disappear into timesheets and invoices" becomes a system that does
-            both before lunch.
+            <span className="font-medium text-offwhite">A typical win:</span>{' '}
+            "Friday afternoons disappear into timesheets and invoices" becomes a system that
+            handles both before lunch, automatically.
           </p>
           <Link
             to="/services"

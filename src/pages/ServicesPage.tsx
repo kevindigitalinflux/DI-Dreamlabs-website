@@ -4,7 +4,7 @@ import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { AuditIcon, BuildIcon, FlaskIcon, OwnIcon } from '@/components/icons'
+import { AuditIcon, BuildIcon, FlaskIcon, LayersIcon, OwnIcon } from '@/components/icons'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const ENGINEERING_DELIVERABLES = [
@@ -21,18 +21,26 @@ const AUTOMATION_DELIVERABLES = [
   'Connections to the software you already use, so nothing gets ripped out',
 ] as const
 
+const PRODUCT_DEV_DELIVERABLES = [
+  'Discovery and UX research to define exactly what to build and for whom',
+  'Wireframes and prototypes tested with real users before a line of code is written',
+  'Full product design: every screen, interaction, and edge case considered',
+  'Full-stack engineering and deployment, we ship the product, not a spec for it',
+  'Handover with documentation so your team can run and extend it independently',
+] as const
+
 /** Deep dive on the two service pillars (Brief §5). */
 export const ServicesPage = () => (
   <>
     <Seo
-      title="Services: AI Product Engineering & Automated Systems"
-      description="Two service pillars: AI product engineering (free audit, design, build, deploy) and custom automated systems with a bespoke app. Built for UK service SMEs, you own everything."
+      title="Services: AI Product Engineering, Automated Systems & Product Development"
+      description="Three service pillars: AI product engineering, custom automated systems, and end-to-end product development. Built for UK service SMEs, free audit, you own everything we build."
       path="/services"
       jsonLd={[breadcrumbs(['Services', '/services'])]}
     />
     <PageHero
       eyebrow="Services"
-      title="Two ways to get your unfair advantage"
+      title="Three ways to get your unfair advantage"
       lede="Whichever door you come in through, the result is the same: a working system, built for your business, owned by you outright."
     />
 
@@ -126,6 +134,51 @@ export const ServicesPage = () => (
     </Section>
 
     <Section surface="workshop">
+      <Reveal>
+        <SectionHeading
+          eyebrow="Pillar three"
+          title="End-to-End Product Development"
+          lede="For when you have an idea, a vision, or a gap in the market, and need a team to take it from concept to a product your customers actually use."
+          surface="light"
+          align="left"
+        />
+      </Reveal>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <Reveal>
+          <Card surface="light" className="h-full">
+            <LayersIcon className="h-8 w-8 text-magenta-bloom" aria-hidden />
+            <h3 className="mt-4 font-heading text-lg font-semibold text-navy-deep">What you get</h3>
+            <ul className="mt-3 space-y-2">
+              {PRODUCT_DEV_DELIVERABLES.map((item) => (
+                <li key={item} className="flex gap-2 font-body text-sm leading-relaxed text-navy-deep/80">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-magenta-bloom" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </Reveal>
+        <Reveal delay={100}>
+          <Card surface="light" className="h-full">
+            <h3 className="font-heading text-lg font-semibold text-navy-deep">
+              A real example of the shape of it
+            </h3>
+            <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/80">
+              A trades training company had years of course content and no way to deliver it
+              digitally. We ran discovery with their top customers, designed a learning platform
+              around how people actually consume content on site, and built and deployed it in
+              eight weeks. They now sell memberships, not day rates.
+            </p>
+            <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
+              That is the pattern: a valuable idea, shaped by real user research, built into a
+              product that earns from day one, and owned outright by the business.
+            </p>
+          </Card>
+        </Reveal>
+      </div>
+    </Section>
+
+    <Section surface="dream">
       <Reveal>
         <SectionHeading
           eyebrow="The engagement"

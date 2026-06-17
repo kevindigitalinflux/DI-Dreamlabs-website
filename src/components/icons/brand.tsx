@@ -116,6 +116,14 @@ export const OwnIcon = (props: IconProps) => (
   </svg>
 )
 
+export const LayersIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M12 3 3 8l9 5 9-5-9-5Z" />
+    <path d="M3 13l9 5 9-5" />
+    <path d="M3 18l9 5 9-5" />
+  </svg>
+)
+
 /* — USPs (Brief §7.4) — */
 
 export const GuaranteeIcon = (props: IconProps) => (

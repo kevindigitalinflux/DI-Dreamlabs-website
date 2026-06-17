@@ -1,7 +1,7 @@
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { ArrowRightIcon, BuildIcon, FlaskIcon } from '@/components/icons'
+import { ArrowRightIcon, BuildIcon, FlaskIcon, LayersIcon } from '@/components/icons'
 import { Link } from 'react-router-dom'
 
 /** Section 3 — the two service pillars, one company (Brief §7). */
@@ -15,7 +15,7 @@ export const Pillars = () => (
         surface="dark"
       />
     </Reveal>
-    <div className="mt-12 grid gap-6 lg:grid-cols-2">
+    <div className="mt-12 grid gap-6 lg:grid-cols-3">
       <Reveal>
         <article className="group h-full rounded-card border border-violet-ray/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-violet-ray hover:shadow-glow-violet">
           <FlaskIcon className="h-9 w-9 text-violet-ray" aria-hidden />
@@ -61,6 +61,30 @@ export const Pillars = () => (
             className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-cyan-strong transition-transform group-hover:translate-x-1"
           >
             Explore automated systems <ArrowRightIcon className="h-4 w-4" aria-hidden />
+          </Link>
+        </article>
+      </Reveal>
+      <Reveal delay={200}>
+        <article className="group h-full rounded-card border border-magenta-bloom/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-magenta-bloom hover:shadow-glow-magenta">
+          <LayersIcon className="h-9 w-9 text-magenta-bloom" aria-hidden />
+          <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
+            End-to-End Product Development
+          </h3>
+          <p className="mt-3 font-body text-base leading-relaxed text-offwhite/75">
+            For businesses that need a complete digital product built right, from the first user
+            insight to a live, polished app. We cover the full lifecycle: UX research, product
+            design, and engineering for apps, websites, and online courses.
+          </p>
+          <p className="mt-4 rounded-card bg-navy-deep/60 p-4 font-body text-sm leading-relaxed text-offwhite/70">
+            <span className="font-medium text-offwhite">A typical win:</span>{' '}
+            "We have an idea but no idea how to build it" becomes a fully designed, tested, and
+            deployed product your team owns outright.
+          </p>
+          <Link
+            to="/services"
+            className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-magenta-bloom transition-transform group-hover:translate-x-1"
+          >
+            Explore product development <ArrowRightIcon className="h-4 w-4" aria-hidden />
           </Link>
         </article>
       </Reveal>

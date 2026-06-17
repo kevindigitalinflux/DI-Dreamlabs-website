@@ -1,4 +1,5 @@
 import { HeroAssembly } from '@/components/interactive/hero/HeroAssembly'
+import { ValueStatement } from '@/components/home/ValueStatement'
 import { PainPoints } from '@/components/home/PainPoints'
 import { Method } from '@/components/home/Method'
 import { Pillars } from '@/components/home/Pillars'
@@ -27,6 +28,7 @@ export const HomePage = () => (
       path="/"
     />
     <HeroAssembly />
+    <ValueStatement />
     <PainPoints />
     <Method />
     <Pillars />

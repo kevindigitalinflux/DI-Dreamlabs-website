@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ArrowRightIcon, BuildIcon, FlaskIcon, LayersIcon } from '@/components/icons'
 import { Link } from 'react-router-dom'
 
-/** Section 3 — the two service pillars, one company (Brief §7). */
+/** Section 3 — the three service pillars (Brief §7). */
 export const Pillars = () => (
   <Section surface="dream">
     <Reveal>
@@ -17,7 +17,7 @@ export const Pillars = () => (
     </Reveal>
     <div className="mt-12 grid gap-6 lg:grid-cols-3">
       <Reveal>
-        <article className="group h-full rounded-card border border-violet-ray/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-violet-ray hover:shadow-glow-violet">
+        <article className="group flex h-full flex-col rounded-card border border-violet-ray/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-violet-ray hover:shadow-glow-violet">
           <FlaskIcon className="h-9 w-9 text-violet-ray" aria-hidden />
           <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
             AI Product Engineering
@@ -32,6 +32,13 @@ export const Pillars = () => (
             "Customers ring after hours and we lose the job" becomes an AI assistant that answers,
             quotes from your own price list, and books the job while you sleep.
           </p>
+          <div className="mt-6 flex-1 overflow-hidden rounded-card">
+            <img
+              src="/images/services/ai-product-engineering.png"
+              alt="AI product engineering illustration"
+              className="h-48 w-full object-contain"
+            />
+          </div>
           <Link
             to="/services"
             className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-violet-text transition-transform group-hover:translate-x-1"
@@ -41,7 +48,7 @@ export const Pillars = () => (
         </article>
       </Reveal>
       <Reveal delay={100}>
-        <article className="group h-full rounded-card border border-offwhite/10 bg-offwhite/5 p-8 transition-all duration-300 hover:border-cyan-strong/60">
+        <article className="group flex h-full flex-col rounded-card border border-cyan-strong/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-cyan-strong hover:shadow-glow-cyan">
           <BuildIcon className="h-9 w-9 text-cyan-strong" aria-hidden />
           <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
             Automated Systems
@@ -56,6 +63,13 @@ export const Pillars = () => (
             "Friday afternoons disappear into timesheets and invoices" becomes a system that
             handles both before lunch, automatically.
           </p>
+          <div className="mt-6 flex-1 overflow-hidden rounded-card">
+            <img
+              src="/images/services/automated-systems.png"
+              alt="Automated systems illustration"
+              className="h-48 w-full object-contain"
+            />
+          </div>
           <Link
             to="/services"
             className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-cyan-strong transition-transform group-hover:translate-x-1"
@@ -65,7 +79,7 @@ export const Pillars = () => (
         </article>
       </Reveal>
       <Reveal delay={200}>
-        <article className="group h-full rounded-card border border-magenta-bloom/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-magenta-bloom hover:shadow-glow-magenta">
+        <article className="group flex h-full flex-col rounded-card border border-magenta-bloom/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-magenta-bloom hover:shadow-glow-magenta">
           <LayersIcon className="h-9 w-9 text-magenta-bloom" aria-hidden />
           <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
             End-to-End Product Development
@@ -80,6 +94,13 @@ export const Pillars = () => (
             "We have an idea but no idea how to build it" becomes a fully designed, tested, and
             deployed product your team owns outright.
           </p>
+          <div className="mt-6 flex-1 overflow-hidden rounded-card">
+            <img
+              src="/images/services/end-to-end-product.png"
+              alt="End-to-end product development illustration"
+              className="h-48 w-full object-contain"
+            />
+          </div>
           <Link
             to="/services"
             className="mt-6 inline-flex items-center gap-2 font-body text-sm font-bold text-magenta-bloom transition-transform group-hover:translate-x-1"

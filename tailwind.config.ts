@@ -34,6 +34,7 @@ export default {
       boxShadow: {
         'glow-violet': '0 0 24px 0 rgba(139, 50, 255, 0.35)',
         'glow-violet-lg': '0 0 48px 8px rgba(139, 50, 255, 0.45)',
+        'glow-cyan': '0 0 24px 0 rgba(0, 223, 223, 0.30)',
         'glow-magenta': '0 0 24px 0 rgba(240, 56, 107, 0.35)',
         card: '0 4px 24px rgba(4, 15, 73, 0.08)',
         'card-hover': '0 12px 32px rgba(4, 15, 73, 0.14)',

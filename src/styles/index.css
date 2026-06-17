@@ -85,6 +85,22 @@
     0%, 100% { opacity: 0.35; }
     50% { opacity: 0.5; }
   }
+  /* Per-letter reveal: fades in, slides up, and clears blur — stagger via inline animationDelay */
+  @keyframes letter-reveal {
+    from { opacity: 0; transform: translateY(1.5rem); filter: blur(10px); }
+    to   { opacity: 1; transform: translateY(0);       filter: blur(0);    }
+  }
+
+  /* Slot-machine word transition — old word folds backward, new word flips up */
+  @keyframes slot-out {
+    from { transform: rotateX(0deg);   opacity: 1; }
+    to   { transform: rotateX(-90deg); opacity: 0; }
+  }
+  @keyframes slot-in {
+    from { transform: rotateX(90deg); opacity: 0; }
+    to   { transform: rotateX(0deg);  opacity: 1; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

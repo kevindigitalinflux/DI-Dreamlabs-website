@@ -2,6 +2,7 @@ import { HeroAssembly } from '@/components/interactive/hero/HeroAssembly'
 import { PainPoints } from '@/components/home/PainPoints'
 import { Method } from '@/components/home/Method'
 import { Pillars } from '@/components/home/Pillars'
+import { KpiImpact } from '@/components/home/KpiImpact'
 import { WhyDreamlabs } from '@/components/home/WhyDreamlabs'
 import { Industries } from '@/components/home/Industries'
 import { CalculatorSection } from '@/components/home/CalculatorSection'
@@ -29,6 +30,7 @@ export const HomePage = () => (
     <PainPoints />
     <Method />
     <Pillars />
+    <KpiImpact />
     <WhyDreamlabs />
     <Industries />
     <CalculatorSection />

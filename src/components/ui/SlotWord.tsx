@@ -20,32 +20,38 @@ type Props = {
  * Left-aligns content so it stays flush with preceding text — never centred.
  */
 export const SlotWord = ({ words, cycleMs = 3000, delayMs = 0, className = '' }: Props) => {
-  const [current, setCurrent] = useState(0)
+  const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle')
+  // Refs so interval callbacks always read the latest index without stale closures
+  const indexRef = useRef(0)
   const nextRef = useRef(0)
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     if (reduceMotion) return
-    const start = setTimeout(() => {
-      const id = setInterval(() => {
-        nextRef.current = (current + 1) % words.length
+    let intervalId: ReturnType<typeof setInterval>
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        nextRef.current = (indexRef.current + 1) % words.length
         setPhase('out')
       }, cycleMs)
-      return () => clearInterval(id)
     }, delayMs)
-    return () => clearTimeout(start)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, words.length, cycleMs, delayMs, reduceMotion])
+    // Both handles cleaned up on unmount or prop change — interval is never leaked
+    return () => {
+      clearTimeout(timeoutId)
+      clearInterval(intervalId)
+    }
+  }, [words.length, cycleMs, delayMs, reduceMotion])
 
   const onOutEnd = () => {
-    setCurrent(nextRef.current)
+    indexRef.current = nextRef.current
+    setIndex(nextRef.current)
     setPhase('in')
   }
 
   const onInEnd = () => setPhase('idle')
 
-  const currentWord = words[current] ?? ''
+  const currentWord = words[index] ?? ''
   const nextWord = words[nextRef.current] ?? ''
 
   return (

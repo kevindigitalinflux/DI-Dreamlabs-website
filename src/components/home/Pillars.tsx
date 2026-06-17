@@ -32,12 +32,15 @@ export const Pillars = () => (
             "Customers ring after hours and we lose the job" becomes an AI assistant that answers,
             quotes from your own price list, and books the job while you sleep.
           </p>
-          <div className="mt-6 flex-1 overflow-hidden rounded-card">
-            <img
-              src="/images/services/ai-product-engineering.png"
-              alt="AI product engineering illustration"
-              className="h-48 w-full object-contain"
-            />
+          <div className="relative mt-6 overflow-hidden rounded-card border border-violet-ray/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-violet-ray/80">
+            <div className="aspect-[4/3]">
+              <img
+                src="/images/services/ai-product-engineering.png"
+                alt="AI product engineering illustration"
+                className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+              />
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-violet-ray/10 to-transparent" />
           </div>
           <Link
             to="/services"
@@ -63,12 +66,15 @@ export const Pillars = () => (
             "Friday afternoons disappear into timesheets and invoices" becomes a system that
             handles both before lunch, automatically.
           </p>
-          <div className="mt-6 flex-1 overflow-hidden rounded-card">
-            <img
-              src="/images/services/automated-systems.png"
-              alt="Automated systems illustration"
-              className="h-48 w-full object-contain"
-            />
+          <div className="relative mt-6 overflow-hidden rounded-card border border-cyan-strong/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-cyan-strong/80">
+            <div className="aspect-[4/3]">
+              <img
+                src="/images/services/automated-systems.png"
+                alt="Automated systems illustration"
+                className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+              />
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cyan-strong/10 to-transparent" />
           </div>
           <Link
             to="/services"
@@ -94,12 +100,15 @@ export const Pillars = () => (
             "We have an idea but no idea how to build it" becomes a fully designed, tested, and
             deployed product your team owns outright.
           </p>
-          <div className="mt-6 flex-1 overflow-hidden rounded-card">
-            <img
-              src="/images/services/end-to-end-product.jpg"
-              alt="End-to-end product development illustration"
-              className="h-48 w-full object-contain"
-            />
+          <div className="relative mt-6 overflow-hidden rounded-card border border-magenta-bloom/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-magenta-bloom/80">
+            <div className="aspect-[4/3]">
+              <img
+                src="/images/services/end-to-end-product.jpg"
+                alt="End-to-end product development illustration"
+                className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+              />
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-magenta-bloom/10 to-transparent" />
           </div>
           <Link
             to="/services"

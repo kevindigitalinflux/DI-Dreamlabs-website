@@ -15,7 +15,7 @@ const STEPS = [
   {
     icon: BuildIcon,
     title: '2. Build',
-    body: 'We design and build your system around your real jobs, your team, and the way you already work — not a template.',
+    body: 'We design and build your system around your real jobs, your team, and the way you already work, not a template.',
   },
   {
     icon: PilotIcon,
@@ -25,7 +25,7 @@ const STEPS = [
   {
     icon: OwnIcon,
     title: '4. Own & scale',
-    body: 'The system is yours outright — code, data, everything. We stay on only if you want us to help it grow.',
+    body: 'The system is yours outright: code, data, everything. We stay on only if you want us to help it grow.',
   },
 ] as const
 

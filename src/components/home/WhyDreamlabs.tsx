@@ -14,7 +14,7 @@ const USPS = [
   {
     icon: OwnIcon,
     title: 'You own everything we build',
-    body: 'Code, data, accounts — yours outright. No licence fees, no lock-in, no hostage situations.',
+    body: 'Code, data, accounts, all yours outright. No licence fees, no lock-in, no hostage situations.',
   },
   {
     icon: GuaranteeIcon,
@@ -29,7 +29,7 @@ const USPS = [
   {
     icon: TeamIcon,
     title: 'Enterprise team, SME pricing',
-    body: 'Our talent comes through the Digital Influx Academy pipeline — big-firm capability without big-firm overheads.',
+    body: 'Our talent comes through the Digital Influx Academy pipeline, big-firm capability without big-firm overheads.',
   },
   {
     icon: DeliveryIcon,

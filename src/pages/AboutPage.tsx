@@ -29,7 +29,7 @@ const PILLARS = [
 export const AboutPage = () => (
   <>
     <Seo
-      title="About — Why Dreamlabs Exists"
+      title="About: Why Dreamlabs Exists"
       description="Digital Influx Dreamlabs Ltd: an AI agency built for SMEs, powered by the Digital Influx Academy talent pipeline. Enterprise capability, human-scale pricing."
       path="/about"
       jsonLd={[breadcrumbs(['About', '/about'])]}
@@ -37,7 +37,7 @@ export const AboutPage = () => (
     <PageHero
       eyebrow="About"
       title='"Dreamlabs" is not just a name. It is a promise.'
-      lede="Our purpose is to make the dreams of SMEs and startups achievable — access to the kind of technology that used to be reserved for companies ten times your size."
+      lede="Our purpose is to make the dreams of SMEs and startups achievable, giving you access to the kind of technology that used to be reserved for companies ten times your size."
     />
 
     <Section surface="workshop">
@@ -55,7 +55,7 @@ export const AboutPage = () => (
             </p>
             <p>
               Digital Influx Dreamlabs Ltd was built to close that gap. We bring the same
-              capability as the big firms, at a price that makes sense for real businesses — and
+              capability as the big firms, at a price that makes sense for real businesses, and
               we hand over the keys instead of renting them to you.
             </p>
             <p className="font-heading text-lg font-semibold text-navy-deep md:text-xl">
@@ -71,7 +71,7 @@ export const AboutPage = () => (
         <SectionHeading
           eyebrow="The talent engine"
           title="How we keep enterprise quality at SME pricing"
-          lede="Dreamlabs is the sister company of Digital Influx Academy — our in-house talent pipeline. We do not source expensive external contractors; we develop our own engineers, designers and builders. That model is the whole trick: big-firm capability without big-firm overheads, and no compromise on quality to get there."
+          lede="Dreamlabs is the sister company of Digital Influx Academy, our in-house talent pipeline. We do not source expensive external contractors; we develop our own engineers, designers and builders. That model is the whole trick: big-firm capability without big-firm overheads, and no compromise on quality to get there."
           surface="dark"
         />
       </Reveal>
@@ -93,7 +93,7 @@ export const AboutPage = () => (
       </div>
       <Reveal className="mt-12 text-center">
         <Button variant="primary" href="/contact">
-          Talk to us — the audit is free
+          Talk to us, the audit is free
         </Button>
       </Reveal>
     </Section>

@@ -100,7 +100,7 @@ export const HeroAssembly = () => {
 
           <p className="hero-enter mt-4 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
             We build AI-powered systems for cleaning, construction, trades and logistics
-            businesses. You own everything we build — and it starts with a free audit.
+            businesses. You own everything we build, and it starts with a free audit.
           </p>
 
           <div className="hero-enter mt-8 flex flex-col gap-4 opacity-0 sm:flex-row">

@@ -21,7 +21,7 @@ type SeoProps = {
  */
 export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: SeoProps) => {
   const url = `${SITE_URL}${path === '/' ? '' : path}`
-  const fullTitle = path === '/' ? `${SITE_NAME} — AI Systems for the Businesses That Build the World` : `${title} | ${SITE_NAME}`
+  const fullTitle = path === '/' ? `${SITE_NAME}: AI Systems for the Businesses That Build the World` : `${title} | ${SITE_NAME}`
 
   const organization = {
     '@context': 'https://schema.org',

@@ -26,7 +26,7 @@ const PAIN_POINTS = [
   {
     icon: VisibilityIcon,
     title: 'No real-time job visibility',
-    body: 'You find out a job went wrong when the client rings you — not when it happened.',
+    body: 'You find out a job went wrong when the client rings you, not when it happened.',
   },
   {
     icon: QuoteIcon,
@@ -36,7 +36,7 @@ const PAIN_POINTS = [
   {
     icon: PaperworkIcon,
     title: 'Paper-based admin',
-    body: 'Timesheets, job sheets, invoices — hours of typing up things that were already written down once.',
+    body: 'Timesheets, job sheets, invoices: hours of typing up things that were already written down once.',
   },
   {
     icon: InventoryIcon,
@@ -67,7 +67,7 @@ export const PainPoints = () => (
         <SectionHeading
           eyebrow="Sound familiar?"
           title="The bottlenecks quietly eating your week"
-          lede="Every growing service business hits the same walls. They are not a sign something is wrong — they are a sign you have outgrown the way things are done by hand."
+          lede="Every growing service business hits the same walls. They are not a sign something is wrong, they are a sign you have outgrown the way things are done by hand."
           surface="dark"
         />
       </div>

@@ -26,8 +26,8 @@ export const submitLead = async (lead: LeadSubmission): Promise<LeadResult> => {
     })
     if (response.ok || response.status === 202) return { ok: true }
     const data = (await response.json().catch(() => null)) as { error?: string } | null
-    return { ok: false, error: data?.error ?? 'Something went wrong — please try again.' }
+    return { ok: false, error: data?.error ?? 'Something went wrong, please try again.' }
   } catch {
-    return { ok: false, error: 'Could not reach the server — check your connection and try again.' }
+    return { ok: false, error: 'Could not reach the server, check your connection and try again.' }
   }
 }

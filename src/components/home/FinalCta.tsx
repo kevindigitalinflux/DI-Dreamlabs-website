@@ -17,7 +17,7 @@ export const FinalCta = () => (
           Find out what your bottleneck is costing you.
         </h2>
         <p className="mt-5 font-body text-base leading-relaxed text-offwhite/80 md:text-lg">
-          A free audit with our team. No pitch, no pressure, no invoice — just a clear picture of
+          A free audit with our team. No pitch, no pressure, no invoice, just a clear picture of
           what is possible and what it would be worth to you.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -31,7 +31,7 @@ export const FinalCta = () => (
         </div>
         {!BOOKING_URL && (
           <p className="mt-4 font-body text-sm font-light text-offwhite/50">
-            Prefer email? Use the contact form — we reply within one working day.
+            Prefer email? Use the contact form, and we reply within one working day.
           </p>
         )}
       </div>

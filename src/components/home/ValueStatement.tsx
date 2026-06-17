@@ -5,9 +5,9 @@ import { SlotWord } from '@/components/ui/SlotWord'
 const SLOT_WORDS = [
   'Real business value',
   'Your time back',
-  'Unfair advantages over competitors',
+  'An unfair competitive edge',
   'Unique selling points',
-  'Real trackable impact',
+  'Scalability',
 ] as const
 
 /*

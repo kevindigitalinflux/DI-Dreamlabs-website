@@ -1,7 +1,5 @@
 import { useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -13,8 +11,6 @@ import {
   PilotIcon,
   TeamIcon,
 } from '@/components/icons'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const USPS = [
   {
@@ -45,70 +41,28 @@ const USPS = [
 ] as const
 
 /**
- * Section 4 — trust builders.
- * Cards in a left-right-left-right-left zigzag. An SVG connector line
- * draws itself through the card centres as the user scrolls.
+ * Flowing S-curve in normalised 0–1 space.
+ * preserveAspectRatio="none" stretches it to fill the container,
+ * vectorEffect="non-scaling-stroke" keeps the stroke width in screen pixels.
  */
+const PATH =
+  'M 0.5,0 C 0.5,0.08 0.88,0.16 0.88,0.26 C 0.88,0.36 0.12,0.44 0.12,0.54 C 0.12,0.64 0.88,0.72 0.88,0.82 C 0.88,0.92 0.5,1 0.5,1'
+
+/** Section 4 — trust builders with scroll-driven SVG journey line. */
 export const WhyDreamlabs = () => {
   const containerRef = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
-  const pathRef = useRef<SVGPathElement>(null)
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  useGSAP(
-    () => {
-      const container = containerRef.current
-      const svg = svgRef.current
-      const path = pathRef.current
-      if (!container || !svg || !path) return
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-      if (window.innerWidth < 768) return
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  })
 
-      const cRect = container.getBoundingClientRect()
-
-      // Measure centre of each card relative to the container
-      const pts = cardRefs.current
-        .filter((el): el is HTMLDivElement => el !== null)
-        .map(el => {
-          const r = el.getBoundingClientRect()
-          return {
-            x: r.left - cRect.left + r.width / 2,
-            y: r.top - cRect.top + r.height / 2,
-          }
-        })
-
-      if (pts.length < 2) return
-
-      svg.setAttribute('width', String(Math.ceil(cRect.width)))
-      svg.setAttribute('height', String(Math.ceil(cRect.height)))
-
-      // Smooth S-curve through each card centre
-      const first = pts[0]!
-      let d = `M ${first.x.toFixed(1)},${first.y.toFixed(1)}`
-      for (let i = 1; i < pts.length; i++) {
-        const a = pts[i - 1]!
-        const b = pts[i]!
-        const mid = ((a.y + b.y) / 2).toFixed(1)
-        d += ` C ${a.x.toFixed(1)},${mid} ${b.x.toFixed(1)},${mid} ${b.x.toFixed(1)},${b.y.toFixed(1)}`
-      }
-      path.setAttribute('d', d)
-
-      // Draw the line based on scroll percentage
-      const len = path.getTotalLength()
-      gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
-      gsap.to(path, {
-        strokeDashoffset: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top 70%',
-          end: 'bottom 60%',
-          scrub: true,
-        },
-      })
-    },
-    { scope: containerRef },
-  )
+  // Slight spring follow so the line feels organic rather than mechanical
+  const pathLength = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 25,
+    restDelta: 0.001,
+  })
 
   return (
     <Section surface="workshop">
@@ -120,37 +74,46 @@ export const WhyDreamlabs = () => {
         />
       </Reveal>
 
-      <div ref={containerRef} className="relative mt-16">
-        {/* SVG connector — desktop only */}
+      <div ref={containerRef} className="relative mt-12">
+        {/* Journey line — sits behind cards, hidden for reduced-motion */}
         <svg
-          ref={svgRef}
-          className="pointer-events-none absolute inset-0 hidden md:block"
+          className="motion-safe:block pointer-events-none absolute inset-0 hidden h-full w-full motion-reduce:hidden"
+          viewBox="0 0 1 1"
+          preserveAspectRatio="none"
           aria-hidden
         >
+          {/* Ghost route — full path at low opacity */}
           <path
-            ref={pathRef}
+            d={PATH}
             fill="none"
             stroke="#8B32FF"
             strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
+            opacity="0.12"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Drawn line — animates with scroll */}
+          <motion.path
+            d={PATH}
+            fill="none"
+            stroke="#8B32FF"
+            strokeWidth="2"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            style={{ pathLength }}
           />
         </svg>
 
-        {/* Zigzag card layout: left right left right left */}
-        <div className="flex flex-col gap-8">
+        {/* Cards sit on top of the line */}
+        <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {USPS.map(({ icon: Icon, title, body }, i) => (
-            <div
-              key={title}
-              ref={el => { cardRefs.current[i] = el }}
-              className={`w-full md:w-[46%] ${i % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'}`}
-            >
-              <Card surface="light">
+            <Reveal key={title} delay={i * 80}>
+              <Card surface="light" className="h-full">
                 <Icon className="h-8 w-8 text-violet-ray" aria-hidden />
                 <h3 className="mt-4 font-heading text-lg font-semibold text-navy-deep">{title}</h3>
                 <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">{body}</p>
               </Card>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

@@ -56,3 +56,64 @@ export const LogisticsIcon = (props: IconProps) => (
     <circle cx="17" cy="18" r="1.8" />
   </svg>
 )
+
+export const MarketingIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M2 9.5v5h4l4.5 4V5.5L6 9.5H2ZM15.5 9.5a5 5 0 0 1 0 5M18.5 7a8 8 0 0 1 0 10" />
+  </svg>
+)
+
+export const LegalIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M12 3v18M5 21h14" />
+    <path d="M7.5 8l-4 8h8l-4-8ZM16.5 8l-4 8h8l-4-8Z" />
+    <path d="M7.5 8h9" />
+  </svg>
+)
+
+export const FinanceIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M3 17l5-6 4 3 4.5-7L21 11" />
+    <path d="M3 21h18" />
+  </svg>
+)
+
+export const HRIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <circle cx="8.5" cy="7" r="3" />
+    <path d="M2 20a6.5 6.5 0 0 1 13 0" />
+    <circle cx="17.5" cy="9" r="2.5" />
+    <path d="M21.5 20a4.5 4.5 0 0 0-9 0" />
+  </svg>
+)
+
+export const EcommerceIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6L18 2H6Z" />
+    <path d="M3 6h18M16 10a4 4 0 0 1-8 0" />
+  </svg>
+)
+
+export const SupportIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M3 11a9 9 0 1 1 18 0" />
+    <path d="M3 11h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4ZM19 11h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1Z" />
+    <path d="M12 20a3 3 0 0 0 3-3h-2" />
+  </svg>
+)
+
+export const RecruitmentIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <circle cx="9" cy="7.5" r="3.5" />
+    <path d="M3 20a7 7 0 0 1 10.6-6" />
+    <circle cx="17.5" cy="16.5" r="3.5" />
+    <path d="M20 19.5l2 2" />
+  </svg>
+)
+
+export const SalesIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M22 7l-9.5 9.5-4-4L2 19" />
+    <path d="M16 7h6v6" />
+  </svg>
+)

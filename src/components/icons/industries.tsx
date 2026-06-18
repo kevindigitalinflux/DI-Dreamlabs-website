@@ -57,6 +57,23 @@ export const LogisticsIcon = (props: IconProps) => (
   </svg>
 )
 
+export const FieldServicesIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    {/* pipe elbow = HVAC/plumbing */}
+    <path d="M4 5.5h7a4 4 0 0 1 4 4v9.5M4 3.5v4" />
+    {/* lightning bolt = electrical */}
+    <path d="M18 8.5l-3 5h3.5l-3 5" />
+  </svg>
+)
+
+export const GeneralContractingIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    {/* blueprint / floor plan */}
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <path d="M3 9h18M9 3v18M3 15h6" />
+  </svg>
+)
+
 export const MarketingIcon = (props: IconProps) => (
   <svg {...base} {...props}>
     <path d="M2 9.5v5h4l4.5 4V5.5L6 9.5H2ZM15.5 9.5a5 5 0 0 1 0 5M18.5 7a8 8 0 0 1 0 10" />

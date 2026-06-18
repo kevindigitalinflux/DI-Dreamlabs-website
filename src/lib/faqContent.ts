@@ -28,7 +28,7 @@ export const FAQ_ITEMS: ReadonlyArray<AccordionItem> = [
   {
     question: "What happens if it doesn't work?",
     answer:
-      'Two safety nets. First, you pilot the system on real work before paying any retainer. Second, our money-back guarantee: if it does not deliver what we agreed, you get your money back.',
+      'Two safety nets. First, you pilot the system on real work before paying any retainer. Second, our money-back guarantee: if we do not deliver what we agreed, you always get your money back. It\'s as simple as that.',
   },
   {
     question: 'Is my business data safe?',

@@ -20,7 +20,7 @@ const STEPS = [
   {
     icon: PilotIcon,
     title: '3. Pilot',
-    body: 'You run it on real work before any retainer. If it does not pull its weight, you walk away with our money-back guarantee.',
+    body: 'You run it on real work before any retainer. If we do not deliver what we agreed, you walk away with your money back.',
   },
   {
     icon: OwnIcon,
@@ -97,7 +97,7 @@ export const Method = () => {
           <p className="font-body text-base leading-relaxed text-navy-deep">
             <strong className="font-medium">The promise in plain English:</strong> you pilot the
             system on real work before paying any retainer, you own everything we build outright,
-            and if it does not deliver, you get your money back.
+            and if we do not deliver what we agreed, you always get your money back.
           </p>
         </div>
       </Reveal>

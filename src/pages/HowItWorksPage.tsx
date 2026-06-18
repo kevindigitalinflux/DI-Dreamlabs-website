@@ -29,7 +29,7 @@ const STEPS = [
     title: 'Step 3: Pilot',
     duration: '2–4 weeks on real work',
     detail:
-      'The system runs on live jobs with your team using it for real. We measure the difference against the audit numbers. No retainer starts until the pilot proves itself, and if it does not, the money-back guarantee applies.',
+      'The system runs on live jobs with your team using it for real. We measure the difference against the audit numbers. No retainer starts until the pilot proves itself, and if we do not deliver what we agreed, you always get your money back.',
   },
   {
     icon: OwnIcon,

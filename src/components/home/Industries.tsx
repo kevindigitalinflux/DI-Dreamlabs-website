@@ -37,14 +37,14 @@ const PHYSICAL: IndustryEntry[] = [
 ]
 
 const SERVICE: IndustryEntry[] = [
-  { icon: MarketingIcon, name: 'Marketing', image: '/images/industries/marketing.jpg', bottleneck: 'Campaigns tracked in three spreadsheets, unified into one live pipeline that moves without chasing.' },
-  { icon: LegalIcon, name: 'Legal', image: '/images/industries/legal.jpg', bottleneck: 'Time-entry and billing that writes itself, so fee earners bill the hours they actually work.' },
-  { icon: FinanceIcon, name: 'Finance', image: '/images/industries/finance.jpg', bottleneck: 'Month-end closes in days instead of weeks, with reconciliation that flags the gaps automatically.' },
-  { icon: HRIcon, name: 'HR', image: '/images/industries/hr.jpg', bottleneck: 'Onboarding, offboarding, and payroll paperwork that runs without a coordinator chasing anyone.' },
-  { icon: EcommerceIcon, name: 'E-commerce', image: '/images/industries/ecommerce.jpg', bottleneck: 'Order, fulfilment, and returns in one flow — no more selling stock you no longer have.' },
-  { icon: SupportIcon, name: 'Customer Support', image: '/images/industries/customer-support.jpg', bottleneck: 'Tickets triaged, routed, and resolved faster without burning out your best agents.' },
-  { icon: RecruitmentIcon, name: 'Recruitment', image: '/images/industries/recruitment.jpg', bottleneck: 'Candidate pipelines that move on their own, so consultants close deals instead of chasing data.' },
-  { icon: SalesIcon, name: 'Sales', image: '/images/industries/sales.jpg', bottleneck: 'Proposals out the same day you qualify the lead — before the competitor beats you to it.' },
+  { icon: MarketingIcon, name: 'Marketing', image: '/images/industries/marketing.png', bottleneck: 'Campaigns tracked in three spreadsheets, unified into one live pipeline that moves without chasing.' },
+  { icon: LegalIcon, name: 'Legal', image: '/images/industries/legal.png', bottleneck: 'Time-entry and billing that writes itself, so fee earners bill the hours they actually work.' },
+  { icon: FinanceIcon, name: 'Finance', image: '/images/industries/finance.png', bottleneck: 'Month-end closes in days instead of weeks, with reconciliation that flags the gaps automatically.' },
+  { icon: HRIcon, name: 'HR', image: '/images/industries/hr.png', bottleneck: 'Onboarding, offboarding, and payroll paperwork that runs without a coordinator chasing anyone.' },
+  { icon: EcommerceIcon, name: 'E-commerce', image: '/images/industries/ecommerce.png', bottleneck: 'Order, fulfilment, and returns in one flow, no more selling stock you no longer have.' },
+  { icon: SupportIcon, name: 'Customer Support', image: '/images/industries/customer-support.png', bottleneck: 'Tickets triaged, routed, and resolved faster without burning out your best agents.' },
+  { icon: RecruitmentIcon, name: 'Recruitment', image: '/images/industries/recruitment.png', bottleneck: 'Candidate pipelines that move on their own, so consultants close deals instead of chasing data.' },
+  { icon: SalesIcon, name: 'Sales', image: '/images/industries/sales.png', bottleneck: 'Proposals out the same day you qualify the lead, before the competitor beats you to it.' },
 ]
 
 /** Single card used across both industry panels. Duotone overlay keeps photos on-brand. */

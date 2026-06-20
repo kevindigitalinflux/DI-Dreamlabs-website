@@ -30,10 +30,10 @@ const PHYSICAL: IndustryEntry[] = [
   { icon: FacilitiesIcon, name: 'Facilities', image: '/images/industries/facilities.jpg', bottleneck: 'One dashboard for every site, instead of forty unread emails a day.' },
   { icon: MaintenanceIcon, name: 'Maintenance', image: '/images/industries/maintenance.jpg', bottleneck: 'Reactive callouts turned into scheduled work you can actually plan around.' },
   { icon: ConstructionIcon, name: 'Construction', image: '/images/industries/construction.jpg', bottleneck: 'Site updates that reach the office without anyone typing them up twice.' },
-  { icon: TradesIcon, name: 'Trades', image: '/images/industries/trades.jpg', bottleneck: 'Quotes out the same day, not the same week, before the lead goes cold.' },
+  { icon: TradesIcon, name: 'Specialty Trades', image: '/images/industries/specialty-trades.png', bottleneck: 'Quotes out the same day, not the same week, before the lead goes cold.' },
   { icon: LogisticsIcon, name: 'Logistics', image: '/images/industries/logistics.jpg', bottleneck: 'Stock and job status you can trust without ringing the depot.' },
-  { icon: FieldServicesIcon, name: 'Field Services', image: '/images/industries/field-services.jpg', bottleneck: 'Every emergency callout logged, dispatched, and invoiced before your engineer leaves the car park.' },
-  { icon: GeneralContractingIcon, name: 'General Contracting', image: '/images/industries/general-contracting.jpg', bottleneck: 'Project status every trade sees in real time — no missing sign-offs, no phone tag, no surprises.' },
+  { icon: FieldServicesIcon, name: 'Field Services', image: '/images/industries/field-services.png', bottleneck: 'Every emergency callout logged, dispatched, and invoiced before your engineer leaves the car park.' },
+  { icon: GeneralContractingIcon, name: 'General Contracting', image: '/images/industries/general-contracting.png', bottleneck: 'Project status every trade sees in real time, no missing sign-offs, no phone tag, no surprises.' },
 ]
 
 const SERVICE: IndustryEntry[] = [

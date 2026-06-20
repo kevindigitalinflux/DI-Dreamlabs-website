@@ -161,7 +161,7 @@ export const WhyDreamlabs = () => {
         {/* Top centre eyebrow — matches original SectionHeading position */}
         <div className="flex-shrink-0 pt-14 text-center">
           <Reveal>
-            <span className="font-body text-xs font-semibold uppercase tracking-widest text-violet-ray">
+            <span className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
               Why Dreamlabs
             </span>
           </Reveal>
@@ -210,7 +210,7 @@ export const WhyDreamlabs = () => {
 
       {/* ── Mobile: stacked + horizontal snap scroll ── */}
       <div className="px-6 py-20 md:hidden">
-        <span className="font-body text-xs font-semibold uppercase tracking-widest text-violet-ray">
+        <span className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
           Why Dreamlabs
         </span>
         <h2 className="mt-3 font-heading text-3xl font-bold leading-tight text-navy-deep">

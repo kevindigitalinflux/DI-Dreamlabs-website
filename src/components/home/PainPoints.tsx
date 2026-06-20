@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useInView, useReducedMotion } from 'framer-motion'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { Card } from '@/components/ui/Card'
 import { SfCloudBackground } from '@/components/interactive/atmosphere/SfCloudBackground'
 import {
   InventoryIcon,
@@ -47,6 +46,81 @@ const PainCounter = ({ prefix = '', value, suffix = '', durationMs = 1600, dim =
     <span ref={ref} className={`font-heading text-2xl font-extrabold tabular-nums ${dim ? 'text-offwhite' : 'text-cyan-strong'}`}>
       {prefix}{count.toLocaleString('en-GB')}{suffix}
     </span>
+  )
+}
+
+/** Glass card with a directional violet border glow that tracks the pointer. */
+const GlowCard = ({ children }: { children: ReactNode }) => {
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const borderRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = wrapRef.current
+    const border = borderRef.current
+    const glow = glowRef.current
+    if (!el || !border || !glow) return
+
+    const rect = el.getBoundingClientRect()
+    const cx = rect.width / 2
+    const cy = rect.height / 2
+    const dx = e.clientX - rect.left - cx
+    const dy = e.clientY - rect.top - cy
+
+    // 0° = top, clockwise — matches CSS conic-gradient convention
+    let deg = Math.atan2(dy, dx) * (180 / Math.PI) + 90
+    if (deg < 0) deg += 360
+
+    // 0 = pointer at centre, 1 = pointer at edge
+    const kx = Math.abs(dx) > 0.5 ? cx / Math.abs(dx) : Infinity
+    const ky = Math.abs(dy) > 0.5 ? cy / Math.abs(dy) : Infinity
+    const edge = Math.min(1 / Math.min(kx, ky), 1)
+
+    const mask = `conic-gradient(from ${deg.toFixed(1)}deg at center, #000 20%, transparent 42%, transparent 58%, #000 80%)`
+    const bOpacity = Math.max(0, (edge - 0.15) / 0.85).toFixed(3)
+    const gOpacity = Math.max(0, (edge - 0.1) / 0.9).toFixed(3)
+
+    border.style.opacity = bOpacity
+    border.style.setProperty('mask-image', mask)
+    border.style.setProperty('-webkit-mask-image', mask)
+
+    glow.style.opacity = gOpacity
+  }
+
+  const handlePointerLeave = () => {
+    if (borderRef.current) borderRef.current.style.opacity = '0'
+    if (glowRef.current) glowRef.current.style.opacity = '0'
+  }
+
+  return (
+    <div ref={wrapRef} className="relative h-full" onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
+      {/* Directional border — border IS masked by mask-image, revealing the arc nearest the pointer */}
+      <div
+        ref={borderRef}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10 rounded-card"
+        style={{
+          border: '1.5px solid rgba(139,50,255,0.85)',
+          opacity: '0',
+          transition: 'opacity 120ms ease-out',
+        }}
+      />
+      {/* Ambient bloom — outer box-shadow activates on proximity */}
+      <div
+        ref={glowRef}
+        aria-hidden
+        className="pointer-events-none absolute -inset-px z-0 rounded-card"
+        style={{
+          boxShadow: '0 0 22px -3px rgba(139,50,255,0.45)',
+          opacity: '0',
+          transition: 'opacity 120ms ease-out',
+        }}
+      />
+      {/* Glass card */}
+      <div className="relative z-[5] flex h-full flex-col rounded-card border border-offwhite/10 bg-navy-deep/55 p-6 backdrop-blur-md">
+        {children}
+      </div>
+    </div>
   )
 }
 
@@ -136,7 +210,7 @@ export const PainPoints = () => (
     <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {PAIN_POINTS.map(({ icon: Icon, title, body, metric, moneyStat, moneyLabel, timeStat, timeLabel }, i) => (
         <Reveal key={title} delay={i * 100} className="h-full">
-          <Card surface="glass" className="flex h-full flex-col">
+          <GlowCard>
             <Icon className="h-8 w-8 text-cyan-strong" aria-hidden />
             <h3 className="mt-4 font-heading text-lg font-semibold text-offwhite">{title}</h3>
             <p className="mt-2 font-body text-sm leading-relaxed text-offwhite/75">{body}</p>
@@ -153,7 +227,7 @@ export const PainPoints = () => (
                 </div>
               </div>
             </div>
-          </Card>
+          </GlowCard>
         </Reveal>
       ))}
     </div>

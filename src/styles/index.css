@@ -10,6 +10,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* LightBeamButton: animatable custom property for the rotating conic gradient */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 /*
  * Type scale mapping (Brief §8.1) — use these utility combos in components:
  *  Display: font-heading font-extrabold text-4xl md:text-[5rem]  leading-[1.05]
@@ -99,6 +106,12 @@
   @keyframes slot-in {
     from { transform: rotateX(90deg); opacity: 0; }
     to   { transform: rotateX(0deg);  opacity: 1; }
+  }
+
+  /* LightBeamButton rotating beam — drives the @property above */
+  @keyframes border-spin {
+    from { --gradient-angle: 0deg; }
+    to   { --gradient-angle: 360deg; }
   }
 
   @media (prefers-reduced-motion: reduce) {

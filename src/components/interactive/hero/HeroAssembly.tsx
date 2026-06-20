@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Button } from '@/components/ui/Button'
+import { LightBeamButton } from '@/components/ui/LightBeamButton'
 import { ChevronDownIcon } from '@/components/icons'
 import { HeroCloudHint } from './HeroCloudHint'
 import { HeroCloudWipe } from './HeroCloudWipe'
@@ -107,9 +108,9 @@ export const HeroAssembly = () => {
             <Button variant="primary" href="/contact">
               Get your free audit
             </Button>
-            <Button variant="secondary" surface="dark" href="/how-it-works">
+            <LightBeamButton href="/how-it-works">
               See how it works
-            </Button>
+            </LightBeamButton>
           </div>
         </div>
 

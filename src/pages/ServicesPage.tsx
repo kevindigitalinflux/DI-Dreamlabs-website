@@ -39,14 +39,15 @@ const STEPS = [
 ] as const
 
 /**
- * Three-step journey with a scroll-driven SVG connector line that draws
- * left-to-right as the section enters the viewport.
+ * Three-step journey with a scroll-driven horizontal connector line —
+ * exact same technique as the Method section's vertical line, rotated 90°:
+ * scaleX from origin-left instead of scaleY from origin-top.
  */
 const EngagementSection = () => {
   const ref = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 45%'] })
-  const pathLength = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 60%'] })
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
     <Section surface="dream">
@@ -59,32 +60,14 @@ const EngagementSection = () => {
       </Reveal>
 
       <div ref={ref} className="relative mx-auto mt-10 max-w-3xl">
-        {/* SVG journey line — draws left-to-right on scroll, desktop only.
-            preserveAspectRatio="none" stretches path to full container width;
-            vectorEffect="non-scaling-stroke" keeps stroke at 1.5 px regardless. */}
-        <svg
-          viewBox="0 0 100 2"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-x-0 top-7 hidden h-[2px] w-full sm:block"
+        {/* Faint track — same as the grey underlay in Method */}
+        <div className="absolute inset-x-5 top-7 hidden h-px bg-offwhite/15 sm:block" aria-hidden />
+        {/* Animated violet line — scaleX from origin-left, mirrors Method's scaleY from origin-top */}
+        <motion.div
+          className="absolute inset-x-5 top-7 hidden h-px origin-left bg-violet-ray sm:block"
+          style={{ scaleX: reduceMotion ? 1 : scaleX }}
           aria-hidden
-        >
-          <path
-            d="M 17,1 L 83,1"
-            stroke="rgba(244,244,248,0.12)"
-            strokeWidth="1.5"
-            vectorEffect="non-scaling-stroke"
-            fill="none"
-          />
-          <motion.path
-            d="M 17,1 L 83,1"
-            stroke="#8B32FF"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            vectorEffect="non-scaling-stroke"
-            fill="none"
-            style={{ pathLength: reduceMotion ? 1 : pathLength }}
-          />
-        </svg>
+        />
 
         <div className="grid gap-6 sm:grid-cols-3">
           {STEPS.map(({ icon: Icon, label, detail }, i) => (

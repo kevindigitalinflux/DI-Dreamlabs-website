@@ -10,15 +10,12 @@ import {
   FinanceIcon, GeneralContractingIcon, HRIcon, LegalIcon, LogisticsIcon, MaintenanceIcon,
   MarketingIcon, RecruitmentIcon, SalesIcon, SupportIcon, TradesIcon,
 } from '@/components/icons'
-import { Link } from 'react-router-dom'
+import { IndustryCard, type IndustryEntry } from './IndustryCard'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 // y travel (px) per column — col 1 is the baseline, others scroll faster
 const COLUMN_OFFSETS = [60, 0, 80, 40] as const
-
-type IconFn = (props: { className?: string; 'aria-hidden'?: boolean }) => JSX.Element
-type IndustryEntry = { icon: IconFn; name: string; image: string; bottleneck: string }
 
 /* Placeholder photography — swap files in public/images/industries/ (same names). */
 const PHYSICAL: IndustryEntry[] = [
@@ -43,32 +40,10 @@ const SERVICE: IndustryEntry[] = [
   { icon: SalesIcon, name: 'Sales', image: '/images/industries/sales.png', bottleneck: 'Proposals out the same day you qualify the lead, before the competitor beats you to it.' },
 ]
 
-const IndustryCard = ({ icon: Icon, name, image, bottleneck }: IndustryEntry) => (
-  <Link
-    to={`/tools/bottleneck-check?industry=${encodeURIComponent(name.toLowerCase())}`}
-    className="group block h-full overflow-hidden rounded-card border border-offwhite/10 transition-all duration-300 hover:border-violet-ray/50 hover:shadow-glow-violet"
-  >
-    <div className="relative h-40 overflow-hidden">
-      <img src={image} alt={`${name} industry`} loading="lazy" width={800} height={600} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-navy-deep/90 via-navy-deep/60 to-violet-ray/50 mix-blend-multiply" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy-deep via-transparent to-transparent" />
-      <span className="absolute bottom-3 left-4 flex items-center gap-2.5">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-ray/90 text-offwhite">
-          <Icon className="h-5 w-5" aria-hidden />
-        </span>
-        <span className="font-heading text-lg font-semibold text-offwhite">{name}</span>
-      </span>
-    </div>
-    <div className="bg-offwhite/5 p-5">
-      <p className="font-body text-sm leading-relaxed text-offwhite/75">{bottleneck}</p>
-    </div>
-  </Link>
-)
-
 /**
- * 4-column grid with GSAP column parallax (cols at different y speeds) and
- * per-card scroll-linked 3D tilt. Desktop only — mobile uses native snap scroll.
- * GSAP targets `.parallax-card` divs (inside Reveal) to avoid fighting Framer Motion.
+ * 4-column grid with GSAP column parallax (independent y speeds) and scroll-linked
+ * rotateX tilt. Desktop only — mobile uses native snap scroll. GSAP targets the
+ * .parallax-card wrappers; IndustryCard's Framer Motion tilt targets the inner figure.
  */
 const ParallaxGrid = ({ entries }: { entries: IndustryEntry[] }) => {
   const ref = useRef<HTMLDivElement>(null)
@@ -88,13 +63,11 @@ const ParallaxGrid = ({ entries }: { entries: IndustryEntry[] }) => {
     gsap.utils.toArray<HTMLElement>('.parallax-card', grid).forEach((card, i) => {
       const offset = COLUMN_OFFSETS[i % 4]
       gsap.set(card, { transformPerspective: 1000 })
-      // Column parallax: different y travel per column, synced to section scroll
       if (offset) {
         gsap.fromTo(card, { y: offset }, { y: -offset, ease: 'none',
           scrollTrigger: { trigger: grid, start: 'top bottom', end: 'bottom top', scrub: 1.5, invalidateOnRefresh: true },
         })
       }
-      // Per-card 3D tilt: leans forward entering, leans back exiting
       gsap.fromTo(card, { rotateX: -8 }, { rotateX: 8, ease: 'none',
         scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1, invalidateOnRefresh: true },
       })

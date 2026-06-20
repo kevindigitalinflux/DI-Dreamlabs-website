@@ -1,25 +1,21 @@
+import { useRef, useState, useLayoutEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import {
-  CleaningIcon,
-  ConstructionIcon,
-  EcommerceIcon,
-  FacilitiesIcon,
-  FieldServicesIcon,
-  FinanceIcon,
-  GeneralContractingIcon,
-  HRIcon,
-  LegalIcon,
-  LogisticsIcon,
-  MaintenanceIcon,
-  MarketingIcon,
-  RecruitmentIcon,
-  SalesIcon,
-  SupportIcon,
-  TradesIcon,
+  CleaningIcon, ConstructionIcon, EcommerceIcon, FacilitiesIcon, FieldServicesIcon,
+  FinanceIcon, GeneralContractingIcon, HRIcon, LegalIcon, LogisticsIcon, MaintenanceIcon,
+  MarketingIcon, RecruitmentIcon, SalesIcon, SupportIcon, TradesIcon,
 } from '@/components/icons'
 import { Link } from 'react-router-dom'
+
+gsap.registerPlugin(ScrollTrigger, useGSAP)
+
+// y travel (px) per column — col 1 is the baseline, others scroll faster
+const COLUMN_OFFSETS = [60, 0, 80, 40] as const
 
 type IconFn = (props: { className?: string; 'aria-hidden'?: boolean }) => JSX.Element
 type IndustryEntry = { icon: IconFn; name: string; image: string; bottleneck: string }
@@ -47,7 +43,6 @@ const SERVICE: IndustryEntry[] = [
   { icon: SalesIcon, name: 'Sales', image: '/images/industries/sales.png', bottleneck: 'Proposals out the same day you qualify the lead, before the competitor beats you to it.' },
 ]
 
-/** Single card used across both industry panels. Duotone overlay keeps photos on-brand. */
 const IndustryCard = ({ icon: Icon, name, image, bottleneck }: IndustryEntry) => (
   <Link
     to={`/tools/bottleneck-check?industry=${encodeURIComponent(name.toLowerCase())}`}
@@ -71,9 +66,55 @@ const IndustryCard = ({ icon: Icon, name, image, bottleneck }: IndustryEntry) =>
 )
 
 /**
- * Section 5 — two panels: physical-world SMEs (top) and service SMEs (bottom).
- * Both use the duotone photo card treatment. lg:grid-cols-4 fits 8 cards per panel.
+ * 4-column grid with GSAP column parallax (cols at different y speeds) and
+ * per-card scroll-linked 3D tilt. Desktop only — mobile uses native snap scroll.
+ * GSAP targets `.parallax-card` divs (inside Reveal) to avoid fighting Framer Motion.
  */
+const ParallaxGrid = ({ entries }: { entries: IndustryEntry[] }) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const [ready, setReady] = useState(false)
+
+  useLayoutEffect(() => {
+    const raf = requestAnimationFrame(() => setReady(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  useGSAP(() => {
+    if (!ready) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!window.matchMedia('(min-width: 1024px)').matches) return
+    const grid = ref.current
+    if (!grid) return
+    gsap.utils.toArray<HTMLElement>('.parallax-card', grid).forEach((card, i) => {
+      const offset = COLUMN_OFFSETS[i % 4]
+      gsap.set(card, { transformPerspective: 1000 })
+      // Column parallax: different y travel per column, synced to section scroll
+      if (offset) {
+        gsap.fromTo(card, { y: offset }, { y: -offset, ease: 'none',
+          scrollTrigger: { trigger: grid, start: 'top bottom', end: 'bottom top', scrub: 1.5, invalidateOnRefresh: true },
+        })
+      }
+      // Per-card 3D tilt: leans forward entering, leans back exiting
+      gsap.fromTo(card, { rotateX: -8 }, { rotateX: 8, ease: 'none',
+        scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1, invalidateOnRefresh: true },
+      })
+    })
+  }, { scope: ref, dependencies: [ready] })
+
+  return (
+    <div ref={ref} className="-mx-6 mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
+      {entries.map(({ icon: Icon, name, image, bottleneck }, i) => (
+        <Reveal key={name} delay={i * 60} className="w-72 shrink-0 snap-start md:w-auto">
+          <div className="parallax-card h-full">
+            <IndustryCard icon={Icon} name={name} image={image} bottleneck={bottleneck} />
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  )
+}
+
+/** Section 5 — physical-world SMEs (top) and service SMEs (bottom), each with parallax tilt grid. */
 export const Industries = () => (
   <>
     <Section surface="dream" orbs>
@@ -85,13 +126,7 @@ export const Industries = () => (
           surface="dark"
         />
       </Reveal>
-      <div className="-mx-6 mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
-        {PHYSICAL.map(({ icon: Icon, name, image, bottleneck }, i) => (
-          <Reveal key={name} delay={i * 60} className="w-72 shrink-0 snap-start md:w-auto">
-            <IndustryCard icon={Icon} name={name} image={image} bottleneck={bottleneck} />
-          </Reveal>
-        ))}
-      </div>
+      <ParallaxGrid entries={PHYSICAL} />
     </Section>
 
     <Section surface="dream">
@@ -103,13 +138,7 @@ export const Industries = () => (
           surface="dark"
         />
       </Reveal>
-      <div className="-mx-6 mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
-        {SERVICE.map(({ icon: Icon, name, image, bottleneck }, i) => (
-          <Reveal key={name} delay={i * 60} className="w-72 shrink-0 snap-start md:w-auto">
-            <IndustryCard icon={Icon} name={name} image={image} bottleneck={bottleneck} />
-          </Reveal>
-        ))}
-      </div>
+      <ParallaxGrid entries={SERVICE} />
     </Section>
   </>
 )

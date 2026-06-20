@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Button } from '@/components/ui/Button'
@@ -9,30 +8,6 @@ import { HeroCloudHint } from './HeroCloudHint'
 import { HeroCloudWipe } from './HeroCloudWipe'
 
 gsap.registerPlugin(useGSAP)
-
-const DrawnUnderline = () => (
-  <motion.svg
-    className="pointer-events-none absolute -bottom-1 left-0 h-[8px] w-full overflow-visible"
-    viewBox="0 0 300 8"
-    preserveAspectRatio="none"
-    aria-hidden
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    viewport={{ once: true, margin: '-60px' }}
-  >
-    <motion.path
-      d="M 2,6 C 55,1 120,7 185,4 C 240,1 275,6 298,5"
-      stroke="#F0386B"
-      strokeWidth="2.5"
-      fill="none"
-      strokeLinecap="round"
-      initial={{ pathLength: 0 }}
-      whileInView={{ pathLength: 1 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.9, ease: 'easeOut', delay: 0.3 }}
-    />
-  </motion.svg>
-)
 
 /*
  * Headline options considered (Brief §14 asks for 3–5; runner-up kept for Kevin):
@@ -125,11 +100,10 @@ export const HeroAssembly = () => {
           </h1>
 
           <p className="hero-enter mt-4 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
-            <span className="relative inline-block whitespace-nowrap font-bold text-offwhite">
-              Most blue-collar and service businesses leave 20–30% of revenue on the table
-              <DrawnUnderline />
+            <span className="font-bold text-offwhite">
+              Most blue-collar and service businesses leave 20–30% of revenue on the table,
             </span>
-            {', not from lack of work, but from problems they can already name. '}
+            {' '}not from lack of work, but from problems they can already name.
             We build the AI systems and products that fix them, for every business
             that services and builds the world. You own everything.
             It starts with a free audit.

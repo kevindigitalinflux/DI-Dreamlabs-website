@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { useInView, useReducedMotion } from 'framer-motion'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -49,29 +49,24 @@ const PainCounter = ({ prefix = '', value, suffix = '', durationMs = 1600, dim =
   )
 }
 
-const DrawnUnderline = () => (
-  <motion.svg
-    className="pointer-events-none absolute -bottom-1 left-0 h-[8px] w-full overflow-visible"
-    viewBox="0 0 300 8"
-    preserveAspectRatio="none"
-    aria-hidden
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    viewport={{ once: true, margin: '-60px' }}
-  >
-    <motion.path
-      d="M 2,6 C 55,1 120,7 185,4 C 240,1 275,6 298,5"
-      stroke="#F0386B"
-      strokeWidth="2.5"
-      fill="none"
-      strokeLinecap="round"
-      initial={{ pathLength: 0 }}
-      whileInView={{ pathLength: 1 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.9, ease: 'easeOut', delay: 0.3 }}
-    />
-  </motion.svg>
-)
+/** Underline that fades in across all wrapped lines when scrolled into view. */
+const UnderlineOnScroll = ({ children }: { children: ReactNode }) => {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const reduceMotion = useReducedMotion()
+  return (
+    <span
+      ref={ref}
+      className="font-bold text-offwhite underline decoration-2 underline-offset-2"
+      style={{
+        textDecorationColor: (inView || reduceMotion) ? '#F0386B' : 'transparent',
+        transition: reduceMotion ? 'none' : 'text-decoration-color 0.8s ease-out 0.2s',
+      }}
+    >
+      {children}
+    </span>
+  )
+}
 
 /** Glass card with a directional violet border glow that tracks the pointer. */
 const GlowCard = ({ children }: { children: ReactNode }) => {
@@ -230,10 +225,9 @@ export const PainPoints = () => (
         />
         <p className="mt-4 text-center font-body text-base leading-relaxed text-offwhite/75 md:text-lg">
           Blue-collar or service business, the pattern is the same:{' '}
-          <span className="relative inline-block whitespace-nowrap font-bold text-offwhite">
+          <UnderlineOnScroll>
             the average SME loses 20 to 30% of potential revenue to operational bottlenecks
-            <DrawnUnderline />
-          </span>
+          </UnderlineOnScroll>
           {' '}it can see but has not fixed. These are the six we find most often.
         </p>
       </div>

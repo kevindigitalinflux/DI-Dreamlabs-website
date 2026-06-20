@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { MenuIcon, CloseIcon } from '@/components/icons'
 
 const NAV_LINKS = [
+  { to: '/', label: 'Home' },
   { to: '/services', label: 'Services' },
   { to: '/industries', label: 'Industries' },
   { to: '/how-it-works', label: 'How It Works' },

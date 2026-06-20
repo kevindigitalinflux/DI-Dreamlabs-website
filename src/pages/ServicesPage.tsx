@@ -34,7 +34,7 @@ export const ServicesPage = () => (
   <>
     <Seo
       title="Services: AI Product Engineering, Automated Systems & Product Development"
-      description="Three service pillars: AI product engineering, custom automated systems, and end-to-end product development. Built for UK service SMEs, free audit, you own everything we build."
+      description="Three service pillars: AI product engineering, custom automated systems, and end-to-end product development. Built for blue-collar and service SMEs across the UK, free audit, you own everything we build."
       path="/services"
       jsonLd={[breadcrumbs(['Services', '/services'])]}
     />

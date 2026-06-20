@@ -12,6 +12,6 @@ export const POSITIONING_LINE =
   'Enterprise capability. Human-scale pricing. Built for the businesses that build the world.'
 
 /** Real contact details pending from Kevin — keep null until supplied. */
-export const CONTACT_EMAIL: string | null = null
+export const CONTACT_EMAIL: string | null = 'kevindigitalinflux@gmail.com'
 export const CONTACT_PHONE: string | null = null
 export const CONTACT_ADDRESS: string | null = null

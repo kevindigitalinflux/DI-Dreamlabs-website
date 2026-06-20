@@ -49,9 +49,9 @@ export const AboutPage = () => (
           <div className="mt-6 space-y-5 font-body text-base leading-relaxed text-navy-deep/80 md:text-lg">
             <p>
               Most AI agencies serve enterprise clients with enterprise budgets. Meanwhile, the
-              businesses that actually build and run the physical world — cleaners, contractors,
-              manufacturers, logistics operators — get left with off-the-shelf software that
-              almost fits and agencies that never call back.
+              businesses that actually build and run the world — cleaners, contractors, logistics
+              operators, marketing agencies, recruitment firms, finance teams — get left with
+              off-the-shelf software that almost fits and agencies that never call back.
             </p>
             <p>
               Digital Influx Dreamlabs Ltd was built to close that gap. We bring the same

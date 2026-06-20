@@ -5,6 +5,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { AuditIcon, BuildIcon, FlaskIcon, LayersIcon, OwnIcon } from '@/components/icons'
+import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const ENGINEERING_DELIVERABLES = [
@@ -44,15 +45,17 @@ export const ServicesPage = () => (
       lede="Whichever door you come in through, the result is the same: a working system, built for your business, owned by you outright."
     />
 
-    <Section surface="workshop">
+    <Section surface="workshop" elevateContent background={<BubblePitBackground />}>
       <Reveal>
-        <SectionHeading
-          eyebrow="Pillar one"
-          title="AI Product Engineering"
-          lede="For when you know there's a better way to run your business, you just need someone to build it."
-          surface="light"
-          align="left"
-        />
+        <div className="rounded-card border border-navy-deep/10 bg-white/70 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
+          <SectionHeading
+            eyebrow="Pillar one"
+            title="AI Product Engineering"
+            lede="For when you know there's a better way to run your business, you just need someone to build it."
+            surface="light"
+            align="left"
+          />
+        </div>
       </Reveal>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <Reveal>

@@ -93,9 +93,9 @@ export const ServicesPage = () => (
         <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-violet-ray/30 bg-white shadow-card transition-colors duration-300 hover:border-violet-ray/70">
           <div className="aspect-[4/3]">
             <img
-              src="/images/services/ai-product-engineering.png"
-              alt="AI product engineering — example system output"
-              className="h-full w-full object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              src="/images/industries/cleaning.png"
+              alt="Cleaning business — the kind of operation our AI product engineering serves"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             />
           </div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-violet-ray/10 to-transparent" />
@@ -149,9 +149,9 @@ export const ServicesPage = () => (
         <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-cyan-strong/30 bg-offwhite/95 shadow-card transition-colors duration-300 hover:border-cyan-strong/70">
           <div className="aspect-[4/3]">
             <img
-              src="/images/services/automated-systems.png"
-              alt="Automated systems — example workflow output"
-              className="h-full w-full object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              src="/images/industries/maintenance.png"
+              alt="Maintenance firm — the kind of operation our automated systems serve"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             />
           </div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cyan-strong/10 to-transparent" />
@@ -206,9 +206,9 @@ export const ServicesPage = () => (
         <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-magenta-bloom/30 bg-white shadow-card transition-colors duration-300 hover:border-magenta-bloom/70">
           <div className="aspect-[4/3]">
             <img
-              src="/images/services/end-to-end-product.jpg"
-              alt="End-to-end product development — example product output"
-              className="h-full w-full object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              src="/images/industries/specialty-trades.png"
+              alt="Trades business — the kind of operation our product development serves"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             />
           </div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-magenta-bloom/10 to-transparent" />
@@ -221,7 +221,7 @@ export const ServicesPage = () => (
         <SectionHeading
           eyebrow="The engagement"
           title="How an engagement actually runs"
-          surface="light"
+          surface="dark"
         />
       </Reveal>
       <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-3">
@@ -231,11 +231,11 @@ export const ServicesPage = () => (
           { icon: OwnIcon, label: 'Own & scale', detail: 'Yours outright, forever' },
         ].map(({ icon: Icon, label, detail }, i) => (
           <Reveal key={label} delay={i * 80} className="text-center">
-            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy-deep text-cyan-strong">
+            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-offwhite/10 text-cyan-strong ring-1 ring-offwhite/20">
               <Icon className="h-7 w-7" aria-hidden />
             </span>
-            <h3 className="mt-4 font-heading text-base font-semibold text-navy-deep">{label}</h3>
-            <p className="mt-1 font-body text-sm text-navy-deep/70">{detail}</p>
+            <h3 className="mt-4 font-heading text-base font-semibold text-offwhite">{label}</h3>
+            <p className="mt-1 font-body text-sm text-offwhite/65">{detail}</p>
           </Reveal>
         ))}
       </div>

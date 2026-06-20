@@ -43,19 +43,18 @@ export const ServicesPage = () => (
       eyebrow="Services"
       title="Three ways to get your unfair advantage"
       lede="Whichever door you come in through, the result is the same: a working system, built for your business, owned by you outright."
+      background={<BubblePitBackground />}
     />
 
-    <Section surface="workshop" elevateContent background={<BubblePitBackground />}>
+    <Section surface="workshop">
       <Reveal>
-        <div className="rounded-card border border-navy-deep/10 bg-white/70 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
-          <SectionHeading
-            eyebrow="Pillar one"
-            title="AI Product Engineering"
-            lede="For when you know there's a better way to run your business, you just need someone to build it."
-            surface="light"
-            align="left"
-          />
-        </div>
+        <SectionHeading
+          eyebrow="Pillar one"
+          title="AI Product Engineering"
+          lede="For when you know there's a better way to run your business, you just need someone to build it."
+          surface="light"
+          align="left"
+        />
       </Reveal>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <Reveal>

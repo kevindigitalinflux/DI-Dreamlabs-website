@@ -27,9 +27,20 @@ export const PageHero = ({ eyebrow, title, lede, background }: PageHeroProps) =>
     <div className="relative mx-auto max-w-content">
       {eyebrow && (
         background ? (
-          /* Frosted pill — backdrop-blur dynamically separates text from animated canvas */
-          <span className="inline-flex items-center rounded-full bg-navy-deep/50 px-4 py-1.5 ring-1 ring-violet-ray/40 backdrop-blur-sm">
-            <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+          /* Rotating beam pill — same conic-gradient animation as LightBeamButton.
+             backdrop-blur on the fill dynamically separates violet text from violet
+             bubbles regardless of where they drift. */
+          <span className="relative inline-flex items-center overflow-hidden rounded-full">
+            <span
+              aria-hidden
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: 'conic-gradient(from var(--gradient-angle), transparent 0%, #8B32FF 38%, #C088FF 50%, transparent 62%)',
+                animation: 'border-spin 2.5s linear infinite',
+              }}
+            />
+            <span aria-hidden className="absolute inset-[1.5px] rounded-full bg-navy-deep/50 backdrop-blur-sm" />
+            <p className="relative z-10 px-4 py-1.5 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
               {eyebrow}
             </p>
           </span>

@@ -4,6 +4,7 @@ import { Reveal } from '@/components/Reveal'
 import { Accordion } from '@/components/ui/Accordion'
 import { Button } from '@/components/ui/Button'
 import { FAQ_ITEMS } from '@/lib/faqContent'
+import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
 /** Full objection-handling FAQ (Brief §5). */
@@ -29,6 +30,7 @@ export const FaqPage = () => (
       eyebrow="FAQ"
       title="Straight answers to fair questions"
       lede="If yours is not here, ask us directly, we reply within one working day."
+      background={<BubblePitBackground />}
     />
     <Section surface="workshop">
       <Reveal className="mx-auto max-w-3xl">

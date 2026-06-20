@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { AuditIcon, BuildIcon, GuaranteeIcon, OwnIcon, PilotIcon } from '@/components/icons'
 import { FAQ_ITEMS } from '@/lib/faqContent'
+import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const STEPS = [
@@ -59,6 +60,7 @@ export const HowItWorksPage = () => (
       eyebrow="How it works"
       title="From first chat to a system you own"
       lede="Four steps. The expensive mistakes, paying upfront, getting locked in, buying promises, are designed out."
+      background={<BubblePitBackground />}
     />
 
     <Section surface="workshop">

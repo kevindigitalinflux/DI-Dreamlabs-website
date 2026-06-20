@@ -5,6 +5,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { POSITIONING_LINE } from '@/lib/config'
+import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const PILLARS = [
@@ -38,6 +39,7 @@ export const AboutPage = () => (
       eyebrow="About"
       title='"Dreamlabs" is not just a name. It is a promise.'
       lede="Our purpose is to make the dreams of SMEs and startups achievable, giving you access to the kind of technology that used to be reserved for companies ten times your size."
+      background={<BubblePitBackground />}
     />
 
     <Section surface="workshop">

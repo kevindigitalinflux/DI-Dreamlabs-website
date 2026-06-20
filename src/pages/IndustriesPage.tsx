@@ -11,6 +11,7 @@ import {
   LegalIcon, LogisticsIcon, MaintenanceIcon, MarketingIcon,
   RecruitmentIcon, SalesIcon, SupportIcon, TradesIcon,
 } from '@/components/icons'
+import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
 type IconFn = (props: { className?: string; 'aria-hidden'?: boolean }) => JSX.Element
@@ -125,6 +126,7 @@ export const IndustriesPage = () => (
       eyebrow="Industries"
       title="Your industry's bottlenecks, not generic ones"
       lede="We build for physical-world businesses and service SMEs alike. Find yours below and see what we'd fix first."
+      background={<BubblePitBackground />}
     />
     {PHYSICAL_BLOCKS.map((b, i) => (
       <IndustrySection key={b.slug} {...b} i={i} surface={i % 2 === 0 ? 'workshop' : 'dream'} />

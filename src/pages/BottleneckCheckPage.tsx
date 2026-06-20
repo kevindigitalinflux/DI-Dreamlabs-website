@@ -27,9 +27,9 @@ export const BottleneckCheckPage = () => {
       />
       <Section surface="dream" orbs>
         <SectionHeading
-          eyebrow="Free tool"
-          title="The Bottleneck Check"
-          lede="Find out what your biggest operational headache costs every month, in hours and in pounds. Four questions, instant answer, no obligation."
+          eyebrow="Free tool — blue-collar &amp; service businesses"
+          title="What is your biggest bottleneck costing you?"
+          lede="Answer four quick questions and get a broad estimate of the time you're losing every week and the revenue at risk every month — based on averages for your industry and team size."
           surface="dark"
         />
         <div className="mx-auto mt-12 max-w-3xl">
@@ -38,8 +38,8 @@ export const BottleneckCheckPage = () => {
           />
         </div>
         <p className="mx-auto mt-8 max-w-xl text-center font-body text-sm font-light text-offwhite/60">
-          Estimates are based on typical figures for UK service SMEs. Your free audit replaces
-          them with your real numbers.
+          Figures are broad estimates based on published SME benchmarks for your industry and team
+          size — not precise forecasts. Your free audit is where we get precise.
         </p>
       </Section>
     </div>

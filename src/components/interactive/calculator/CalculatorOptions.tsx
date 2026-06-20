@@ -18,7 +18,7 @@ export const CalculatorOptions = ({
     <legend className="font-heading text-xl font-semibold text-navy-deep md:text-2xl">
       {legend}
     </legend>
-    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+    <div className={`mt-6 grid gap-3 ${options.length > 8 ? 'grid-cols-2 md:grid-cols-3' : 'sm:grid-cols-2'}`}>
       {options.map(({ value, label }) => {
         const active = selected === value
         return (

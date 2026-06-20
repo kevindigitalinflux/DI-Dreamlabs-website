@@ -104,8 +104,8 @@ export const HeroAssembly = () => {
               Most blue-collar and service businesses leave 20–30% of revenue on the table,
             </span>
             {' '}not from lack of work, but from problems they can already name.
-            We build the AI systems and products that fix them, for every business
-            that services and builds the world. You own everything.
+            We build the AI systems and products that fix them, for the businesses
+            that service and build the world. You own everything.
             It starts with a free audit.
           </p>
 

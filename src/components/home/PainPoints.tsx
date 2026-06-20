@@ -50,24 +50,6 @@ const PainCounter = ({ prefix = '', value, suffix = '', durationMs = 1600, dim =
 }
 
 /** Underline that fades in across all wrapped lines when scrolled into view. */
-const UnderlineOnScroll = ({ children }: { children: ReactNode }) => {
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-  const reduceMotion = useReducedMotion()
-  return (
-    <span
-      ref={ref}
-      className="font-bold text-offwhite underline decoration-2 underline-offset-2"
-      style={{
-        textDecorationColor: (inView || reduceMotion) ? '#F0386B' : 'transparent',
-        transition: reduceMotion ? 'none' : 'text-decoration-color 0.8s ease-out 0.2s',
-      }}
-    >
-      {children}
-    </span>
-  )
-}
-
 /** Glass card with a directional violet border glow that tracks the pointer. */
 const GlowCard = ({ children }: { children: ReactNode }) => {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -225,9 +207,9 @@ export const PainPoints = () => (
         />
         <p className="mt-4 text-center font-body text-base leading-relaxed text-offwhite/75 md:text-lg">
           Blue-collar or service business, the pattern is the same:{' '}
-          <UnderlineOnScroll>
+          <span className="font-bold text-offwhite">
             the average SME loses 20 to 30% of potential revenue to operational bottlenecks
-          </UnderlineOnScroll>
+          </span>
           {' '}it can see but has not fixed. These are the six we find most often.
         </p>
       </div>

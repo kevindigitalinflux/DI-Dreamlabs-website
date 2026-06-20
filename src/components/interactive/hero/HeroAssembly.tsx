@@ -100,12 +100,11 @@ export const HeroAssembly = () => {
           </h1>
 
           <p className="hero-enter mt-4 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
-            Most blue-collar and service businesses are leaving 20–30% of their
-            revenue on the table, not from lack of work, but from operational
-            problems they can already name. We build the AI systems and products
-            that fix them, whilst making it accessible to the businesses that
-            service and build the world. You own everything, and it starts with
-            a free audit.
+            Most blue-collar and service businesses leave 20–30% of revenue on
+            the table, not from lack of work, but from problems they can already
+            name. We build the AI systems and products that fix them, for every
+            business that services and builds the world. You own everything.
+            It starts with a free audit.
           </p>
 
           <div className="hero-enter mt-8 flex flex-col gap-4 opacity-0 sm:flex-row">

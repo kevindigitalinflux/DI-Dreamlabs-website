@@ -89,7 +89,7 @@ export const HeroAssembly = () => {
         {/* Left-aligned content */}
         <div className="hero-content relative z-50 max-w-2xl">
           <p className="hero-enter mb-3 font-body text-sm font-semibold uppercase tracking-widest text-cyan-strong opacity-0">
-            AI-Powered Operations · Built for Trade Businesses
+            AI Systems · Built for Blue-Collar &amp; Service Businesses
           </p>
 
           <h1 className="hero-enter font-heading text-4xl font-extrabold leading-[1.05] text-offwhite opacity-0 md:text-6xl lg:text-7xl">
@@ -100,9 +100,10 @@ export const HeroAssembly = () => {
           </h1>
 
           <p className="hero-enter mt-4 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
-            We offer AI product engineering, automated systems and end-to-end product
-            development for blue-collar &amp; service businesses. You own everything we
-            build, and it starts with a free audit.
+            Most blue-collar and service businesses are leaving 20–30% of their
+            revenue on the table — not from lack of work, but from operational
+            problems they can already name. We build the AI systems that fix them.
+            You own everything, and it starts with a free audit.
           </p>
 
           <div className="hero-enter mt-8 flex flex-col gap-4 opacity-0 sm:flex-row">

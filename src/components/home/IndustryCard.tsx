@@ -62,9 +62,9 @@ export const IndustryCard = ({ icon: Icon, name, image, bottleneck }: IndustryEn
       >
         <Link
           to={`/tools/bottleneck-check?industry=${encodeURIComponent(name.toLowerCase())}`}
-          className="block h-full"
+          className="flex h-full flex-col"
         >
-          <div className="relative h-40 overflow-hidden">
+          <div className="relative h-40 shrink-0 overflow-hidden">
             <img
               src={image}
               alt={`${name} industry`}
@@ -82,7 +82,7 @@ export const IndustryCard = ({ icon: Icon, name, image, bottleneck }: IndustryEn
               <span className="font-heading text-lg font-semibold text-offwhite">{name}</span>
             </span>
           </div>
-          <div className="bg-offwhite/5 p-5">
+          <div className="flex-1 bg-offwhite/5 p-5">
             <p className="font-body text-sm leading-relaxed text-offwhite/75">{bottleneck}</p>
           </div>
         </Link>

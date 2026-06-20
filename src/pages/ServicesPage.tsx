@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -30,7 +32,83 @@ const PRODUCT_DEV_DELIVERABLES = [
   'Handover with documentation so your team can run and extend it independently',
 ] as const
 
-/** Deep dive on the two service pillars (Brief §5). */
+const STEPS = [
+  { icon: AuditIcon, label: 'Free audit',    detail: 'A week or less, no cost'    },
+  { icon: BuildIcon, label: 'Build & pilot', detail: '2–8 weeks on real work'     },
+  { icon: OwnIcon,   label: 'Own & scale',   detail: 'Yours outright, forever'    },
+] as const
+
+/**
+ * Three-step journey with a scroll-driven SVG connector line that draws
+ * left-to-right as the section enters the viewport.
+ */
+const EngagementSection = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 45%'] })
+  const pathLength = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
+
+  return (
+    <Section surface="dream">
+      <Reveal>
+        <SectionHeading
+          eyebrow="The engagement"
+          title="How an engagement actually runs"
+          surface="dark"
+        />
+      </Reveal>
+
+      <div ref={ref} className="relative mx-auto mt-10 max-w-3xl">
+        {/* SVG journey line — draws left-to-right on scroll, desktop only.
+            preserveAspectRatio="none" stretches path to full container width;
+            vectorEffect="non-scaling-stroke" keeps stroke at 1.5 px regardless. */}
+        <svg
+          viewBox="0 0 100 2"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-x-0 top-7 hidden h-[2px] w-full sm:block"
+          aria-hidden
+        >
+          <path
+            d="M 17,1 L 83,1"
+            stroke="rgba(244,244,248,0.12)"
+            strokeWidth="1.5"
+            vectorEffect="non-scaling-stroke"
+            fill="none"
+          />
+          <motion.path
+            d="M 17,1 L 83,1"
+            stroke="#8B32FF"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            fill="none"
+            style={{ pathLength: reduceMotion ? 1 : pathLength }}
+          />
+        </svg>
+
+        <div className="grid gap-6 sm:grid-cols-3">
+          {STEPS.map(({ icon: Icon, label, detail }, i) => (
+            <Reveal key={label} delay={i * 80} className="text-center">
+              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-offwhite/10 text-cyan-strong ring-1 ring-offwhite/20">
+                <Icon className="h-7 w-7" aria-hidden />
+              </span>
+              <h3 className="mt-4 font-heading text-base font-semibold text-offwhite">{label}</h3>
+              <p className="mt-1 font-body text-sm text-offwhite/65">{detail}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      <Reveal className="mt-12 text-center">
+        <Button variant="primary" href="/contact">
+          Start with the free audit
+        </Button>
+      </Reveal>
+    </Section>
+  )
+}
+
+/** Deep dive on the three service pillars (Brief §5). */
 export const ServicesPage = () => (
   <>
     <Seo
@@ -216,35 +294,7 @@ export const ServicesPage = () => (
       </Reveal>
     </Section>
 
-    <Section surface="dream">
-      <Reveal>
-        <SectionHeading
-          eyebrow="The engagement"
-          title="How an engagement actually runs"
-          surface="dark"
-        />
-      </Reveal>
-      <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-3">
-        {[
-          { icon: AuditIcon, label: 'Free audit', detail: 'A week or less, no cost' },
-          { icon: BuildIcon, label: 'Build & pilot', detail: '2–8 weeks on real work' },
-          { icon: OwnIcon, label: 'Own & scale', detail: 'Yours outright, forever' },
-        ].map(({ icon: Icon, label, detail }, i) => (
-          <Reveal key={label} delay={i * 80} className="text-center">
-            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-offwhite/10 text-cyan-strong ring-1 ring-offwhite/20">
-              <Icon className="h-7 w-7" aria-hidden />
-            </span>
-            <h3 className="mt-4 font-heading text-base font-semibold text-offwhite">{label}</h3>
-            <p className="mt-1 font-body text-sm text-offwhite/65">{detail}</p>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal className="mt-12 text-center">
-        <Button variant="primary" href="/contact">
-          Start with the free audit
-        </Button>
-      </Reveal>
-    </Section>
+    <EngagementSection />
   </>
 )
 

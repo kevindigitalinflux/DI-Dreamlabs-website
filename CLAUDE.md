@@ -135,11 +135,14 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 **Services page (2026-06-21):**
 - `HeroConstellationSvg` removed from all secondary page heroes (was the decorative line/dot
   illustration on the right side of the dark navy banner — removed from `PageHero.tsx`).
-- Reference images added below each pillar's card grid, framed in the same style as the
-  homepage Pillars cards: `rounded-card border bg-white/offwhite shadow-card` with
-  accent-colour border (violet / cyan / magenta per pillar), `aspect-[4/3]`, `object-contain p-6`,
-  gradient fade at bottom, and `group-hover:scale-[1.03]` image zoom. Reuses existing image
-  assets from `/images/services/`.
+- Real-life industry photos replace abstract illustrations in each pillar frame:
+  cleaning.png (Pillar 1), maintenance.png (Pillar 2), specialty-trades.png (Pillar 3).
+  Frames use `aspect-[4/3]` + `object-cover`, accent-colour border, hover zoom.
+- Engagement section ("How an engagement actually runs") extracted to `EngagementSection`
+  component. Scroll-driven SVG connector line draws left-to-right between the three steps
+  as the section enters the viewport — `useScroll` + `useSpring` pathLength on a
+  `motion.path` (viewBox 100×2, `preserveAspectRatio="none"`,
+  `vectorEffect="non-scaling-stroke"`). Visible on `sm:` and above only.
 
 **In progress:** Services page — further build-out.
 

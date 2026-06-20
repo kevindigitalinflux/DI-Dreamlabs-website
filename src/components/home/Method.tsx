@@ -82,7 +82,7 @@ export const Method = () => {
           />
           <p className="mt-4 text-center font-body text-base leading-relaxed text-navy-deep/75 md:text-lg">
             Four steps, and{' '}
-            <span className="relative inline-block whitespace-nowrap">
+            <span className="relative inline-block whitespace-nowrap font-bold text-navy-deep">
               the risky ones are on us.
               <DrawnUnderline />
             </span>

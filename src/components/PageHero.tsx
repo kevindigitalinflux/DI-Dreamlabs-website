@@ -26,11 +26,23 @@ export const PageHero = ({ eyebrow, title, lede, background }: PageHeroProps) =>
     </div>
     <div className="relative mx-auto max-w-content">
       {eyebrow && (
-        <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
-          {eyebrow}
-        </p>
+        background ? (
+          /* Frosted pill — backdrop-blur dynamically separates text from animated canvas */
+          <span className="inline-flex items-center rounded-full bg-navy-deep/50 px-4 py-1.5 ring-1 ring-violet-ray/40 backdrop-blur-sm">
+            <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+              {eyebrow}
+            </p>
+          </span>
+        ) : (
+          <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+            {eyebrow}
+          </p>
+        )
       )}
-      <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold leading-[1.1] text-offwhite md:text-5xl">
+      <h1
+        className="mt-3 max-w-3xl font-heading text-3xl font-bold leading-[1.1] text-offwhite md:text-5xl"
+        style={background ? { textShadow: '0 2px 12px rgba(4,15,73,0.7)' } : undefined}
+      >
         {title}
       </h1>
       {lede && (

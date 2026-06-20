@@ -91,7 +91,7 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 
 ---
 
-## Current Status (2026-06-20)
+## Current Status (2026-06-21)
 
 **Working (all verified):**
 - Full site: home + 9 secondary pages + resources scaffold + branded 404, all pre-rendered to
@@ -111,7 +111,7 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Security audit passed — see `docs/security-audit-2026-06-12.md`.
 - 28 unit tests green (`npm test`). `npm run typecheck` clean.
 
-**Homepage additions (sessions 2026-06-17 and 2026-06-20):**
+**Homepage additions (sessions 2026-06-17 to 2026-06-21):**
 - `GlowCard` directional violet border glow on Pain Points cards (pointer-tracking mask-image).
 - `LightBeamButton` rotating conic-gradient beam border on "See how it works" hero CTA.
 - Hero sub-headline: bold lead stat, broader ICP ("businesses that service and build the world").
@@ -123,10 +123,14 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - AboutPage + ServicesPage copy updated to include service SMEs alongside blue-collar businesses.
 - `docs/automations-required.md` created — specs for 4 n8n workflows.
 
-**Services page (2026-06-20):**
-- `BubblePitBackground` added to Pillar 1 section (AI Product Engineering). Section heading
-  wrapped in frosted glass panel (`bg-white/70 backdrop-blur-md`), same pattern as Dreamlabs
-  Method on homepage.
+**Secondary page hero treatment (2026-06-21) — Services, Industries, How It Works, About, FAQ:**
+- `BubblePitBackground` canvas animation on every PageHero (violet bubbles, cursor repulsion).
+- `PageHero` accepts optional `background` prop; treatment only activates when prop is set.
+- Eyebrow wrapped in rotating beam pill (same `border-spin` conic-gradient as LightBeamButton,
+  2.5s, `inset-[1.5px]` frosted fill with `backdrop-blur-sm`) — text is white (`text-offwhite`)
+  for maximum contrast against both the navy background and the violet bubbles.
+- Title gets `textShadow` so letters stay crisp if a bubble drifts directly behind them.
+- Contact page hero intentionally left without bubbles (form-focused, less atmospheric).
 
 **In progress:** Services page — further build-out.
 

@@ -40,7 +40,7 @@ export const PageHero = ({ eyebrow, title, lede, background }: PageHeroProps) =>
               }}
             />
             <span aria-hidden className="absolute inset-[1.5px] rounded-full bg-navy-deep/50 backdrop-blur-sm" />
-            <p className="relative z-10 px-4 py-1.5 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+            <p className="relative z-10 px-4 py-1.5 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-offwhite">
               {eyebrow}
             </p>
           </span>

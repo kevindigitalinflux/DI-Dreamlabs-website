@@ -89,6 +89,18 @@ export const ServicesPage = () => (
           </Card>
         </Reveal>
       </div>
+      <Reveal className="mt-8">
+        <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-violet-ray/30 bg-white shadow-card transition-colors duration-300 hover:border-violet-ray/70">
+          <div className="aspect-[4/3]">
+            <img
+              src="/images/services/ai-product-engineering.png"
+              alt="AI product engineering — example system output"
+              className="h-full w-full object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-violet-ray/10 to-transparent" />
+        </div>
+      </Reveal>
     </Section>
 
     <Section surface="dream">
@@ -133,6 +145,18 @@ export const ServicesPage = () => (
           </Card>
         </Reveal>
       </div>
+      <Reveal className="mt-8">
+        <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-cyan-strong/30 bg-offwhite/95 shadow-card transition-colors duration-300 hover:border-cyan-strong/70">
+          <div className="aspect-[4/3]">
+            <img
+              src="/images/services/automated-systems.png"
+              alt="Automated systems — example workflow output"
+              className="h-full w-full object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cyan-strong/10 to-transparent" />
+        </div>
+      </Reveal>
     </Section>
 
     <Section surface="workshop">
@@ -178,6 +202,18 @@ export const ServicesPage = () => (
           </Card>
         </Reveal>
       </div>
+      <Reveal className="mt-8">
+        <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-magenta-bloom/30 bg-white shadow-card transition-colors duration-300 hover:border-magenta-bloom/70">
+          <div className="aspect-[4/3]">
+            <img
+              src="/images/services/end-to-end-product.jpg"
+              alt="End-to-end product development — example product output"
+              className="h-full w-full object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-magenta-bloom/10 to-transparent" />
+        </div>
+      </Reveal>
     </Section>
 
     <Section surface="dream">

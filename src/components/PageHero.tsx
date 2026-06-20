@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { GlowOrb } from '@/components/ui/GlowOrb'
-import { HeroConstellationSvg } from '@/components/interactive/hero/HeroConstellationSvg'
 
 type PageHeroProps = {
   eyebrow?: string
@@ -21,7 +20,6 @@ export const PageHero = ({ eyebrow, title, lede, background }: PageHeroProps) =>
       <div className="hero-grain absolute inset-0" />
       <GlowOrb colour="violet" className="-left-24 top-0 h-96 w-96" />
       <GlowOrb colour="rebecca" className="right-0 top-1/3 h-80 w-80" />
-      <HeroConstellationSvg className="absolute -right-10 top-1/2 hidden h-[26rem] w-[26rem] -translate-y-1/2 opacity-25 lg:block" />
       {background}
     </div>
     <div className="relative mx-auto max-w-content">

@@ -132,6 +132,15 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Title gets `textShadow` so letters stay crisp if a bubble drifts directly behind them.
 - Contact page hero intentionally left without bubbles (form-focused, less atmospheric).
 
+**Services page (2026-06-21):**
+- `HeroConstellationSvg` removed from all secondary page heroes (was the decorative line/dot
+  illustration on the right side of the dark navy banner — removed from `PageHero.tsx`).
+- Reference images added below each pillar's card grid, framed in the same style as the
+  homepage Pillars cards: `rounded-card border bg-white/offwhite shadow-card` with
+  accent-colour border (violet / cyan / magenta per pillar), `aspect-[4/3]`, `object-contain p-6`,
+  gradient fade at bottom, and `group-hover:scale-[1.03]` image zoom. Reuses existing image
+  assets from `/images/services/`.
+
 **In progress:** Services page — further build-out.
 
 **Not yet done / needs Kevin:**

@@ -194,7 +194,22 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Step 4 retainer: explicitly "always recommended, always your choice, never a condition". Client
   always owns the code, accounts, and data from day one.
 
-**In progress:** Nothing — services, who-we-serve, and how-it-works pages complete.
+**About page updates (2026-06-22):**
+- `POSITIONING_LINE` in `config.ts` updated: "...build and service the world." (propagates to
+  footer and About page).
+- Story section: em-dashes restructured to "including ... and" in body copy; 2-col desktop
+  layout with text on left, `StoryImage` parallax frame on right.
+- `StoryImage` real photo: `public/images/about/story.png` (Kevin's SME photo, sourced from
+  Downloads). Violet colour-grade overlay (same as ServicesPage pillars).
+- `LetterBlur` component: per-letter fade-in + slide-up + de-blur animation (18ms stagger
+  per character, 0.5s duration). `sr-only` sibling for screen reader accessibility.
+- `PillarsPyramid`: scroll offset tuned to `['start 70%', 'center 55%']` so the pyramid
+  fully forms while the section is centred on screen (was completing at the footer).
+  Apex card (Transformative) grows from scale 0.8 → 1 with violet-ray ring; base cards
+  fan out from x ±120, y -80 at scale 0.9 → 1.
+- How It Works page: em-dash replaced with comma in Step 1 text.
+
+**In progress:** Nothing — services, who-we-serve, how-it-works, and about pages complete.
 
 **Not yet done / needs Kevin:**
 - Cal.com booking link → `BOOKING_URL` in `src/lib/config.ts`.

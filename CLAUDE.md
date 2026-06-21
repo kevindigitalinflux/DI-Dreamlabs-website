@@ -172,6 +172,14 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   "Based on general industry research. Figures are illustrative examples and should be
   taken as indicative only, not a guarantee of results."
 
+- Page layout rebuilt: the 16 individual full-width sections replaced with two grouped
+  sticky-scroll layouts. Each group starts with an intro SectionHeading (eyebrow + title + lede),
+  then `StickyIndustryScroll` component: left panel pins at `top-28` while right-side images
+  scroll; IntersectionObserver (rootMargin -25% top/bottom) detects which image is in the viewport
+  centre and triggers a `motion.div` key-swap on the left (y 18px + opacity, 280ms ease). Active
+  image gets a `border-violet-ray/80` highlight ring. Mobile: full content (text + metrics + link)
+  stacked above each image, sticky panel hidden.
+
 **In progress:** Nothing — services and who-we-serve pages complete.
 
 **Not yet done / needs Kevin:**

@@ -5,7 +5,7 @@ import { MenuIcon, CloseIcon } from '@/components/icons'
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/services', label: 'Services' },
-  { to: '/industries', label: 'Industries' },
+  { to: '/industries', label: 'Who We Serve' },
   { to: '/how-it-works', label: 'How It Works' },
   { to: '/about', label: 'About' },
   { to: '/faq', label: 'FAQ' },

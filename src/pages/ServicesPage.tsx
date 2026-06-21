@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
-import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { MetricStat, type MetricEntry } from '@/components/ui/MetricStat'
 import { AuditIcon, BuildIcon, FlaskIcon, LayersIcon, OwnIcon } from '@/components/icons'
 import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
@@ -38,26 +39,18 @@ const STEPS = [
   { icon: OwnIcon,   label: 'Own & scale',   detail: 'Yours outright, forever'  },
 ] as const
 
-type MetricEntry = {
-  value: number
-  prefix?: string
-  suffix?: string
-  label: string
-  direction: 'up' | 'down'
-}
-
 const P1_METRICS: MetricEntry[] = [
-  { value: 3,  suffix: '×',  label: 'Bookings captured',  direction: 'up'   },
-  { value: 94, prefix: '-',  suffix: '%', label: 'Missed enquiries', direction: 'down' },
-  { value: 28, prefix: '+',  suffix: '%', label: 'Monthly revenue',  direction: 'up'   },
-  { value: 7,  prefix: '-',  suffix: 'h', label: 'Admin per week',   direction: 'down' },
+  { value: 3,  suffix: '×',               label: 'Bookings captured',  direction: 'up'   },
+  { value: 94, prefix: '-', suffix: '%',  label: 'Missed enquiries',   direction: 'down' },
+  { value: 28, prefix: '+', suffix: '%',  label: 'Monthly revenue',    direction: 'up'   },
+  { value: 7,  prefix: '-', suffix: 'h',  label: 'Admin per week',     direction: 'down' },
 ]
 
 const P2_METRICS: MetricEntry[] = [
-  { value: 100, prefix: '+', suffix: '%', label: 'Same-day invoicing',  direction: 'up'   },
+  { value: 100, prefix: '+', suffix: '%', label: 'Same-day invoicing',   direction: 'up'   },
   { value: 11,  prefix: '-', suffix: 'h', label: 'Admin hours per week', direction: 'down' },
-  { value: 3,   prefix: '+', suffix: '×', label: 'Cash flow speed',     direction: 'up'   },
-  { value: 98,  prefix: '-', suffix: '%', label: 'Invoice errors',      direction: 'down' },
+  { value: 3,   prefix: '+', suffix: '×', label: 'Cash flow speed',      direction: 'up'   },
+  { value: 98,  prefix: '-', suffix: '%', label: 'Invoice errors',        direction: 'down' },
 ]
 
 const P3_METRICS: MetricEntry[] = [
@@ -67,45 +60,7 @@ const P3_METRICS: MetricEntry[] = [
   { value: 100, prefix: '-', suffix: '%', label: 'Day rate reliance',   direction: 'down' },
 ]
 
-/** Single animated metric — counts up on scroll-into-view. */
-const MetricStat = ({ value, prefix = '', suffix = '', label, direction, surface = 'light' }: MetricEntry & { surface?: 'light' | 'dark' }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-10%' })
-  const reduceMotion = useReducedMotion()
-  const [display, setDisplay] = useState(0)
-
-  useEffect(() => {
-    if (!inView) return
-    if (reduceMotion) { setDisplay(value); return }
-    let frame: number
-    const start = performance.now()
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / 1400, 1)
-      const eased = 1 - Math.pow(1 - t, 3)
-      setDisplay(Math.round(value * eased))
-      if (t < 1) frame = requestAnimationFrame(tick)
-    }
-    frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [inView, value, reduceMotion])
-
-  const numCls = direction === 'up'
-    ? (surface === 'dark' ? 'text-cyan-strong' : 'text-violet-ray')
-    : 'text-magenta-bloom'
-  const labelCls = surface === 'dark' ? 'text-offwhite/60' : 'text-navy-deep/55'
-
-  return (
-    <div ref={ref} className="flex flex-col gap-0.5">
-      <span aria-hidden className={`font-body text-xs font-bold ${numCls}`}>
-        {direction === 'up' ? '↑' : '↓'}
-      </span>
-      <span className={`font-heading text-3xl font-extrabold tabular-nums leading-none ${numCls}`}>
-        {prefix}{display}{suffix}
-      </span>
-      <span className={`font-body text-xs leading-snug ${labelCls}`}>{label}</span>
-    </div>
-  )
-}
+const METRICS_NOTE = '* Based on general industry research. Figures are illustrative and not a guarantee of results.'
 
 /** Scroll-parallax image frame with the Industries-section violet colour grade. */
 const PillarImage = ({ src, alt, borderClass, hoverBorderClass }: {
@@ -240,6 +195,7 @@ export const ServicesPage = () => (
             <div className="mt-5 grid grid-cols-2 gap-4 border-t border-navy-deep/10 pt-4">
               {P1_METRICS.map((m) => <MetricStat key={m.label} {...m} surface="light" />)}
             </div>
+            <p className="mt-3 font-body text-xs italic text-navy-deep/40">{METRICS_NOTE}</p>
           </Card>
         </Reveal>
       </div>
@@ -293,6 +249,7 @@ export const ServicesPage = () => (
             <div className="mt-5 grid grid-cols-2 gap-4 border-t border-offwhite/10 pt-4">
               {P2_METRICS.map((m) => <MetricStat key={m.label} {...m} surface="dark" />)}
             </div>
+            <p className="mt-3 font-body text-xs italic text-offwhite/35">{METRICS_NOTE}</p>
           </Card>
         </Reveal>
       </div>
@@ -346,6 +303,7 @@ export const ServicesPage = () => (
             <div className="mt-5 grid grid-cols-2 gap-4 border-t border-navy-deep/10 pt-4">
               {P3_METRICS.map((m) => <MetricStat key={m.label} {...m} surface="light" />)}
             </div>
+            <p className="mt-3 font-body text-xs italic text-navy-deep/40">{METRICS_NOTE}</p>
           </Card>
         </Reveal>
       </div>

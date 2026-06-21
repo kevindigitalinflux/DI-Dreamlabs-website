@@ -155,7 +155,24 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   animated integer. Metrics grid (2×2) added inside each "What this looks like" card, below a
   divider, showing the two most meaningful improvements that go up and two that go down per pillar.
 
-**In progress:** Nothing — services page complete.
+- `MetricStat` extracted to `src/components/ui/MetricStat.tsx` (shared); `MetricEntry` type
+  exported from there. ServicesPage now imports from the shared component.
+
+**Industries page renamed to "Who We Serve" (2026-06-21):**
+- Page eyebrow, SEO title, SEO description, and breadcrumb updated to "Who We Serve".
+  URL stays `/industries` to preserve external links and SEO.
+- Nav label ("Who We Serve") updated in SiteNav and SiteFooter.
+- Hero lede updated: "blue-collar and service SMEs alike. Find yours below and see just some
+  examples of what we could fix."
+- Bottleneck label changed from "The bottleneck we see most" to
+  "An example of a common bottleneck in this field" across all 16 industries.
+- Cleaning fix: em-dash replaced with comma.
+- Each of the 16 industry sections now shows a 2×2 `MetricStat` grid (2 up, 2 down),
+  specific to that industry's bottleneck example, with a disclaimer note below each grid:
+  "Based on general industry research. Figures are illustrative examples and should be
+  taken as indicative only, not a guarantee of results."
+
+**In progress:** Nothing — services and who-we-serve pages complete.
 
 **Not yet done / needs Kevin:**
 - Cal.com booking link → `BOOKING_URL` in `src/lib/config.ts`.

@@ -3,7 +3,7 @@ import { CONTACT_ADDRESS, CONTACT_EMAIL, CONTACT_PHONE, POSITIONING_LINE } from 
 
 const FOOTER_LINKS = [
   { to: '/services', label: 'Services' },
-  { to: '/industries', label: 'Industries' },
+  { to: '/industries', label: 'Who We Serve' },
   { to: '/how-it-works', label: 'How It Works' },
   { to: '/tools/bottleneck-check', label: 'Bottleneck Check' },
   { to: '/about', label: 'About' },

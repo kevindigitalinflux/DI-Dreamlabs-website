@@ -183,7 +183,18 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   })` on the corresponding image ref. "X of 8" counter below the dots. Mobile: full content
   stacked above each image, sticky panel and dots hidden.
 
-**In progress:** Nothing — services and who-we-serve pages complete.
+**How It Works page (2026-06-21):**
+- `StepsJourney` sub-component: same scroll-driven `scaleY` vertical line as the Method section
+  (`useScroll` + `useSpring`, `origin-top`, `bg-violet-ray`). Icon circles extracted outside `Card`
+  and set `relative z-10` so the animated line passes cleanly behind them.
+- Step 1 audit text updated: online audit is completely free; in-person visit is available at an
+  additional cost. Client keeps the written breakdown either way.
+- Guarantee reworded: money back if we do not deliver what was agreed in writing — no metric
+  promises or "hitting a bar" language removed to avoid risky commitments.
+- Step 4 retainer: explicitly "always recommended, always your choice, never a condition". Client
+  always owns the code, accounts, and data from day one.
+
+**In progress:** Nothing — services, who-we-serve, and how-it-works pages complete.
 
 **Not yet done / needs Kevin:**
 - Cal.com booking link → `BOOKING_URL` in `src/lib/config.ts`.

@@ -148,6 +148,12 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   matches section background) + `relative z-10` so the violet line is hidden behind them.
 - Example copy in all three pillar cards reworded to hypothetical scenarios
   ("Imagine…", "Picture…", "Think of…") rather than factual client statements.
+- Em-dashes replaced with commas throughout the card copy.
+- `MetricStat` component: count-up animation on scroll-into-view (`useInView` + rAF, cubic
+  ease-out, 1400ms), direction-aware colour (up = violet-ray on light / cyan-strong on dark,
+  down = magenta-bloom on both), sign prefix (+/-) rendered as static text alongside the
+  animated integer. Metrics grid (2×2) added inside each "What this looks like" card, below a
+  divider, showing the two most meaningful improvements that go up and two that go down per pillar.
 
 **In progress:** Nothing — services page complete.
 

@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -33,12 +33,81 @@ const PRODUCT_DEV_DELIVERABLES = [
 ] as const
 
 const STEPS = [
-  { icon: AuditIcon, label: 'Free audit',    detail: 'A week or less, no cost'    },
-  { icon: BuildIcon, label: 'Build & pilot', detail: '2–8 weeks on real work'     },
-  { icon: OwnIcon,   label: 'Own & scale',   detail: 'Yours outright, forever'    },
+  { icon: AuditIcon, label: 'Free audit',    detail: 'A week or less, no cost'  },
+  { icon: BuildIcon, label: 'Build & pilot', detail: '2–8 weeks on real work'   },
+  { icon: OwnIcon,   label: 'Own & scale',   detail: 'Yours outright, forever'  },
 ] as const
 
-/** Scroll-parallax image with the Industries-section violet colour grade. */
+type MetricEntry = {
+  value: number
+  prefix?: string
+  suffix?: string
+  label: string
+  direction: 'up' | 'down'
+}
+
+const P1_METRICS: MetricEntry[] = [
+  { value: 3,  suffix: '×',  label: 'Bookings captured',  direction: 'up'   },
+  { value: 94, prefix: '-',  suffix: '%', label: 'Missed enquiries', direction: 'down' },
+  { value: 28, prefix: '+',  suffix: '%', label: 'Monthly revenue',  direction: 'up'   },
+  { value: 7,  prefix: '-',  suffix: 'h', label: 'Admin per week',   direction: 'down' },
+]
+
+const P2_METRICS: MetricEntry[] = [
+  { value: 100, prefix: '+', suffix: '%', label: 'Same-day invoicing',  direction: 'up'   },
+  { value: 11,  prefix: '-', suffix: 'h', label: 'Admin hours per week', direction: 'down' },
+  { value: 3,   prefix: '+', suffix: '×', label: 'Cash flow speed',     direction: 'up'   },
+  { value: 98,  prefix: '-', suffix: '%', label: 'Invoice errors',      direction: 'down' },
+]
+
+const P3_METRICS: MetricEntry[] = [
+  { value: 220, prefix: '+', suffix: '%', label: 'Monthly revenue',    direction: 'up'   },
+  { value: 78,  prefix: '-', suffix: '%', label: 'Delivery cost',      direction: 'down' },
+  { value: 15,  suffix: '×',              label: 'Student reach',       direction: 'up'   },
+  { value: 100, prefix: '-', suffix: '%', label: 'Day rate reliance',   direction: 'down' },
+]
+
+/** Single animated metric — counts up on scroll-into-view. */
+const MetricStat = ({ value, prefix = '', suffix = '', label, direction, surface = 'light' }: MetricEntry & { surface?: 'light' | 'dark' }) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-10%' })
+  const reduceMotion = useReducedMotion()
+  const [display, setDisplay] = useState(0)
+
+  useEffect(() => {
+    if (!inView) return
+    if (reduceMotion) { setDisplay(value); return }
+    let frame: number
+    const start = performance.now()
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / 1400, 1)
+      const eased = 1 - Math.pow(1 - t, 3)
+      setDisplay(Math.round(value * eased))
+      if (t < 1) frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [inView, value, reduceMotion])
+
+  const numCls = direction === 'up'
+    ? (surface === 'dark' ? 'text-cyan-strong' : 'text-violet-ray')
+    : 'text-magenta-bloom'
+  const labelCls = surface === 'dark' ? 'text-offwhite/60' : 'text-navy-deep/55'
+
+  return (
+    <div ref={ref} className="flex flex-col gap-0.5">
+      <span aria-hidden className={`font-body text-xs font-bold ${numCls}`}>
+        {direction === 'up' ? '↑' : '↓'}
+      </span>
+      <span className={`font-heading text-3xl font-extrabold tabular-nums leading-none ${numCls}`}>
+        {prefix}{display}{suffix}
+      </span>
+      <span className={`font-body text-xs leading-snug ${labelCls}`}>{label}</span>
+    </div>
+  )
+}
+
+/** Scroll-parallax image frame with the Industries-section violet colour grade. */
 const PillarImage = ({ src, alt, borderClass, hoverBorderClass }: {
   src: string
   alt: string
@@ -72,8 +141,8 @@ const PillarImage = ({ src, alt, borderClass, hoverBorderClass }: {
 }
 
 /**
- * Three-step journey with a scroll-driven horizontal connector line —
- * exact same technique as the Method section's vertical line, rotated 90°:
+ * Three-step journey with a scroll-driven horizontal connector line,
+ * exact same technique as the Method section vertical line, rotated 90°:
  * scaleX from origin-left instead of scaleY from origin-top.
  */
 const EngagementSection = () => {
@@ -85,23 +154,15 @@ const EngagementSection = () => {
   return (
     <Section surface="dream">
       <Reveal>
-        <SectionHeading
-          eyebrow="The engagement"
-          title="How an engagement actually runs"
-          surface="dark"
-        />
+        <SectionHeading eyebrow="The engagement" title="How an engagement actually runs" surface="dark" />
       </Reveal>
-
       <div ref={ref} className="relative mx-auto mt-10 max-w-3xl">
-        {/* Faint track — same as the grey underlay in Method */}
         <div className="absolute inset-x-5 top-7 hidden h-px bg-offwhite/15 sm:block" aria-hidden />
-        {/* Animated violet line — scaleX from origin-left, mirrors Method's scaleY from origin-top */}
         <motion.div
           className="absolute inset-x-5 top-7 hidden h-px origin-left bg-violet-ray sm:block"
           style={{ scaleX: reduceMotion ? 1 : scaleX }}
           aria-hidden
         />
-
         <div className="grid gap-6 sm:grid-cols-3">
           {STEPS.map(({ icon: Icon, label, detail }, i) => (
             <Reveal key={label} delay={i * 80} className="relative z-10 text-center">
@@ -114,11 +175,8 @@ const EngagementSection = () => {
           ))}
         </div>
       </div>
-
       <Reveal className="mt-12 text-center">
-        <Button variant="primary" href="/contact">
-          Start with the free audit
-        </Button>
+        <Button variant="primary" href="/contact">Start with the free audit</Button>
       </Reveal>
     </Section>
   )
@@ -140,6 +198,7 @@ export const ServicesPage = () => (
       background={<BubblePitBackground />}
     />
 
+    {/* Pillar 1 — AI Product Engineering */}
     <Section surface="workshop">
       <Reveal>
         <SectionHeading
@@ -167,30 +226,32 @@ export const ServicesPage = () => (
         </Reveal>
         <Reveal delay={100}>
           <Card surface="light" className="h-full">
-            <h3 className="font-heading text-lg font-semibold text-navy-deep">
-              What this looks like in practice
-            </h3>
+            <h3 className="font-heading text-lg font-semibold text-navy-deep">What this looks like in practice</h3>
             <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/80">
               Imagine a cleaning company losing evening enquiries to voicemail. An AI-powered
               assistant could answer every call, give a quote from the business's own price list,
               and book the job straight into their schedule. The owner sees every booking on one
-              screen — and owns the whole thing outright.
+              screen, and owns the whole thing outright.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
               That is the pattern: one painful, expensive gap, closed by a product designed
               around how you already work.
             </p>
+            <div className="mt-5 grid grid-cols-2 gap-4 border-t border-navy-deep/10 pt-4">
+              {P1_METRICS.map((m) => <MetricStat key={m.label} {...m} surface="light" />)}
+            </div>
           </Card>
         </Reveal>
       </div>
       <PillarImage
         src="/images/services/automated-booking-system.png"
-        alt="AI-powered booking system — the kind of product our AI engineering builds"
+        alt="AI-powered booking system, the kind of product our AI engineering builds"
         borderClass="border-violet-ray/30"
         hoverBorderClass="hover:border-violet-ray/70"
       />
     </Section>
 
+    {/* Pillar 2 — Automated Systems */}
     <Section surface="dream">
       <Reveal>
         <SectionHeading
@@ -218,30 +279,32 @@ export const ServicesPage = () => (
         </Reveal>
         <Reveal delay={100}>
           <Card surface="dark" className="h-full">
-            <h3 className="font-heading text-lg font-semibold text-offwhite">
-              What this looks like in practice
-            </h3>
+            <h3 className="font-heading text-lg font-semibold text-offwhite">What this looks like in practice</h3>
             <p className="mt-3 font-body text-sm leading-relaxed text-offwhite/80">
-              Picture a maintenance firm where engineers write job sheets on paper — the office
+              Picture a maintenance firm where engineers write job sheets on paper, the office
               types them up, invoices from them, and chases the gaps. A custom app changes all
               of that: engineers tap through the job on site, invoices generate themselves, and
               the office dashboard shows every job live.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-offwhite/80">
-              Eleven hours of typing a week, gone — and the system belongs to the business,
+              Eleven hours of typing a week, gone, and the system belongs to the business,
               not to the agency.
             </p>
+            <div className="mt-5 grid grid-cols-2 gap-4 border-t border-offwhite/10 pt-4">
+              {P2_METRICS.map((m) => <MetricStat key={m.label} {...m} surface="dark" />)}
+            </div>
           </Card>
         </Reveal>
       </div>
       <PillarImage
         src="/images/services/invoice-automation.png"
-        alt="Invoice automation system — the kind of automated system we build"
+        alt="Invoice automation system, the kind of automated system we build"
         borderClass="border-cyan-strong/30"
         hoverBorderClass="hover:border-cyan-strong/70"
       />
     </Section>
 
+    {/* Pillar 3 — End-to-End Product Development */}
     <Section surface="workshop">
       <Reveal>
         <SectionHeading
@@ -269,25 +332,26 @@ export const ServicesPage = () => (
         </Reveal>
         <Reveal delay={100}>
           <Card surface="light" className="h-full">
-            <h3 className="font-heading text-lg font-semibold text-navy-deep">
-              What this looks like in practice
-            </h3>
+            <h3 className="font-heading text-lg font-semibold text-navy-deep">What this looks like in practice</h3>
             <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/80">
               Think of a trades training company with years of course content and no way to
               deliver it digitally. Discovery with their top customers shapes a learning platform
-              around how people actually consume content on site — built and deployed in eight
+              around how people actually consume content on site, built and deployed in eight
               weeks. They sell memberships, not day rates.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
               That is the pattern: a valuable idea, shaped by real user research, built into a
               product that earns from day one, owned outright by the business.
             </p>
+            <div className="mt-5 grid grid-cols-2 gap-4 border-t border-navy-deep/10 pt-4">
+              {P3_METRICS.map((m) => <MetricStat key={m.label} {...m} surface="light" />)}
+            </div>
           </Card>
         </Reveal>
       </div>
       <PillarImage
         src="/images/services/learning-platform.png"
-        alt="Learning platform — the kind of product our end-to-end development builds"
+        alt="Learning platform, the kind of product our end-to-end development builds"
         borderClass="border-magenta-bloom/30"
         hoverBorderClass="hover:border-magenta-bloom/70"
       />

@@ -133,18 +133,23 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Contact page hero intentionally left without bubbles (form-focused, less atmospheric).
 
 **Services page (2026-06-21):**
-- `HeroConstellationSvg` removed from all secondary page heroes (was the decorative line/dot
-  illustration on the right side of the dark navy banner — removed from `PageHero.tsx`).
-- Real-life industry photos replace abstract illustrations in each pillar frame:
-  cleaning.png (Pillar 1), maintenance.png (Pillar 2), specialty-trades.png (Pillar 3).
-  Frames use `aspect-[4/3]` + `object-cover`, accent-colour border, hover zoom.
-- Engagement section ("How an engagement actually runs") extracted to `EngagementSection`
-  component. Scroll-driven SVG connector line draws left-to-right between the three steps
-  as the section enters the viewport — `useScroll` + `useSpring` pathLength on a
-  `motion.path` (viewBox 100×2, `preserveAspectRatio="none"`,
-  `vectorEffect="non-scaling-stroke"`). Visible on `sm:` and above only.
+- `HeroConstellationSvg` removed from all secondary page heroes — removed from `PageHero.tsx`.
+- Real-life screenshots replace industry placeholders in each pillar frame:
+  `automated-booking-system.png` (Pillar 1), `invoice-automation.png` (Pillar 2),
+  `learning-platform.png` (Pillar 3) — stored in `public/images/services/`.
+- Pillar images use the same violet colour grade as the Industries section:
+  `bg-gradient-to-tr from-navy-deep/90 via-navy-deep/60 to-violet-ray/50 mix-blend-multiply`
+  + `bg-gradient-to-t from-navy-deep` bottom fade.
+- Scroll-parallax baked into each pillar image via `PillarImage` component: `useScroll` +
+  `useTransform` drives a `y` offset on the `motion.img` (`scale: 1.15` gives headroom);
+  respects `prefers-reduced-motion`.
+- Engagement section: scroll-driven horizontal connector line (Method div technique —
+  `scaleX` from `origin-left` via `useSpring`). Icon circles now `bg-navy-deep` (solid,
+  matches section background) + `relative z-10` so the violet line is hidden behind them.
+- Example copy in all three pillar cards reworded to hypothetical scenarios
+  ("Imagine…", "Picture…", "Think of…") rather than factual client statements.
 
-**In progress:** Services page — further build-out.
+**In progress:** Nothing — services page complete.
 
 **Not yet done / needs Kevin:**
 - Cal.com booking link → `BOOKING_URL` in `src/lib/config.ts`.

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -38,6 +38,39 @@ const STEPS = [
   { icon: OwnIcon,   label: 'Own & scale',   detail: 'Yours outright, forever'    },
 ] as const
 
+/** Scroll-parallax image with the Industries-section violet colour grade. */
+const PillarImage = ({ src, alt, borderClass, hoverBorderClass }: {
+  src: string
+  alt: string
+  borderClass: string
+  hoverBorderClass: string
+}) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+
+  return (
+    <Reveal className="mt-8">
+      <div
+        ref={ref}
+        className={`group relative mx-auto max-w-2xl overflow-hidden rounded-card border ${borderClass} shadow-card transition-colors duration-300 ${hoverBorderClass}`}
+      >
+        <div className="aspect-[4/3] overflow-hidden">
+          <motion.img
+            src={src}
+            alt={alt}
+            className="h-full w-full object-cover"
+            style={{ scale: 1.15, y: reduceMotion ? 0 : y }}
+          />
+        </div>
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-navy-deep/90 via-navy-deep/60 to-violet-ray/50 mix-blend-multiply" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-navy-deep via-transparent to-transparent" />
+      </div>
+    </Reveal>
+  )
+}
+
 /**
  * Three-step journey with a scroll-driven horizontal connector line —
  * exact same technique as the Method section's vertical line, rotated 90°:
@@ -71,8 +104,8 @@ const EngagementSection = () => {
 
         <div className="grid gap-6 sm:grid-cols-3">
           {STEPS.map(({ icon: Icon, label, detail }, i) => (
-            <Reveal key={label} delay={i * 80} className="text-center">
-              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-offwhite/10 text-cyan-strong ring-1 ring-offwhite/20">
+            <Reveal key={label} delay={i * 80} className="relative z-10 text-center">
+              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy-deep text-cyan-strong ring-1 ring-offwhite/20">
                 <Icon className="h-7 w-7" aria-hidden />
               </span>
               <h3 className="mt-4 font-heading text-base font-semibold text-offwhite">{label}</h3>
@@ -135,13 +168,13 @@ export const ServicesPage = () => (
         <Reveal delay={100}>
           <Card surface="light" className="h-full">
             <h3 className="font-heading text-lg font-semibold text-navy-deep">
-              A real example of the shape of it
+              What this looks like in practice
             </h3>
             <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/80">
-              A cleaning company kept losing evening enquiries to voicemail. We built an
-              AI-powered assistant that answers every call, gives a quote from their own price
-              list, and books the job straight into their schedule. The owner sees every booking
-              on one screen, and owns the whole thing.
+              Imagine a cleaning company losing evening enquiries to voicemail. An AI-powered
+              assistant could answer every call, give a quote from the business's own price list,
+              and book the job straight into their schedule. The owner sees every booking on one
+              screen — and owns the whole thing outright.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
               That is the pattern: one painful, expensive gap, closed by a product designed
@@ -150,18 +183,12 @@ export const ServicesPage = () => (
           </Card>
         </Reveal>
       </div>
-      <Reveal className="mt-8">
-        <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-violet-ray/30 bg-white shadow-card transition-colors duration-300 hover:border-violet-ray/70">
-          <div className="aspect-[4/3]">
-            <img
-              src="/images/industries/cleaning.png"
-              alt="Cleaning business — the kind of operation our AI product engineering serves"
-              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-violet-ray/10 to-transparent" />
-        </div>
-      </Reveal>
+      <PillarImage
+        src="/images/services/automated-booking-system.png"
+        alt="AI-powered booking system — the kind of product our AI engineering builds"
+        borderClass="border-violet-ray/30"
+        hoverBorderClass="hover:border-violet-ray/70"
+      />
     </Section>
 
     <Section surface="dream">
@@ -192,32 +219,27 @@ export const ServicesPage = () => (
         <Reveal delay={100}>
           <Card surface="dark" className="h-full">
             <h3 className="font-heading text-lg font-semibold text-offwhite">
-              A real example of the shape of it
+              What this looks like in practice
             </h3>
             <p className="mt-3 font-body text-sm leading-relaxed text-offwhite/80">
-              A maintenance firm's engineers wrote job sheets on paper; the office typed them up,
-              invoiced from them, and chased the gaps. We replaced the loop with a simple app:
-              engineers tap through the job on site, invoices generate themselves, and the office
-              dashboard shows every job live.
+              Picture a maintenance firm where engineers write job sheets on paper — the office
+              types them up, invoices from them, and chases the gaps. A custom app changes all
+              of that: engineers tap through the job on site, invoices generate themselves, and
+              the office dashboard shows every job live.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-offwhite/80">
-              Eleven hours of typing a week, gone, and the system belongs to them, not to us.
+              Eleven hours of typing a week, gone — and the system belongs to the business,
+              not to the agency.
             </p>
           </Card>
         </Reveal>
       </div>
-      <Reveal className="mt-8">
-        <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-cyan-strong/30 bg-offwhite/95 shadow-card transition-colors duration-300 hover:border-cyan-strong/70">
-          <div className="aspect-[4/3]">
-            <img
-              src="/images/industries/maintenance.png"
-              alt="Maintenance firm — the kind of operation our automated systems serve"
-              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cyan-strong/10 to-transparent" />
-        </div>
-      </Reveal>
+      <PillarImage
+        src="/images/services/invoice-automation.png"
+        alt="Invoice automation system — the kind of automated system we build"
+        borderClass="border-cyan-strong/30"
+        hoverBorderClass="hover:border-cyan-strong/70"
+      />
     </Section>
 
     <Section surface="workshop">
@@ -248,33 +270,27 @@ export const ServicesPage = () => (
         <Reveal delay={100}>
           <Card surface="light" className="h-full">
             <h3 className="font-heading text-lg font-semibold text-navy-deep">
-              A real example of the shape of it
+              What this looks like in practice
             </h3>
             <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/80">
-              A trades training company had years of course content and no way to deliver it
-              digitally. We ran discovery with their top customers, designed a learning platform
-              around how people actually consume content on site, and built and deployed it in
-              eight weeks. They now sell memberships, not day rates.
+              Think of a trades training company with years of course content and no way to
+              deliver it digitally. Discovery with their top customers shapes a learning platform
+              around how people actually consume content on site — built and deployed in eight
+              weeks. They sell memberships, not day rates.
             </p>
             <p className="mt-4 font-body text-sm leading-relaxed text-navy-deep/80">
               That is the pattern: a valuable idea, shaped by real user research, built into a
-              product that earns from day one, and owned outright by the business.
+              product that earns from day one, owned outright by the business.
             </p>
           </Card>
         </Reveal>
       </div>
-      <Reveal className="mt-8">
-        <div className="group relative mx-auto max-w-2xl overflow-hidden rounded-card border border-magenta-bloom/30 bg-white shadow-card transition-colors duration-300 hover:border-magenta-bloom/70">
-          <div className="aspect-[4/3]">
-            <img
-              src="/images/industries/specialty-trades.png"
-              alt="Trades business — the kind of operation our product development serves"
-              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-magenta-bloom/10 to-transparent" />
-        </div>
-      </Reveal>
+      <PillarImage
+        src="/images/services/learning-platform.png"
+        alt="Learning platform — the kind of product our end-to-end development builds"
+        borderClass="border-magenta-bloom/30"
+        hoverBorderClass="hover:border-magenta-bloom/70"
+      />
     </Section>
 
     <EngagementSection />

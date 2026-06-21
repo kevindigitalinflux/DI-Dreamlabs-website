@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
@@ -259,41 +259,68 @@ function StickyIndustryScroll({ blocks, surface }: { blocks: IndustryBlock[]; su
 
       {/* LEFT — sticky text panel, desktop only */}
       <div className="hidden lg:block lg:sticky lg:top-28">
-        <motion.div
-          key={activeIndex}
-          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
-        >
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
-              <ActiveIcon className="h-5 w-5" aria-hidden />
-            </span>
-            <h3 className={`font-heading text-2xl font-semibold md:text-[2rem] ${textBase}`}>
-              {active.name}
-            </h3>
-          </div>
-          <p className={`mt-5 font-body text-base leading-relaxed ${textMuted}`}>
-            <strong className="font-medium">An example of a common bottleneck in this field:</strong>{' '}
-            {active.pain}
-          </p>
-          <p className={`mt-3 font-body text-base leading-relaxed ${textMuted}`}>
-            <strong className="font-medium">What we build:</strong>{' '}{active.fix}
-          </p>
-          <div className={`mt-6 grid grid-cols-2 gap-4 border-t ${dividerCls} pt-5`}>
-            {active.metrics.map(m => (
-              <MetricStat key={m.label} {...m} surface={isDark ? 'dark' : 'light'} />
-            ))}
-          </div>
-          <p className={`mt-3 font-body text-xs italic ${noteCls}`}>{METRICS_NOTE}</p>
-          <Link
-            to={`/tools/bottleneck-check?industry=${active.slug}`}
-            className={`mt-6 inline-flex items-center gap-2 font-body text-sm font-bold hover:underline ${linkCls}`}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
           >
-            Check your {active.name.toLowerCase()} bottleneck
-            <ArrowRightIcon className="h-4 w-4" aria-hidden />
-          </Link>
-        </motion.div>
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
+                <ActiveIcon className="h-5 w-5" aria-hidden />
+              </span>
+              <h3 className={`font-heading text-2xl font-semibold md:text-[2rem] ${textBase}`}>
+                {active.name}
+              </h3>
+            </div>
+            <p className={`mt-5 font-body text-base leading-relaxed ${textMuted}`}>
+              <strong className="font-medium">An example of a common bottleneck in this field:</strong>{' '}
+              {active.pain}
+            </p>
+            <p className={`mt-3 font-body text-base leading-relaxed ${textMuted}`}>
+              <strong className="font-medium">What we build:</strong>{' '}{active.fix}
+            </p>
+            <div className={`mt-6 grid grid-cols-2 gap-4 border-t ${dividerCls} pt-5`}>
+              {active.metrics.map(m => (
+                <MetricStat key={m.label} {...m} surface={isDark ? 'dark' : 'light'} />
+              ))}
+            </div>
+            <p className={`mt-3 font-body text-xs italic ${noteCls}`}>{METRICS_NOTE}</p>
+            <Link
+              to={`/tools/bottleneck-check?industry=${active.slug}`}
+              className={`mt-6 inline-flex items-center gap-2 font-body text-sm font-bold hover:underline ${linkCls}`}
+            >
+              Check your {active.name.toLowerCase()} bottleneck
+              <ArrowRightIcon className="h-4 w-4" aria-hidden />
+            </Link>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Pill-dot navigation — shows all industries, active expands, click scrolls to image */}
+        <div className="mt-8 flex flex-wrap gap-2" role="list" aria-label="Industry navigation">
+          {blocks.map((block, i) => (
+            <button
+              key={block.slug}
+              type="button"
+              role="listitem"
+              aria-label={`Jump to ${block.name}`}
+              aria-current={i === activeIndex ? 'true' : undefined}
+              onClick={() => imgRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+              className={`h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                i === activeIndex
+                  ? `w-8 ${isDark ? 'bg-cyan-strong' : 'bg-violet-ray'}`
+                  : `w-2 cursor-pointer ${isDark ? 'bg-offwhite/25 hover:bg-offwhite/50' : 'bg-navy-deep/20 hover:bg-navy-deep/40'}`
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Counter label — e.g. "3 of 8" */}
+        <p className={`mt-3 font-body text-xs ${noteCls}`}>
+          {activeIndex + 1} of {blocks.length}
+        </p>
       </div>
 
       {/* RIGHT — scrolling images (+ full content on mobile) */}

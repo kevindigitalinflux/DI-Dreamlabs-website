@@ -176,9 +176,12 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   sticky-scroll layouts. Each group starts with an intro SectionHeading (eyebrow + title + lede),
   then `StickyIndustryScroll` component: left panel pins at `top-28` while right-side images
   scroll; IntersectionObserver (rootMargin -25% top/bottom) detects which image is in the viewport
-  centre and triggers a `motion.div` key-swap on the left (y 18px + opacity, 280ms ease). Active
-  image gets a `border-violet-ray/80` highlight ring. Mobile: full content (text + metrics + link)
-  stacked above each image, sticky panel hidden.
+  centre. Text transitions use `AnimatePresence mode="wait"` (exit: y -12 + opacity in 0.22s,
+  enter: y +16 + opacity in 0.22s). Active image gets a `border-violet-ray/80` highlight ring.
+  Pill-dot navigation below left panel: active industry expands to `w-8` pill (violet-ray / 
+  cyan-strong), inactive dots are `w-2`; clicking any dot calls `scrollIntoView({ block: 'center'
+  })` on the corresponding image ref. "X of 8" counter below the dots. Mobile: full content
+  stacked above each image, sticky panel and dots hidden.
 
 **In progress:** Nothing — services and who-we-serve pages complete.
 

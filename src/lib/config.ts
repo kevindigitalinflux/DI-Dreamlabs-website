@@ -9,7 +9,7 @@ export const BOOKING_URL: string | null = null
 export const SITE_URL = 'https://di-dreamlabs.com'
 export const SITE_NAME = 'DI Dreamlabs'
 export const POSITIONING_LINE =
-  'Enterprise capability. Human-scale pricing. Built for the businesses that build the world.'
+  'Enterprise capability. Human-scale pricing. Built for the businesses that build and service the world.'
 
 /** Real contact details pending from Kevin — keep null until supplied. */
 export const CONTACT_EMAIL: string | null = 'kevindigitalinflux@gmail.com'

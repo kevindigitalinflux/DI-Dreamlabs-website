@@ -18,7 +18,7 @@ const STEPS = [
     title: 'Step 1: Free audit',
     duration: 'About a week',
     detail:
-      'Most audits happen via video call — we watch how work flows through your business and talk to the people doing it. If your operation needs an in-person visit to map it properly, that is available at an additional cost. Either way, you walk away with a written breakdown: the bottlenecks we found, what each one costs you monthly, and what we would build first. The online audit costs nothing, and you keep the breakdown regardless.',
+      'Most audits happen via video call, we watch how work flows through your business and talk to the people doing it. If your operation needs an in-person visit to map it properly, that is available at an additional cost. Either way, you walk away with a written breakdown: the bottlenecks we found, what each one costs you monthly, and what we would build first. The online audit costs nothing, and you keep the breakdown regardless.',
   },
   {
     icon: BuildIcon,

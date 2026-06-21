@@ -1,10 +1,9 @@
-import { useRef } from 'react'
+import { useRef, Fragment, type ReactNode } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { POSITIONING_LINE } from '@/lib/config'
 import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
@@ -28,41 +27,66 @@ const PILLARS = [
   },
 ] as const
 
+const BEAM_BG =
+  'conic-gradient(from var(--gradient-angle), transparent 0%, #8B32FF 38%, #C088FF 50%, transparent 62%)'
+
+/** Card with the same rotating beam border as the LightBeamButton CTA. */
+const BeamCard = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
+  <div
+    className={`relative overflow-hidden rounded-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover ${className}`}
+  >
+    <div
+      aria-hidden
+      className="absolute inset-0"
+      style={{ background: BEAM_BG, animation: 'border-spin 2.5s linear infinite' }}
+    />
+    <div className="absolute inset-[1.5px] rounded-card bg-white" />
+    <div className="relative z-10 h-full p-6">{children}</div>
+  </div>
+)
+
 /**
- * Per-letter fade-in, slide-up, and blur-to-clear animation triggered on scroll.
- * Screen readers see the full text via the sr-only sibling; the visual letters are aria-hidden.
+ * Per-letter fade-in, slide-up, blur-to-clear animation on scroll entry.
+ * Characters are grouped by word (white-space: nowrap) so the browser can only
+ * break lines at spaces — never mid-word.
  */
 const LetterBlur = ({ text }: { text: string }) => {
   const reduceMotion = useReducedMotion()
+  const words = text.split(' ')
+  let pos = 0
   return (
     <div>
       <p className="sr-only">{text}</p>
-      <p
-        aria-hidden
-        className="font-heading text-lg font-semibold text-navy-deep md:text-xl"
-      >
-        {text.split('').map((char, i) =>
-          char === ' ' ? (
-            <span key={i}>{' '}</span>
-          ) : (
-            <motion.span
-              key={i}
-              initial={reduceMotion ? false : { opacity: 0, y: 16, filter: 'blur(6px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true, margin: '-5%' }}
-              transition={{ duration: 0.5, delay: i * 0.018, ease: 'easeOut' }}
-              style={{ display: 'inline-block' }}
-            >
-              {char}
-            </motion.span>
+      <p aria-hidden className="font-heading text-lg font-semibold text-navy-deep md:text-xl">
+        {words.map((word, wi) => {
+          const wordStart = pos
+          pos += word.length + 1
+          return (
+            <Fragment key={wi}>
+              <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+                {word.split('').map((char, ci) => (
+                  <motion.span
+                    key={ci}
+                    initial={reduceMotion ? false : { opacity: 0, y: 16, filter: 'blur(6px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-5%' }}
+                    transition={{ duration: 0.5, delay: (wordStart + ci) * 0.018, ease: 'easeOut' }}
+                    style={{ display: 'inline-block' }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+              {wi < words.length - 1 && ' '}
+            </Fragment>
           )
-        )}
+        })}
       </p>
     </div>
   )
 }
 
-/** Parallax image frame — same scroll-driven technique as ServicesPage pillar images. */
+/** Parallax image frame for the story section. */
 const StoryImage = () => {
   const ref = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
@@ -93,9 +117,8 @@ const StoryImage = () => {
 }
 
 /**
- * Scroll-driven pyramid formation.
- * All three cards start clustered at the centre of the layout, then spread:
- * the top card rises and grows, the two bottom cards fan out left and right.
+ * Scroll-driven pyramid formation: all three cards start clustered at the centre,
+ * then spread — apex card rises and grows, base cards fan out left and right.
  */
 const PillarsPyramid = () => {
   const ref = useRef<HTMLDivElement>(null)
@@ -103,61 +126,50 @@ const PillarsPyramid = () => {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 70%', 'center 55%'] })
   const smooth = useSpring(scrollYProgress, { stiffness: 60, damping: 18 })
 
-  // Card 0 (top centre): rises up from the shared cluster below
-  const y0     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [130, 0])
+  const y0     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [130,  0])
   const scale0 = useTransform(smooth, [0, 1], reduceMotion ? [1, 1] : [0.8,  1])
-
-  // Card 1 (bottom left): comes in from the right and above
-  const x1     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [120, 0])
+  const x1     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [120,  0])
   const y1     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [-80,  0])
   const scale1 = useTransform(smooth, [0, 1], reduceMotion ? [1, 1] : [0.9,  1])
-
-  // Card 2 (bottom right): mirror of Card 1
   const x2     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [-120, 0])
   const y2     = useTransform(smooth, [0, 1], reduceMotion ? [0, 0] : [-80,  0])
   const scale2 = useTransform(smooth, [0, 1], reduceMotion ? [1, 1] : [0.9,  1])
-
   const opacity = useTransform(smooth, [0, 0.3], [0, 1])
 
   return (
     <div ref={ref} className="overflow-x-hidden">
       <div className="flex flex-col items-center gap-6">
-        {/* Apex card — grows and rises into place */}
-        <motion.div
-          style={{ y: y0, scale: scale0, opacity }}
-          className="w-full max-w-sm"
-        >
-          <Card surface="light" className="ring-1 ring-violet-ray/40 shadow-card">
+        <motion.div style={{ y: y0, scale: scale0, opacity }} className="w-full max-w-sm">
+          <BeamCard>
             <h3 className="font-heading text-xl font-semibold text-navy-deep">
               {PILLARS[0].name}
             </h3>
             <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">
               {PILLARS[0].detail}
             </p>
-          </Card>
+          </BeamCard>
         </motion.div>
 
-        {/* Base row — fan out from centre */}
         <div className="flex w-full gap-6">
           <motion.div style={{ x: x1, y: y1, scale: scale1, opacity }} className="flex-1">
-            <Card surface="light" className="h-full">
+            <BeamCard className="h-full">
               <h3 className="font-heading text-lg font-semibold text-navy-deep">
                 {PILLARS[1].name}
               </h3>
               <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">
                 {PILLARS[1].detail}
               </p>
-            </Card>
+            </BeamCard>
           </motion.div>
           <motion.div style={{ x: x2, y: y2, scale: scale2, opacity }} className="flex-1">
-            <Card surface="light" className="h-full">
+            <BeamCard className="h-full">
               <h3 className="font-heading text-lg font-semibold text-navy-deep">
                 {PILLARS[2].name}
               </h3>
               <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">
                 {PILLARS[2].detail}
               </p>
-            </Card>
+            </BeamCard>
           </motion.div>
         </div>
       </div>
@@ -225,7 +237,7 @@ export const AboutPage = () => (
 
     <Section surface="workshop">
       <Reveal>
-        <SectionHeading eyebrow="What we stand on" title="Three pillars" surface="light" />
+        <SectionHeading eyebrow="What we stand on" title="Our three-pillar vision" surface="light" />
       </Reveal>
       <div className="mt-10">
         <PillarsPyramid />

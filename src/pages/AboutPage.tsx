@@ -77,7 +77,7 @@ const StoryImage = () => {
       >
         <div className="aspect-[3/4] overflow-hidden">
           <motion.img
-            src="/images/services/end-to-end-product.jpg"
+            src="/images/about/story.png"
             alt="The Dreamlabs team at work"
             className="h-full w-full object-cover"
             style={{ scale: 1.15, y: reduceMotion ? 0 : y }}
@@ -100,7 +100,7 @@ const StoryImage = () => {
 const PillarsPyramid = () => {
   const ref = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 85%', 'end 35%'] })
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 70%', 'center 55%'] })
   const smooth = useSpring(scrollYProgress, { stiffness: 60, damping: 18 })
 
   // Card 0 (top centre): rises up from the shared cluster below

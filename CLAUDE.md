@@ -258,22 +258,30 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   (AnimatePresence) to always-visible `whileInView` animation — touch-device fix.
 - `BOOKING_URL` activated in `src/lib/config.ts`: `'kevin-zamora-saenz-a1nikc/30min'`.
 
-**Session 2026-06-23 — Supabase setup:**
+**Session 2026-06-23 — Supabase + Cloudflare deployment:**
 - Supabase MCP server added to project (`.mcp.json`): project ref `dbkxlmvblsqwpsqamwwj`.
 - Supabase agent skills installed (`npx skills add supabase/agent-skills`) — 2 skills:
   "Supabase" and "Postgres Best Practices" in `.agents/skills/`.
 - `leads` table created via MCP migration on Supabase project `dbkxlmvblsqwpsqamwwj`.
   RLS enabled, zero policies — service-role key only. Matches `docs/supabase-leads.sql`.
 - Supabase project URL: `https://dbkxlmvblsqwpsqamwwj.supabase.co`
+- Cloudflare Pages project created: `di-dreamlabs-website` (account: kevindigitalinflux@gmail.com).
+- First production deployment via `wrangler pages deploy dist` — 148 files uploaded, Pages
+  Function (`functions/api/lead.ts`) detected and deployed (`uses_functions: true`).
+- **Live at: https://di-dreamlabs-website.pages.dev**
+- `SUPABASE_URL` already set as env var in both production and preview environments.
+- To redeploy: `npm run build && npx wrangler pages deploy dist --project-name di-dreamlabs-website`
+  (wrangler is now authenticated on this machine).
 
 **In progress:** Nothing.
 
 **Not yet done / needs Kevin:**
-- **Cloudflare Pages env vars** — add in Pages dashboard → Settings → Environment Variables:
-  - `SUPABASE_URL` = `https://dbkxlmvblsqwpsqamwwj.supabase.co`
-  - `SUPABASE_SERVICE_ROLE_KEY` = get from Supabase Dashboard → Project Settings → API → `service_role` (secret key — never commit)
+- **Add `SUPABASE_SERVICE_ROLE_KEY` to Cloudflare Pages** — Pages dashboard → di-dreamlabs-website
+  → Settings → Environment Variables. Get value from: Supabase Dashboard → Project Settings →
+  API → `service_role` key (the long secret one — never commit it). Until set, the contact form
+  returns 202 (success UI shown to user) but leads are not stored.
 - **WAF rate-limit rule** on `/api/lead` (30 req/min/IP) — Cloudflare dashboard, see `docs/security-audit-2026-06-12.md`.
-- **Live test of `/api/lead`** once env vars are set on a Pages preview deploy (vite preview can't run Pages Functions).
+- **Custom domain** (di-dreamlabs.com) — Cloudflare Pages → di-dreamlabs-website → Custom domains.
 - Phone and address → `src/lib/config.ts` (footer + JSON-LD schema).
 - Legal pages need a solicitor pass; company details are placeholders.
 - n8n automations in `docs/automations-required.md` — not yet built.

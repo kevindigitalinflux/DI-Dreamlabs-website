@@ -7,7 +7,7 @@ export const SHOW_PROOF = false
  * Cal.com booking link — the path only, e.g. "kevin-di/free-audit".
  * Set this once Kevin's Cal.com event is live; the calendar embed activates automatically.
  */
-export const BOOKING_URL: string | null = null
+export const BOOKING_URL: string | null = 'kevin-zamora-saenz-a1nikc/30min'
 
 export const SITE_URL = 'https://di-dreamlabs.com'
 export const SITE_NAME = 'DI Dreamlabs'

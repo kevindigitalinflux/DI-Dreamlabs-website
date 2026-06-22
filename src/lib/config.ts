@@ -3,7 +3,10 @@
 /** Results/Proof section stays hidden until real case studies exist (spec §4). */
 export const SHOW_PROOF = false
 
-/** Cal.com booking URL — replace when Kevin supplies the real link. */
+/**
+ * Cal.com booking link — the path only, e.g. "kevin-di/free-audit".
+ * Set this once Kevin's Cal.com event is live; the calendar embed activates automatically.
+ */
 export const BOOKING_URL: string | null = null
 
 export const SITE_URL = 'https://di-dreamlabs.com'

@@ -18,7 +18,7 @@ export const SiteIntro = () => {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-navy-deep"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-violet-ray"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.06 }}
           transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}

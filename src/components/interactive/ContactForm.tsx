@@ -97,7 +97,7 @@ export const ContactForm = () => {
         </Select>
       </div>
       <TextArea
-        label="What's slowing you down?"
+        label="What are your biggest bottlenecks slowing you down or making you lose money?"
         hint="A sentence or two is plenty, we'll dig into the detail together."
         value={message}
         onChange={(e) => setMessage(e.target.value)}

@@ -267,7 +267,7 @@ export const AboutPage = () => (
         <SectionHeading
           eyebrow="The talent engine"
           title="How we keep enterprise quality at SME pricing"
-          lede="Dreamlabs is the sister company of Digital Influx Academy, our in-house talent pipeline. We do not source expensive external contractors; we develop our own engineers, designers and builders. That model is the whole trick: big-firm capability without big-firm overheads, and no compromise on quality to get there."
+          lede="Dreamlabs is a partner company to Digital Influx Academy, based in London, and UX Tree, based in Dublin — two internationally established EdTech companies that serve as our in-house talent engine. We do not source expensive external contractors; we draw from a pipeline of engineers, designers and builders developed by institutions with a track record across two countries. That model is the whole trick: big-firm capability without big-firm overheads, and no compromise on quality to get there."
           surface="dark"
         />
       </Reveal>

@@ -233,6 +233,12 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - "Do you only work with blue-collar businesses?" → "Do you only work with blue-collar and service businesses?" with updated answer covering both audiences.
 - CRM answer: em-dash replaced with comma ("Good, we build around it.").
 
+**Talent engine copy update (2026-06-22):**
+- About page "The talent engine" lede updated: Dreamlabs is now a partner company to both
+  Digital Influx Academy (London) and UX Tree (Dublin), described as two internationally
+  established EdTech companies serving as the in-house talent engine. "Sister company"
+  language removed; geographic context added for both partners.
+
 **In progress:** Nothing — all secondary pages and FAQ complete.
 
 **Not yet done / needs Kevin:**

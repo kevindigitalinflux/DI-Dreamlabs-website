@@ -52,7 +52,7 @@ export const ContactPage = () => (
 
         {/* Right — Cal.com booking */}
         <Reveal delay={100}>
-          <div className="rounded-card bg-navy-deep p-8">
+          <div className="rounded-card bg-navy-deep p-6 md:p-8">
             <div className="flex items-center gap-3">
               <ScheduleIcon className="h-6 w-6 text-cyan-strong" aria-hidden />
               <p className="font-body text-sm font-semibold uppercase tracking-widest text-offwhite/60">

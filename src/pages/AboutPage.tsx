@@ -1,5 +1,5 @@
 import { useRef, Fragment, useState, type ReactNode } from 'react'
-import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValue, AnimatePresence } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValue } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -150,34 +150,26 @@ const TalentPartnerCard = ({ name, hq, logo, tagline, countries, beamSpeed }: Ta
           <p className="mt-0.5 font-body text-xs text-navy-deep/50">{hq}</p>
           <div className="mt-3 h-px w-10 bg-violet-ray/60" />
           <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/70">{tagline}</p>
-          <AnimatePresence>
-            {hovered && (
-              <motion.div
-                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
-                exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                transition={{ duration: 0.22 }}
-                className="overflow-hidden"
-              >
-                <p className="mb-2 font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-ray">
-                  Global reach
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {countries.map((country, i) => (
-                    <motion.span
-                      key={country}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05, duration: 0.18 }}
-                      className="rounded-full border border-violet-ray/25 bg-violet-ray/10 px-3 py-0.5 font-body text-xs text-navy-deep"
-                    >
-                      {country}
-                    </motion.span>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Global reach — always visible (hover-only fails on touch screens) */}
+          <div className="mt-4">
+            <p className="mb-2 font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-ray">
+              Global reach
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {countries.map((country, i) => (
+                <motion.span
+                  key={country}
+                  initial={{ opacity: 0, y: 6 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06, duration: 0.2 }}
+                  className="rounded-full border border-violet-ray/25 bg-violet-ray/10 px-3 py-0.5 font-body text-xs text-navy-deep"
+                >
+                  {country}
+                </motion.span>
+              ))}
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>

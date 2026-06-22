@@ -50,7 +50,11 @@ export const HeroCloudWipe = () => {
       // ~928px). Creating the ScrollTrigger
       // exactly once, only after `ready`, avoids the bug entirely.
       if (!ready) return
+      // Without reduced motion: make wrapper visible now that GSAP will immediately
+      // push cloud layers below the fold. Keeping opacity:0 until this point prevents
+      // the flash where cloud layers sit at y:0 (visible) before GSAP positions them.
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      gsap.set(wipeRef.current!, { opacity: 1 })
       const canvas = canvasRef.current
       const backdrop = backdropRef.current
       if (!canvas || !backdrop) return
@@ -105,7 +109,7 @@ export const HeroCloudWipe = () => {
   )
 
   return (
-    <div ref={wipeRef} aria-hidden className="pointer-events-none absolute inset-0 z-[60] overflow-hidden">
+    <div ref={wipeRef} aria-hidden className="pointer-events-none absolute inset-0 z-[60] overflow-hidden" style={{ opacity: 0 }}>
       <div ref={backdropRef} className="absolute inset-0 bg-navy-deep opacity-0" />
       <div ref={canvasRef} className="absolute inset-0">
         <AtmosphereDefs />

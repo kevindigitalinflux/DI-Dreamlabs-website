@@ -52,7 +52,16 @@ export const SiteFooter = () => (
           Get in touch
         </h2>
         <ul className="mt-4 space-y-2 font-body text-sm text-offwhite/80">
-          <li>{CONTACT_EMAIL ?? 'hello@di-dreamlabs.com (TBC)'}</li>
+          <li>
+            <a
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_EMAIL ?? 'hello@di-dreamlabs.com'}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-violet-text"
+            >
+              {CONTACT_EMAIL ?? 'hello@di-dreamlabs.com (TBC)'}
+            </a>
+          </li>
           {CONTACT_PHONE && <li>{CONTACT_PHONE}</li>}
           <li>{CONTACT_ADDRESS ?? 'London, United Kingdom'}</li>
         </ul>

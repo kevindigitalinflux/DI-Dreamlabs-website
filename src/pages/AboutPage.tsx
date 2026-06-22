@@ -1,5 +1,5 @@
-import { useRef, Fragment, type ReactNode } from 'react'
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useRef, Fragment, useState, type ReactNode } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValue, AnimatePresence } from 'framer-motion'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -29,6 +29,37 @@ const PILLARS = [
       'We build for your specific problem, not a generic one. Every system is designed from the ground up.',
   },
 ] as const
+
+interface TalentPartner {
+  id: string
+  name: string
+  hq: string
+  logo: string
+  tagline: string
+  countries: readonly string[]
+  beamSpeed: number
+}
+
+const TALENT_PARTNERS: TalentPartner[] = [
+  {
+    id: 'dia',
+    name: 'Influx Academy',
+    hq: 'London, UK',
+    logo: '/images/about/digital-influx-logo.svg',
+    tagline: 'Producing AI Product Designers who are job-ready builders from day one.',
+    countries: ['UK', 'US', 'Australia', 'Hong Kong', 'Nigeria'],
+    beamSpeed: 3,
+  },
+  {
+    id: 'uxt',
+    name: 'UX Tree',
+    hq: 'Dublin, Ireland',
+    logo: '/images/about/ux-tree-logo.png',
+    tagline: 'Producing experienced UX Designers and AI Product Strategists ready to deliver.',
+    countries: ['Ireland', 'Europe'],
+    beamSpeed: 2.2,
+  },
+]
 
 const BEAM_BG =
   'conic-gradient(from var(--gradient-angle), transparent 0%, #8B32FF 38%, #C088FF 50%, transparent 62%)'
@@ -63,6 +94,95 @@ const BeamCard = ({
     <div className="relative z-10 h-full p-7">{children}</div>
   </div>
 )
+
+/** Interactive 3D-tilt partner institution card with hover-reveal country reach. */
+const TalentPartnerCard = ({ name, hq, logo, tagline, countries, beamSpeed }: TalentPartner) => {
+  const [hovered, setHovered] = useState(false)
+  const reduceMotion = useReducedMotion()
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], reduceMotion ? [0, 0] : [6, -6])
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], reduceMotion ? [0, 0] : [-6, 6])
+
+  const track = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    mouseX.set((e.clientX - r.left) / r.width - 0.5)
+    mouseY.set((e.clientY - r.top) / r.height - 0.5)
+  }
+  const reset = () => {
+    mouseX.set(0)
+    mouseY.set(0)
+    setHovered(false)
+  }
+
+  return (
+    <div
+      style={{ perspective: '900px' }}
+      onMouseMove={track}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={reset}
+      className="cursor-pointer"
+    >
+      <motion.div
+        style={{ rotateX, rotateY }}
+        animate={{
+          boxShadow: hovered
+            ? '0 12px 48px -4px rgba(139,50,255,0.5), 0 4px 12px rgba(0,0,0,0.10)'
+            : '0 4px 24px -6px rgba(139,50,255,0.22), 0 1px 3px rgba(0,0,0,0.06)',
+        }}
+        transition={{ duration: 0.3 }}
+        className="relative overflow-hidden rounded-card"
+      >
+        {/* Rotating beam border */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{ background: BEAM_BG, animation: `border-spin ${beamSpeed}s linear infinite` }}
+        />
+        {/* White inner fill */}
+        <div className="absolute inset-[2.5px] rounded-card bg-gradient-to-br from-white via-white to-offwhite" />
+        {/* Content */}
+        <div className="relative z-10 p-7">
+          <div className="mb-5 flex h-12 items-center">
+            <img src={logo} alt={`${name} logo`} className="max-h-full max-w-[140px] object-contain" />
+          </div>
+          <h3 className="font-heading text-xl font-bold text-navy-deep">{name}</h3>
+          <p className="mt-0.5 font-body text-xs text-navy-deep/50">{hq}</p>
+          <div className="mt-3 h-px w-10 bg-violet-ray/60" />
+          <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/70">{tagline}</p>
+          <AnimatePresence>
+            {hovered && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.22 }}
+                className="overflow-hidden"
+              >
+                <p className="mb-2 font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-ray">
+                  Global reach
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {countries.map((country, i) => (
+                    <motion.span
+                      key={country}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05, duration: 0.18 }}
+                      className="rounded-full border border-violet-ray/25 bg-violet-ray/10 px-3 py-0.5 font-body text-xs text-navy-deep"
+                    >
+                      {country}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
 
 /**
  * Per-letter fade-in, slide-up, blur-to-clear animation on scroll entry.
@@ -267,9 +387,16 @@ export const AboutPage = () => (
         <SectionHeading
           eyebrow="The talent engine"
           title="How we keep enterprise quality at SME pricing"
-          lede="Dreamlabs is a partner company to Digital Influx Academy, based in London, and UX Tree, based in Dublin — two internationally established EdTech companies that serve as our in-house talent engine. We do not source expensive external contractors; we draw from a pipeline of engineers, designers and builders developed by institutions with a track record across two countries. That model is the whole trick: big-firm capability without big-firm overheads, and no compromise on quality to get there."
+          lede="Dreamlabs is a partner company to Digital Influx Academy, based in London, and UX Tree, based in Dublin, two internationally established EdTech institutions that serve as our in-house talent pipeline. Together, they draw from communities spanning Ireland, the UK, the US, Australia, Hong Kong, Nigeria, and beyond. We do not source expensive external contractors; we draw from a pipeline of engineers, designers and builders developed by institutions with that kind of global reach. Big-firm capability, human-scale pricing, no compromise on quality."
           surface="dark"
         />
+      </Reveal>
+      <Reveal className="mt-10">
+        <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
+          {TALENT_PARTNERS.map((p) => (
+            <TalentPartnerCard key={p.id} {...p} />
+          ))}
+        </div>
       </Reveal>
     </Section>
 

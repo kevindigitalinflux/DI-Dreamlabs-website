@@ -69,7 +69,7 @@ export const ContactPage = () => (
 
             <div className="mt-6">
               {BOOKING_URL ? (
-                <CalInlineEmbed calLink={BOOKING_URL} />
+                <CalInlineEmbed />
               ) : (
                 <div className="flex min-h-[280px] flex-col items-center justify-center gap-4 rounded-card border border-dashed border-offwhite/20 text-center">
                   <ScheduleIcon className="h-10 w-10 text-offwhite/20" aria-hidden />

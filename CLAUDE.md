@@ -213,7 +213,27 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Three Pillars section title: "Our three-pillar vision" (eyebrow unchanged: "What we stand on").
 - How It Works page: em-dash replaced with comma in Step 1 text.
 
-**In progress:** Nothing — services, who-we-serve, how-it-works, and about pages complete.
+**SiteIntro (2026-06-22):**
+- `src/components/SiteIntro.tsx` — full-screen `bg-violet-ray` overlay with centred logo on every
+  initial page load. 500 ms display then 300 ms opacity fade-out via `AnimatePresence`. Logo
+  animates in with opacity + scale (0.2 s). Mounted in `SiteLayout` above `<SiteNav>`. Covers
+  hero video / canvas initialisation so the first impression is always clean.
+
+**BeamCard improvements (2026-06-22):**
+- `inset-[2.5px]` border (was 1.5 px) — beam visibly bold.
+- Ambient glow: `box-shadow rgba(139,50,255,0.22)` at rest + `hover:shadow-glow-violet`.
+- Inner fill: `from-white via-white to-offwhite` gradient.
+- `hover:-translate-y-2` lift.
+- Variable `speed` prop: apex card 3.5 s, left 2.5 s, right 2 s.
+- Ghost pillar numbers (01/02/03) as absolute-positioned faded decorative text (top-right, `text-7xl text-navy-deep/[0.06]`).
+- Violet accent line (`h-px w-10 bg-violet-ray/60`) beneath each pillar title.
+- `num` field added to `PILLARS` constant.
+
+**FAQ updates (2026-06-22):**
+- "Do you only work with blue-collar businesses?" → "Do you only work with blue-collar and service businesses?" with updated answer covering both audiences.
+- CRM answer: em-dash replaced with comma ("Good, we build around it.").
+
+**In progress:** Nothing — all secondary pages and FAQ complete.
 
 **Not yet done / needs Kevin:**
 - Cal.com booking link → `BOOKING_URL` in `src/lib/config.ts`.

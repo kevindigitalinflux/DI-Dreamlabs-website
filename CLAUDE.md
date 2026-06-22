@@ -239,14 +239,42 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   established EdTech companies serving as the in-house talent engine. "Sister company"
   language removed; geographic context added for both partners.
 
-**In progress:** Nothing — all secondary pages and FAQ complete.
+**Session 2026-06-22 (continued — UX + frontend polish):**
+- `SiteIntro.tsx` intro logo replaced with `public/brand/dreamlabs-intro-logo.png`; overlay
+  background changed to `bg-violet-ray` (#8B32FF) so the logo's violet background blends
+  seamlessly. Cinematic exit: scale 1.06 + opacity 0 over 0.55s.
+- `HeroCloudWipe.tsx` cloud-flash-on-navigation fixed: wrapper div starts `opacity:0`;
+  GSAP sets it to 1 only after positioning cloud layers off-screen, so clouds never flash.
+- `SiteFooter.tsx` email now links to Gmail compose (`mail.google.com/?view=cm&fs=1&to=…`).
+- Landing page background set to `#8B32FF` (violet-ray) — intro logo appears borderless.
+- `CalInlineEmbed.tsx` created — inline Cal.com booking embed using official namespace/queue
+  shim pattern, CDN `app.cal.com/embed/embed.js`, namespace `30min`, brand colours injected.
+- `ContactPage.tsx` restructured: two-column grid (form left, Cal.com calendar right).
+  Booking card padding `p-6 md:p-8` (mobile-safe). `BOOKING_URL` set to live Cal.com link.
+- ContactForm label updated: "What are your biggest bottlenecks slowing you down or making
+  you lose money?"
+- `TalentPartnerCard` (About page) partner institution cards added: Influx Academy + UX Tree.
+  3D mouse-tracking tilt, BeamCard border, hover glow. Country pills changed from hover-only
+  (AnimatePresence) to always-visible `whileInView` animation — touch-device fix.
+- `BOOKING_URL` activated in `src/lib/config.ts`: `'kevin-zamora-saenz-a1nikc/30min'`.
+
+**Session 2026-06-23 — Supabase setup:**
+- Supabase MCP server added to project (`.mcp.json`): project ref `dbkxlmvblsqwpsqamwwj`.
+- Supabase agent skills installed (`npx skills add supabase/agent-skills`) — 2 skills:
+  "Supabase" and "Postgres Best Practices" in `.agents/skills/`.
+- `leads` table created via MCP migration on Supabase project `dbkxlmvblsqwpsqamwwj`.
+  RLS enabled, zero policies — service-role key only. Matches `docs/supabase-leads.sql`.
+- Supabase project URL: `https://dbkxlmvblsqwpsqamwwj.supabase.co`
+
+**In progress:** Nothing.
 
 **Not yet done / needs Kevin:**
-- Cal.com booking link → `BOOKING_URL` in `src/lib/config.ts`.
+- **Cloudflare Pages env vars** — add in Pages dashboard → Settings → Environment Variables:
+  - `SUPABASE_URL` = `https://dbkxlmvblsqwpsqamwwj.supabase.co`
+  - `SUPABASE_SERVICE_ROLE_KEY` = get from Supabase Dashboard → Project Settings → API → `service_role` (secret key — never commit)
+- **WAF rate-limit rule** on `/api/lead` (30 req/min/IP) — Cloudflare dashboard, see `docs/security-audit-2026-06-12.md`.
+- **Live test of `/api/lead`** once env vars are set on a Pages preview deploy (vite preview can't run Pages Functions).
 - Phone and address → `src/lib/config.ts` (footer + JSON-LD schema).
-- Supabase project: run `docs/supabase-leads.sql`, set env vars in Pages dashboard, add WAF
-  rate-limit rule on `/api/lead` (30 req/min/IP) — see `docs/security-audit-2026-06-12.md`.
-- Live test of `/api/lead` on a Pages preview deploy (vite preview can't run Pages Functions).
 - Legal pages need a solicitor pass; company details are placeholders.
 - n8n automations in `docs/automations-required.md` — not yet built.
 

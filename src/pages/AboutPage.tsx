@@ -11,16 +11,19 @@ import { Seo, breadcrumbs } from '@/lib/Seo'
 
 const PILLARS = [
   {
+    num: '01',
     name: 'Transformative',
     detail:
       'We turn bottlenecks into breakthroughs. Every engagement starts with a real problem and ends with a measurable result.',
   },
   {
+    num: '02',
     name: 'Accessible',
     detail:
       'Enterprise-grade capability at a human-scale price. We built the model specifically so pricing never has to be the barrier.',
   },
   {
+    num: '03',
     name: 'Inventive',
     detail:
       'We build for your specific problem, not a generic one. Every system is designed from the ground up.',
@@ -30,18 +33,34 @@ const PILLARS = [
 const BEAM_BG =
   'conic-gradient(from var(--gradient-angle), transparent 0%, #8B32FF 38%, #C088FF 50%, transparent 62%)'
 
-/** Card with the same rotating beam border as the LightBeamButton CTA. */
-const BeamCard = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
+/**
+ * Card with the same rotating beam border as the LightBeamButton CTA.
+ * Border is 2.5 px thick; a violet ambient glow reinforces the beam visually.
+ * Speed prop lets each card rotate at a slightly different pace.
+ */
+const BeamCard = ({
+  children,
+  className = '',
+  speed = 2.5,
+}: {
+  children: ReactNode
+  className?: string
+  speed?: number
+}) => (
   <div
-    className={`relative overflow-hidden rounded-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover ${className}`}
+    className={`relative overflow-hidden rounded-card transition-all duration-300 hover:-translate-y-2 hover:shadow-glow-violet ${className}`}
+    style={{ boxShadow: '0 4px 24px -6px rgba(139,50,255,0.22), 0 1px 3px rgba(0,0,0,0.06)' }}
   >
+    {/* Rotating conic-gradient fills the full card area */}
     <div
       aria-hidden
       className="absolute inset-0"
-      style={{ background: BEAM_BG, animation: 'border-spin 2.5s linear infinite' }}
+      style={{ background: BEAM_BG, animation: `border-spin ${speed}s linear infinite` }}
     />
-    <div className="absolute inset-[1.5px] rounded-card bg-white" />
-    <div className="relative z-10 h-full p-6">{children}</div>
+    {/* Off-white inner fill reveals only the 2.5 px beam edge */}
+    <div className="absolute inset-[2.5px] rounded-card bg-gradient-to-br from-white via-white to-offwhite" />
+    {/* Content */}
+    <div className="relative z-10 h-full p-7">{children}</div>
   </div>
 )
 
@@ -139,39 +158,58 @@ const PillarsPyramid = () => {
   return (
     <div ref={ref} className="overflow-x-hidden">
       <div className="flex flex-col items-center gap-6">
+
+        {/* Apex card */}
         <motion.div style={{ y: y0, scale: scale0, opacity }} className="w-full max-w-sm">
-          <BeamCard>
-            <h3 className="font-heading text-xl font-semibold text-navy-deep">
-              {PILLARS[0].name}
-            </h3>
-            <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">
+          <BeamCard speed={3.5}>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute right-4 top-3 select-none font-heading text-7xl font-extrabold leading-none text-navy-deep/[0.06]"
+            >
+              {PILLARS[0].num}
+            </span>
+            <h3 className="font-heading text-xl font-bold text-navy-deep">{PILLARS[0].name}</h3>
+            <div className="mt-2 h-px w-10 bg-violet-ray/60" />
+            <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/70">
               {PILLARS[0].detail}
             </p>
           </BeamCard>
         </motion.div>
 
+        {/* Base row */}
         <div className="flex w-full gap-6">
           <motion.div style={{ x: x1, y: y1, scale: scale1, opacity }} className="flex-1">
-            <BeamCard className="h-full">
-              <h3 className="font-heading text-lg font-semibold text-navy-deep">
-                {PILLARS[1].name}
-              </h3>
-              <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">
+            <BeamCard className="h-full" speed={2.5}>
+              <span
+                aria-hidden
+                className="pointer-events-none absolute right-4 top-3 select-none font-heading text-7xl font-extrabold leading-none text-navy-deep/[0.06]"
+              >
+                {PILLARS[1].num}
+              </span>
+              <h3 className="font-heading text-lg font-bold text-navy-deep">{PILLARS[1].name}</h3>
+              <div className="mt-2 h-px w-10 bg-violet-ray/60" />
+              <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/70">
                 {PILLARS[1].detail}
               </p>
             </BeamCard>
           </motion.div>
           <motion.div style={{ x: x2, y: y2, scale: scale2, opacity }} className="flex-1">
-            <BeamCard className="h-full">
-              <h3 className="font-heading text-lg font-semibold text-navy-deep">
-                {PILLARS[2].name}
-              </h3>
-              <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">
+            <BeamCard className="h-full" speed={2}>
+              <span
+                aria-hidden
+                className="pointer-events-none absolute right-4 top-3 select-none font-heading text-7xl font-extrabold leading-none text-navy-deep/[0.06]"
+              >
+                {PILLARS[2].num}
+              </span>
+              <h3 className="font-heading text-lg font-bold text-navy-deep">{PILLARS[2].name}</h3>
+              <div className="mt-2 h-px w-10 bg-violet-ray/60" />
+              <p className="mt-3 font-body text-sm leading-relaxed text-navy-deep/70">
                 {PILLARS[2].detail}
               </p>
             </BeamCard>
           </motion.div>
         </div>
+
       </div>
     </div>
   )

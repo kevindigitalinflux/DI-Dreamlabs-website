@@ -46,14 +46,14 @@ export const FAQ_ITEMS: ReadonlyArray<AccordionItem> = [
       'A conversation and a look at how work flows through your business, where jobs come in, where they get stuck, where time disappears. You get a clear written breakdown of what we would fix and what it would be worth. No pitch, no pressure, and it costs nothing.',
   },
   {
-    question: 'Do you only work with blue-collar businesses?',
+    question: 'Do you only work with blue-collar and service businesses?',
     answer:
-      'They are who we built Dreamlabs for, but no. If you are an SME or startup with a bottleneck worth fixing, the same approach applies: free audit, pilot first, you own everything.',
+      'They are who we built Dreamlabs for, and they are our main focus: the businesses that build and service the world. But the same approach applies to any SME or startup with a bottleneck worth fixing, free audit, pilot first, you own everything.',
   },
   {
     question: 'What if we already use software like a CRM or job-management app?',
     answer:
-      'Good — we build around it. Most of our systems connect the tools you already pay for so they finally talk to each other, rather than asking you to rip anything out.',
+      'Good, we build around it. Most of our systems connect the tools you already pay for so they finally talk to each other, rather than asking you to rip anything out.',
   },
 ] as const
 

@@ -22,7 +22,8 @@ const SLOT_WORDS = [
  */
 const LINES = [
   "We don't sell AI, product",
-  'engineering or Automated systems. We sell',
+  'engineering or Automated systems.',
+  'We sell',
 ] as const
 
 const CHAR_DELAY_MS = 28
@@ -70,13 +71,13 @@ export const ValueStatement = () => {
   return (
     <section
       ref={ref}
-      className="relative bg-navy-deep px-6 py-24 md:py-36"
+      className="relative bg-navy-deep px-6 py-32 md:py-44"
       aria-label="Our value proposition"
     >
       <div className="hero-grain absolute inset-0" aria-hidden />
 
       <div className="relative mx-auto max-w-content">
-        <p className="font-heading font-extrabold leading-[1.15] tracking-tight text-offwhite text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+        <p className="font-heading font-extrabold leading-[1.1] tracking-tight text-offwhite text-[1.85rem] sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-7xl">
           {LINES.map((line, lineIdx) => {
             const words = line.split(' ')
             return (

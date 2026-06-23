@@ -99,16 +99,26 @@ export const KpiImpact = () => {
 
   return (
     <Section surface="dream">
+      {/*
+       * Mobile: items in DOM order → heading-down, metrics-down, heading-up, metrics-up.
+       * Desktop (lg): explicit row/col placement restores the aligned 2×2 layout so
+       * both headings share row 1 and both metric lists start on the same row 2.
+       */}
       <div ref={gridRef} className="grid gap-x-20 gap-y-8 lg:grid-cols-2">
-        {/* Row 1 — headings */}
-        <h3 className="font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug">
+        <h3 className="font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug lg:col-start-1 lg:row-start-1">
           <TypingText
             text="In simple terms, we make these go down"
             trigger={inView}
           />
         </h3>
 
-        <h3 className="font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug">
+        <div className="divide-y divide-offwhite/10 lg:col-start-1 lg:row-start-2">
+          {DOWN_METRICS.map((m) => (
+            <KpiMetric key={m.label} {...m} />
+          ))}
+        </div>
+
+        <h3 className="font-heading text-2xl font-bold text-offwhite md:text-[1.75rem] leading-snug lg:col-start-2 lg:row-start-1">
           <TypingText
             text="And we make these go up"
             trigger={inView}
@@ -116,14 +126,7 @@ export const KpiImpact = () => {
           />
         </h3>
 
-        {/* Row 2 — metric lists, always aligned to the same row */}
-        <div className="divide-y divide-offwhite/10">
-          {DOWN_METRICS.map((m) => (
-            <KpiMetric key={m.label} {...m} />
-          ))}
-        </div>
-
-        <div className="divide-y divide-offwhite/10">
+        <div className="divide-y divide-offwhite/10 lg:col-start-2 lg:row-start-2">
           {UP_METRICS.map((m) => (
             <KpiMetric key={m.label} {...m} />
           ))}

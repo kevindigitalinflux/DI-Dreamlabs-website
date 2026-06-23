@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useRef, useState, useLayoutEffect, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -16,6 +16,16 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 // y travel (px) per column — col 1 is the baseline, others scroll faster
 const COLUMN_OFFSETS = [60, 0, 80, 40] as const
+
+// Carousel constants (matches MobileTrustCarousel pattern from Mr Brush)
+const CARD_W = 280
+const CARD_GAP = 16
+const CARD_STRIDE = CARD_W + CARD_GAP  // 296px per step
+const AUTO_SPEED = 0.5                  // px/frame — gentle continuous scroll
+const SNAP_PAUSE = 900                  // ms to pause auto-play after a user swipe
+const EASE = 0.09
+
+function lerp(a: number, b: number, t: number) { return a + (b - a) * t }
 
 /* Placeholder photography — swap files in public/images/industries/ (same names). */
 const PHYSICAL: IndustryEntry[] = [
@@ -41,9 +51,154 @@ const SERVICE: IndustryEntry[] = [
 ]
 
 /**
+ * Auto-scrolling swipe carousel for industry cards — mobile only (< md).
+ * Identical mechanics to the Mr Brush MobileTrustCarousel: continuous auto-scroll,
+ * touch drag with momentum + card snapping, arc effect on edge cards.
+ */
+const IndustriesCarousel = ({ entries }: { entries: IndustryEntry[] }) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const rafRef = useRef(0)
+  const scrollRef = useRef({ current: 0, target: 0 })
+  const dragRef = useRef({
+    isDown: false, startX: 0, startY: 0, startScroll: 0,
+    intentDetermined: false, isHorizontal: false,
+  })
+  const velRef = useRef({ v: 0, lastX: 0, lastTime: 0 })
+  const snapUntilRef = useRef(0)
+
+  // Triple cards for seamless infinite loop
+  const cards = [...entries, ...entries, ...entries]
+  const setWidth = CARD_STRIDE * entries.length
+
+  useEffect(() => {
+    scrollRef.current.current = setWidth
+    scrollRef.current.target = setWidth
+
+    const tick = () => {
+      const container = containerRef.current
+      const track = trackRef.current
+      if (!container || !track || container.offsetWidth === 0) {
+        rafRef.current = requestAnimationFrame(tick)
+        return
+      }
+
+      const s = scrollRef.current
+      const isDragging = dragRef.current.isDown
+      const isSnapping = performance.now() < snapUntilRef.current
+
+      if (!isDragging && !isSnapping) {
+        s.target += AUTO_SPEED
+        s.current += AUTO_SPEED
+      }
+
+      s.current = lerp(s.current, s.target, EASE)
+
+      // Infinite wrap — keep viewport inside the middle card set
+      if (s.current >= setWidth * 1.5) {
+        s.current -= setWidth; s.target -= setWidth
+        dragRef.current.startScroll -= setWidth
+      }
+      if (s.current < setWidth * 0.5) {
+        s.current += setWidth; s.target += setWidth
+        dragRef.current.startScroll += setWidth
+      }
+
+      const padLeft = (container.offsetWidth - CARD_W) / 2
+      track.style.transform = `translateX(${padLeft - s.current}px)`
+
+      // Arc effect: edge cards dip and fade slightly
+      const centerX = container.offsetWidth / 2
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return
+        const cx = padLeft - s.current + i * CARD_STRIDE + CARD_W / 2
+        const d = Math.max(-1, Math.min(1, (cx - centerX) / (container.offsetWidth * 0.65)))
+        el.style.transform = `translateY(${d * d * 16}px) scale(${1 - Math.abs(d) * 0.05})`
+        el.style.opacity = String(Math.max(0.3, 1 - Math.abs(d) * 0.4))
+      })
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [setWidth])
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0]
+    const d = dragRef.current
+    d.isDown = true; d.startX = t.clientX; d.startY = t.clientY
+    d.startScroll = scrollRef.current.current
+    d.intentDetermined = false; d.isHorizontal = false
+    velRef.current = { v: 0, lastX: t.clientX, lastTime: performance.now() }
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    const d = dragRef.current
+    if (!d.isDown) return
+    const t = e.touches[0]
+    if (!d.intentDetermined) {
+      const dx = Math.abs(t.clientX - d.startX)
+      const dy = Math.abs(t.clientY - d.startY)
+      if (dx < 6 && dy < 6) return
+      d.intentDetermined = true
+      d.isHorizontal = dx > dy * 0.9
+    }
+    if (!d.isHorizontal) return
+    const now = performance.now()
+    const dt = now - velRef.current.lastTime
+    if (dt > 8 && dt < 100) {
+      const rawV = (velRef.current.lastX - t.clientX) / dt
+      velRef.current.v = Math.max(-4, Math.min(4, rawV))
+    }
+    velRef.current.lastX = t.clientX
+    velRef.current.lastTime = now
+    scrollRef.current.target = d.startScroll + (d.startX - t.clientX) * 1.1
+  }
+
+  const onTouchEnd = () => {
+    const d = dragRef.current
+    if (!d.isDown) return
+    d.isDown = false
+    if (!d.isHorizontal) return
+    const s = scrollRef.current
+    const projected = s.target + velRef.current.v * 160
+    const baseCard = Math.round(s.target / CARD_STRIDE)
+    const clamped = Math.max((baseCard - 2) * CARD_STRIDE, Math.min((baseCard + 2) * CARD_STRIDE, projected))
+    s.target = Math.round(clamped / CARD_STRIDE) * CARD_STRIDE
+    snapUntilRef.current = performance.now() + SNAP_PAUSE
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="mt-10 overflow-hidden py-4"
+      style={{ touchAction: 'pan-y' }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      <div ref={trackRef} className="flex" style={{ willChange: 'transform' }}>
+        {cards.map((entry, i) => (
+          <div
+            key={i}
+            ref={el => { cardRefs.current[i] = el }}
+            aria-hidden={i < entries.length || i >= entries.length * 2}
+            className="shrink-0"
+            style={{ width: `${CARD_W}px`, marginRight: `${CARD_GAP}px`, willChange: 'transform, opacity' }}
+          >
+            <IndustryCard {...entry} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/**
  * 4-column grid with GSAP column parallax (independent y speeds) and scroll-linked
- * rotateX tilt. Desktop only — mobile uses native snap scroll. GSAP targets the
- * .parallax-card wrappers; IndustryCard's Framer Motion tilt targets the inner figure.
+ * rotateX tilt. Tablet/desktop only — mobile uses IndustriesCarousel.
  */
 const ParallaxGrid = ({ entries }: { entries: IndustryEntry[] }) => {
   const ref = useRef<HTMLDivElement>(null)
@@ -75,15 +230,26 @@ const ParallaxGrid = ({ entries }: { entries: IndustryEntry[] }) => {
   }, { scope: ref, dependencies: [ready] })
 
   return (
-    <div ref={ref} className="-mx-6 mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
-      {entries.map(({ icon: Icon, name, image, bottleneck }, i) => (
-        <Reveal key={name} delay={i * 60} className="w-72 shrink-0 snap-start md:w-auto">
-          <div className="parallax-card h-full">
-            <IndustryCard icon={Icon} name={name} image={image} bottleneck={bottleneck} />
-          </div>
-        </Reveal>
-      ))}
-    </div>
+    <>
+      {/* Mobile carousel — break out of section px-6 gutter for full-width track */}
+      <div className="-mx-6 md:hidden">
+        <IndustriesCarousel entries={entries} />
+      </div>
+
+      {/* Tablet / desktop grid */}
+      <div
+        ref={ref}
+        className="mt-12 hidden md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-4"
+      >
+        {entries.map(({ icon: Icon, name, image, bottleneck }, i) => (
+          <Reveal key={name} delay={i * 60}>
+            <div className="parallax-card h-full">
+              <IndustryCard icon={Icon} name={name} image={image} bottleneck={bottleneck} />
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </>
   )
 }
 

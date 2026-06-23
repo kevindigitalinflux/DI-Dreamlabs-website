@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useInView, useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SfCloudBackground } from '@/components/interactive/atmosphere/SfCloudBackground'
 
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+gsap.registerPlugin(ScrollTrigger)
 import {
   InventoryIcon,
   MissedCallIcon,
@@ -104,8 +103,8 @@ const StackCard = ({
       className={`relative overflow-hidden rounded-card border ${a.border} bg-[#050b3d]`}
       style={{ boxShadow: a.glow }}
     >
-      {/* Coloured bar — thicker so it's visible as a peek-tab when cards stack */}
-      <div className={`h-[3px] bg-gradient-to-r ${a.bar}`} />
+      {/* Coloured bar — visible as the peek-tab when this card is under the stack */}
+      <div className={`h-2 bg-gradient-to-r ${a.bar}`} />
 
       <div className="p-6 md:p-8">
         {/* Header row: icon + title + card counter */}
@@ -255,89 +254,79 @@ const PAIN_POINTS: PainCard[] = [
 ]
 
 /**
- * GSAP-driven stacking cards component. Pins itself; each card slides in from
- * below as the user scrolls, building a visible deck with the previous cards'
- * coloured bars peeking above the current one.
+ * Stacking cards — identical pattern to Mr Brush HowItWorks.
+ * Each card is position:sticky so it pins while the sibling spacer scrolls past.
+ * All cards share one container, so each sticky range extends to the container
+ * bottom — previously-stacked cards stay pinned as new ones arrive on top.
+ * GSAP scrubs scale + opacity on each card as the next one rolls in.
  */
 const StackingCards = () => {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  useGSAP(
-    () => {
-      const cards = gsap.utils.toArray<HTMLElement>('.pain-stack-card', containerRef.current)
-      if (!cards.length) return
+  useEffect(() => {
+    const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[]
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion) return
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-      // ALL cards start below the viewport — nothing is visible until GSAP
-      // animates each one in. This prevents Card 1 from "popping" into view
-      // when the user first scrolls into the section, and prevents any card
-      // from overlapping the Sound Familiar header card above this container.
-      gsap.set(cards, { y: window.innerHeight })
-
-      if (reduceMotion) {
-        gsap.set(cards, { y: 0 })
-        return
-      }
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 80px',
-          end: `+=${cards.length * 550}`,
-          pin: true,
-          scrub: 0.6,
-          anticipatePin: 1,
-        },
+    const ctx = gsap.context(() => {
+      cards.forEach((card, i) => {
+        if (i >= cards.length - 1) return
+        const nextStickPx = 80 + (i + 1) * 18
+        gsap.to(card, {
+          scale: 0.9,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: cards[i + 1],
+            start: 'top 85%',
+            end: `top top+=${nextStickPx}`,
+            scrub: true,
+          },
+        })
       })
+    })
 
-      // Animate all 6 cards in sequence, one per timeline slot
-      cards.forEach((card, idx) => {
-        tl.to(card, { y: 0, ease: 'none', duration: 1 }, idx)
-      })
-    },
-    { scope: containerRef },
-  )
+    return () => ctx.revert()
+  }, [])
 
   return (
-    // min-height sets the container height so the GSAP pin spacer reserves the
-    // right amount of page space. All cards are absolute so they overlay each
-    // other with the 10px top-stagger peek-tab effect. The Sound Familiar card
-    // above this container stays in normal document flow and is never covered.
-    <div
-      ref={containerRef}
-      className="relative mx-auto mt-10 max-w-2xl"
-      style={{ minHeight: '520px' }}
-    >
+    <div className="mx-auto mt-10 max-w-2xl">
       {PAIN_POINTS.map((card, i) => (
-        <div
-          key={card.title}
-          className="pain-stack-card"
-          style={{ position: 'absolute', top: `${i * 10}px`, left: 0, right: 0, zIndex: i + 1 }}
-        >
-          <StackCard {...card} index={i} total={PAIN_POINTS.length} />
-        </div>
+        <Fragment key={card.title}>
+          <div
+            ref={(el) => { cardRefs.current[i] = el }}
+            className="sticky"
+            style={{
+              top: `${80 + i * 18}px`,
+              zIndex: 20 + i,
+              // Drop shadow creates visible depth between stacked cards
+              filter: 'drop-shadow(0 -8px 24px rgba(0,0,0,0.7))',
+            }}
+          >
+            <StackCard {...card} index={i} total={PAIN_POINTS.length} />
+          </div>
+          {i < PAIN_POINTS.length - 1 && (
+            <div className="h-[55vh]" aria-hidden="true" />
+          )}
+        </Fragment>
       ))}
     </div>
   )
 }
 
 /**
- * Sound Familiar section — ICP pain points with stacking card scroll effect.
- * Each card is position:sticky so it slides over the previous one like a deck
- * as the user scrolls, keeping the section dynamic rather than a static list.
+ * Sound Familiar — pain points with CSS-sticky stacking cards.
+ * No GSAP pin, no fixed heights, no scroll offset math.
+ * The section grows naturally from its content; nothing can bleed out.
  */
 export const PainPoints = () => (
   <Section
     surface="dream"
-    elevateContent
     id="sound-familiar"
     className="z-10"
     background={<SfCloudBackground />}
   >
     <div aria-hidden className="h-[8vh]" />
 
-    {/* Glassy header card — matches the hero's depth aesthetic */}
     <Reveal>
       <div className="mx-auto max-w-2xl">
         <GlowCard>
@@ -357,17 +346,8 @@ export const PainPoints = () => (
       </div>
     </Reveal>
 
-    {/*
-      GSAP-driven stacking: the container is pinned at the top of the viewport.
-      Cards 2-6 start off-screen below (y = window.innerHeight) and animate in
-      one by one as the user scrolls through the pin runway. Each card slides up
-      and stops at a progressive top offset (10px stagger) — earlier cards peek
-      above later ones as visible coloured tabs, creating the deck-of-cards look.
-      Card 1 (position:relative) sets the container height; cards 2-6 are
-      position:absolute overlaying it. GSAP scrub drives the animation.
-    */}
     <StackingCards />
 
-    <div aria-hidden className="h-12" />
+    <div aria-hidden className="h-24" />
   </Section>
 )

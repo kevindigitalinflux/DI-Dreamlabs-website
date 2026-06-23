@@ -29,13 +29,15 @@
 
 @layer base {
   html {
-    overflow-x: hidden;
+    /* clip: clips paint without creating a scroll container.
+       hidden would break position: sticky on all descendant elements. */
+    overflow-x: clip;
     max-width: 100%;
   }
 
   body {
     @apply bg-offwhite font-body text-navy-deep antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
     width: 100%;
   }

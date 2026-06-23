@@ -59,11 +59,11 @@ export const HeroAssembly = () => {
   // anticipation).
   return (
     <div ref={containerRef} data-hero className="relative z-20 overflow-hidden bg-navy-deep">
-      <section className="relative flex h-screen flex-col justify-start px-6 pt-20 md:px-16 md:pt-28 lg:px-24">
+      <section className="relative flex h-[100svh] flex-col justify-start px-5 pt-16 sm:px-6 sm:pt-20 md:px-16 md:pt-28 lg:px-24">
 
         {/* Full-bleed video background */}
         <video
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-[70%_50%]"
           src="/videos/hero-bg.mp4"
           autoPlay
           muted
@@ -88,18 +88,18 @@ export const HeroAssembly = () => {
 
         {/* Left-aligned content */}
         <div className="hero-content relative z-50 max-w-2xl">
-          <p className="hero-enter mb-3 font-body text-sm font-semibold uppercase tracking-widest text-cyan-strong opacity-0">
+          <p className="hero-enter mb-3 font-body text-xs font-semibold uppercase tracking-[0.08em] text-cyan-strong opacity-0 sm:tracking-widest sm:text-sm">
             AI Systems · Built for Blue-Collar &amp; Service Businesses
           </p>
 
-          <h1 className="hero-enter font-heading text-4xl font-extrabold leading-[1.05] text-offwhite opacity-0 md:text-6xl lg:text-7xl">
+          <h1 className="hero-enter font-heading text-3xl font-extrabold leading-[1.08] text-offwhite opacity-0 sm:text-4xl md:text-5xl lg:text-7xl">
             Your biggest daily headache,{' '}
             <span className="bg-gradient-to-r from-violet-ray to-cyan-strong bg-clip-text text-transparent">
               turned into your sharpest advantage.
             </span>
           </h1>
 
-          <p className="hero-enter mt-4 font-body text-base leading-relaxed text-offwhite/80 opacity-0 md:text-lg">
+          <p className="hero-enter mt-4 font-body text-sm leading-relaxed text-offwhite/80 opacity-0 sm:text-base md:text-lg">
             <span className="font-bold text-offwhite">
               Most blue-collar and service businesses leave 20–30% of revenue on the table,
             </span>

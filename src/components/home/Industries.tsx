@@ -90,7 +90,7 @@ const ParallaxGrid = ({ entries }: { entries: IndustryEntry[] }) => {
 /** Section 5 — physical-world SMEs (top) and service SMEs (bottom), each with parallax tilt grid. */
 export const Industries = () => (
   <>
-    <Section surface="dream" orbs>
+    <Section surface="dream" orbs className="overflow-hidden">
       <Reveal>
         <SectionHeading
           eyebrow="Industries we serve"
@@ -102,7 +102,7 @@ export const Industries = () => (
       <ParallaxGrid entries={PHYSICAL} />
     </Section>
 
-    <Section surface="dream">
+    <Section surface="dream" className="overflow-hidden">
       <Reveal>
         <SectionHeading
           eyebrow="Industries we serve"

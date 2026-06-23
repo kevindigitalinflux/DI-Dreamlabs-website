@@ -14,7 +14,7 @@ const FOOTER_LINKS = [
 /** Site footer — navigation, contact details, newsletter, legal. */
 export const SiteFooter = () => (
   <footer className="bg-navy-deep text-offwhite">
-    <div className="mx-auto grid max-w-content gap-12 px-6 py-16 md:grid-cols-3">
+    <div className="mx-auto grid max-w-content gap-10 px-5 py-12 sm:px-6 md:gap-12 md:py-16 md:grid-cols-3">
       <div>
         <img
           src="/brand/logo-primary-on-dark.png"

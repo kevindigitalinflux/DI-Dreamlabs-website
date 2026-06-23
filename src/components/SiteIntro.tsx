@@ -27,7 +27,7 @@ export const SiteIntro = () => {
           <motion.img
             src="/brand/dreamlabs-intro-logo.png"
             alt=""
-            className="w-56 h-auto object-contain"
+            className="h-auto w-2/3 max-w-[224px] object-contain"
             initial={{ opacity: 0, scale: 0.88 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.45, ease: 'easeOut' }}

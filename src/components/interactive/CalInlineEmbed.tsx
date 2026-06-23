@@ -79,7 +79,7 @@ export const CalInlineEmbed = () => {
   return (
     <div
       id={`my-cal-inline-${CAL_NS}`}
-      style={{ width: '100%', minHeight: 600, overflow: 'scroll' }}
+      style={{ width: '100%', minHeight: 'clamp(420px, 70vh, 600px)', overflow: 'scroll' }}
     />
   )
 }

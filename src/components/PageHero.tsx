@@ -15,7 +15,7 @@ type PageHeroProps = {
  * sequence (Brief §5).
  */
 export const PageHero = ({ eyebrow, title, lede, background }: PageHeroProps) => (
-  <section className="relative overflow-hidden bg-navy-deep px-6 pb-20 pt-36 md:pb-24">
+  <section className="relative overflow-hidden bg-navy-deep px-5 pb-16 pt-28 sm:px-6 sm:pt-32 md:pb-24 md:pt-36">
     <div className="pointer-events-none absolute inset-0" aria-hidden>
       <div className="hero-grain absolute inset-0" />
       <GlowOrb colour="violet" className="-left-24 top-0 h-96 w-96" />
@@ -49,7 +49,7 @@ export const PageHero = ({ eyebrow, title, lede, background }: PageHeroProps) =>
         )
       )}
       <h1
-        className="mt-3 max-w-3xl font-heading text-3xl font-bold leading-[1.1] text-offwhite md:text-5xl"
+        className="mt-3 max-w-3xl font-heading text-2xl font-bold leading-[1.15] text-offwhite sm:text-3xl md:text-5xl"
         style={background ? { textShadow: '0 2px 12px rgba(4,15,73,0.7)' } : undefined}
       >
         {title}

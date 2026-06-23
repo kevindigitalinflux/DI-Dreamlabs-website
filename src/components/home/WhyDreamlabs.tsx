@@ -63,7 +63,7 @@ const USPS: WhyCardData[] = [
 
 /** Individual trust-signal card with duotone image treatment (matches Industries). */
 const WhyCard = ({ icon: Icon, title, body, image, imageAlt }: WhyCardData) => (
-  <article className="group flex w-80 flex-shrink-0 flex-col overflow-hidden rounded-card border border-offwhite/10 bg-navy-deep transition-all duration-300 hover:border-violet-ray/50 hover:shadow-glow-violet">
+  <article className="group flex w-[calc(100vw-3rem)] flex-shrink-0 flex-col overflow-hidden rounded-card border border-offwhite/10 bg-navy-deep transition-all duration-300 hover:border-violet-ray/50 hover:shadow-glow-violet sm:w-80">
     <div className="relative h-56 overflow-hidden">
       <img
         src={image}
@@ -153,7 +153,7 @@ export const WhyDreamlabs = () => {
   )
 
   return (
-    <section ref={containerRef} className="relative bg-offwhite" aria-label="Why Dreamlabs">
+    <section ref={containerRef} className="relative overflow-hidden bg-offwhite" aria-label="Why Dreamlabs">
 
       {/* ── Desktop: pinned two-panel layout ── */}
       <div className="hidden h-screen flex-col md:flex">

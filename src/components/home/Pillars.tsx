@@ -17,7 +17,7 @@ export const Pillars = () => (
     </Reveal>
     <div className="mt-12 grid gap-6 lg:grid-cols-3">
       <Reveal>
-        <article className="group flex h-full flex-col rounded-card border border-violet-ray/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-violet-ray hover:shadow-glow-violet">
+        <article className="group flex h-full flex-col rounded-card border border-violet-ray/30 bg-offwhite/5 p-6 md:p-8transition-all duration-300 hover:border-violet-ray hover:shadow-glow-violet">
           <FlaskIcon className="h-9 w-9 text-violet-ray" aria-hidden />
           <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
             AI Product Engineering
@@ -51,7 +51,7 @@ export const Pillars = () => (
         </article>
       </Reveal>
       <Reveal delay={100}>
-        <article className="group flex h-full flex-col rounded-card border border-cyan-strong/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-cyan-strong hover:shadow-glow-cyan">
+        <article className="group flex h-full flex-col rounded-card border border-cyan-strong/30 bg-offwhite/5 p-6 md:p-8transition-all duration-300 hover:border-cyan-strong hover:shadow-glow-cyan">
           <BuildIcon className="h-9 w-9 text-cyan-strong" aria-hidden />
           <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
             Automated Systems
@@ -85,7 +85,7 @@ export const Pillars = () => (
         </article>
       </Reveal>
       <Reveal delay={200}>
-        <article className="group flex h-full flex-col rounded-card border border-magenta-bloom/30 bg-offwhite/5 p-8 transition-all duration-300 hover:border-magenta-bloom hover:shadow-glow-magenta">
+        <article className="group flex h-full flex-col rounded-card border border-magenta-bloom/30 bg-offwhite/5 p-6 md:p-8transition-all duration-300 hover:border-magenta-bloom hover:shadow-glow-magenta">
           <LayersIcon className="h-9 w-9 text-magenta-bloom" aria-hidden />
           <h3 className="mt-5 font-heading text-xl font-semibold text-offwhite md:text-2xl">
             End-to-End Product Development

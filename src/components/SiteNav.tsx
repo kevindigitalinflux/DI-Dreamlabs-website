@@ -43,7 +43,7 @@ export const SiteNav = () => {
     >
       <nav
         aria-label="Main"
-        className="mx-auto flex h-16 max-w-content items-center justify-between px-6"
+        className="mx-auto flex h-16 max-w-content items-center justify-between px-4 sm:px-6"
       >
         <Link to="/" className="flex items-center gap-2" aria-label="DI Dreamlabs home">
           <span className="relative">
@@ -87,7 +87,7 @@ export const SiteNav = () => {
 
         <button
           type="button"
-          className="text-offwhite lg:hidden"
+          className="-mr-2 p-2 text-offwhite lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -98,7 +98,7 @@ export const SiteNav = () => {
       </nav>
 
       {open && (
-        <div id="mobile-nav" className="border-t border-offwhite/10 bg-navy-deep px-6 py-4 lg:hidden">
+        <div id="mobile-nav" className="border-t border-offwhite/10 bg-navy-deep px-4 py-4 sm:px-6 lg:hidden">
           <ul className="flex flex-col gap-1">
             {NAV_LINKS.map(({ to, label }) => (
               <li key={to}>

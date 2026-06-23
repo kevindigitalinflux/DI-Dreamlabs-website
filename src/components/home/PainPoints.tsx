@@ -265,16 +265,18 @@ const StackingCards = () => {
   useGSAP(
     () => {
       const cards = gsap.utils.toArray<HTMLElement>('.pain-stack-card', containerRef.current)
-      if (cards.length < 2) return
+      if (!cards.length) return
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-      // Cards 2-6: start below the viewport so they slide up into view
-      gsap.set(cards.slice(1), { y: window.innerHeight })
+      // ALL cards start below the viewport — nothing is visible until GSAP
+      // animates each one in. This prevents Card 1 from "popping" into view
+      // when the user first scrolls into the section, and prevents any card
+      // from overlapping the Sound Familiar header card above this container.
+      gsap.set(cards, { y: window.innerHeight })
 
       if (reduceMotion) {
-        // Reduced motion: snap all cards into position immediately
-        gsap.set(cards.slice(1), { y: 0 })
+        gsap.set(cards, { y: 0 })
         return
       }
 
@@ -282,16 +284,15 @@ const StackingCards = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 80px',
-          // 550px of scroll per card so the user has time to read each one
-          end: `+=${(cards.length - 1) * 550}`,
+          end: `+=${cards.length * 550}`,
           pin: true,
           scrub: 0.6,
           anticipatePin: 1,
         },
       })
 
-      // Stagger each card in sequentially, one per timeline slot
-      cards.slice(1).forEach((card, idx) => {
+      // Animate all 6 cards in sequence, one per timeline slot
+      cards.forEach((card, idx) => {
         tl.to(card, { y: 0, ease: 'none', duration: 1 }, idx)
       })
     },
@@ -299,23 +300,20 @@ const StackingCards = () => {
   )
 
   return (
-    <div ref={containerRef} className="mx-auto mt-10 max-w-2xl">
-      {/*
-        Card 1: position:relative — sets the container height so GSAP pins
-        at the correct height and the pin spacer reserves the right amount of space.
-        Cards 2-6: position:absolute with increasing top offset (10px stagger)
-        so when all cards are in position, each previous card's coloured bar
-        peeks above the next — the physical deck-of-cards look.
-      */}
+    // min-height sets the container height so the GSAP pin spacer reserves the
+    // right amount of page space. All cards are absolute so they overlay each
+    // other with the 10px top-stagger peek-tab effect. The Sound Familiar card
+    // above this container stays in normal document flow and is never covered.
+    <div
+      ref={containerRef}
+      className="relative mx-auto mt-10 max-w-2xl"
+      style={{ minHeight: '520px' }}
+    >
       {PAIN_POINTS.map((card, i) => (
         <div
           key={card.title}
           className="pain-stack-card"
-          style={
-            i === 0
-              ? { position: 'relative', zIndex: i + 1 }
-              : { position: 'absolute', top: `${i * 10}px`, left: 0, right: 0, zIndex: i + 1 }
-          }
+          style={{ position: 'absolute', top: `${i * 10}px`, left: 0, right: 0, zIndex: i + 1 }}
         >
           <StackCard {...card} index={i} total={PAIN_POINTS.length} />
         </div>

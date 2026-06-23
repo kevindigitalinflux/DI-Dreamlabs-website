@@ -7,6 +7,7 @@ interface LightBeamButtonProps {
   onClick?: () => void
   /** 'sm' shrinks height and padding for tight layouts like the mobile hero. */
   size?: 'sm' | 'md'
+  className?: string
 }
 
 const BEAM_BG =
@@ -24,7 +25,7 @@ const SIZE = {
 }
 
 /** CTA button with a rotating violet-ray light beam border — use on dark hero surfaces. */
-export const LightBeamButton = ({ children, href, onClick, size = 'md' }: LightBeamButtonProps) => {
+export const LightBeamButton = ({ children, href, onClick, size = 'md', className = '' }: LightBeamButtonProps) => {
   const inner = (
     <>
       {/* Rotating conic gradient fills the button area */}
@@ -46,7 +47,7 @@ export const LightBeamButton = ({ children, href, onClick, size = 'md' }: LightB
     </>
   )
 
-  const classes = `${BASE} ${SIZE[size]}`
+  const classes = `${BASE} ${SIZE[size]}${className ? ` ${className}` : ''}`
 
   if (href) {
     return <Link to={href} className={classes}>{inner}</Link>

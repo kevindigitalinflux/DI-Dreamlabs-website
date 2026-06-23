@@ -93,17 +93,18 @@ export const HeroAssembly = () => {
           <HeroCloudHint />
           <HeroCloudWipe />
 
-          {/* Left-aligned content — max-w-xs on mobile keeps text tight to the left
-              so the right side of the hero video stays visible */}
-          <div className="hero-content relative z-50 max-w-xs sm:max-w-xl md:max-w-2xl">
+          {/* On tablet+ constrain to left so video shows on the right. Mobile fills
+              naturally — the gradient fades to near-transparent on the right anyway. */}
+          <div className="hero-content relative z-50 sm:max-w-xl md:max-w-2xl">
             <p className="hero-enter mb-3 font-body text-xs font-semibold uppercase tracking-[0.08em] text-cyan-strong opacity-0 sm:tracking-widest sm:text-sm">
               AI Systems · Built for Blue-Collar &amp; Service Businesses
             </p>
 
             {/*
-              Mobile headline: forced 4-line break so the rhythm reads
-              "Your biggest daily headache," / "turned" / "into your" / "sharpest advantage."
-              On sm+ the <br> tags hide and the text wraps naturally.
+              Mobile headline: 4 forced lines via <br className="sm:hidden"> so
+              the rhythm reads: "Your biggest daily headache," / "turned" / "into your"
+              / "sharpest advantage." — the last two words stay on one line because
+              the content div is now full mobile width (no max-w-xs constraint).
             */}
             <h1 className="hero-enter font-heading text-3xl font-extrabold leading-[1.1] text-offwhite opacity-0 sm:text-4xl md:text-5xl lg:text-7xl">
               Your biggest daily headache,
@@ -136,15 +137,19 @@ export const HeroAssembly = () => {
               It starts with a free audit.
             </p>
 
-            {/* Buttons side by side on all sizes — size="sm" keeps them short enough
-                to sit side by side on mobile without the hero feeling cluttered */}
-            <div className="hero-enter mt-8 flex flex-row flex-wrap gap-3 opacity-0">
-              <Button variant="primary" href="/contact" className="!h-11 !px-5 !text-sm">
-                Get your free audit
-              </Button>
-              <LightBeamButton href="/how-it-works" size="sm">
-                See how it works
-              </LightBeamButton>
+            {/* Two flex-1 wrappers guarantee both buttons share the row width equally
+                even on the narrowest phones — no wrapping, no size guessing. */}
+            <div className="hero-enter mt-8 flex gap-3 opacity-0">
+              <div className="flex-1">
+                <Button variant="primary" href="/contact" className="!h-11 !w-full !px-3 !text-sm">
+                  Get your free audit
+                </Button>
+              </div>
+              <div className="flex-1">
+                <LightBeamButton href="/how-it-works" size="sm" className="w-full">
+                  See how it works
+                </LightBeamButton>
+              </div>
             </div>
           </div>
 

@@ -217,10 +217,10 @@ const WhyCarousel = () => {
             key={i}
             ref={el => { cardRefs.current[i] = el }}
             aria-hidden={i < USPS.length || i >= USPS.length * 2}
-            className="shrink-0"
+            className="flex shrink-0 flex-col"
             style={{ width: `${CARD_W}px`, marginRight: `${CARD_GAP}px`, willChange: 'transform, opacity' }}
           >
-            <WhyCard {...usp} className="!w-full" />
+            <WhyCard {...usp} className="!w-full h-full" />
           </div>
         ))}
       </div>

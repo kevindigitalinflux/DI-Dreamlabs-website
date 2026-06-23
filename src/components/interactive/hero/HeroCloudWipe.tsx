@@ -64,6 +64,13 @@ export const HeroCloudWipe = () => {
       // Scroll runway for the rise + backdrop fade to play out gradually
       // instead of snapping shut. Kept just over one viewport so the pin
       // doesn't eat too much scroll before SF's content appears underneath.
+      // Hide/show the viewport gap-fill div that sits beneath the fixed hero.
+      // On mobile, when the browser chrome hides mid-scroll the viewport grows
+      // beyond 100svh, exposing the body's offwhite below the pinned hero.
+      // The gap-fill covers that space; we hide it once the pin zone ends so
+      // it never overlays the sections beneath.
+      const gapFill = document.querySelector<HTMLElement>('[data-hero-gap-fill]')
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: hero,
@@ -79,6 +86,8 @@ export const HeroCloudWipe = () => {
           // so SF's heading is already scrolled past by the time hero
           // unpins — it only becomes visible mid-card-grid, well into the
           // section, looking like a sudden cut instead of a handoff.
+          onLeave: () => { if (gapFill) gapFill.style.display = 'none' },
+          onEnterBack: () => { if (gapFill) gapFill.style.display = '' },
         },
       })
 

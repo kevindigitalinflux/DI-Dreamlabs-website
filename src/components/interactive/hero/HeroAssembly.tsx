@@ -30,8 +30,6 @@ export const HeroAssembly = () => {
     () => {
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (prefersReduced) {
-        // No entrance animation, but the content must still be visible
-        // (the .hero-enter elements ship with opacity-0 for the animated path).
         gsap.set('.hero-enter', { opacity: 1, y: 0 })
         return
       }
@@ -52,79 +50,91 @@ export const HeroAssembly = () => {
     { scope: containerRef },
   )
 
-  // z-20 is a defensive safeguard against the "Sound familiar?" section
-  // (z-10) — the pin now reserves its own scroll distance (see
-  // HeroCloudWipe), so the two never actually share document space, but this
-  // keeps hero on top during any transient overlap (e.g. fast-scroll pin
-  // anticipation).
   return (
-    <div ref={containerRef} data-hero className="relative z-20 overflow-hidden bg-navy-deep">
-      <section className="relative flex h-[100svh] flex-col justify-start px-5 pt-16 sm:px-6 sm:pt-20 md:px-16 md:pt-28 lg:px-24">
+    <>
+      <div ref={containerRef} data-hero className="relative z-20 overflow-hidden bg-navy-deep">
+        <section className="relative flex h-[100svh] flex-col justify-start px-5 pt-16 sm:px-6 sm:pt-20 md:px-16 md:pt-28 lg:px-24">
 
-        {/* Full-bleed video background */}
-        <video
-          className="absolute inset-0 h-full w-full object-cover object-[70%_50%]"
-          src="/videos/hero-bg.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          aria-hidden
-        />
+          {/* Full-bleed video background */}
+          <video
+            className="absolute inset-0 h-full w-full object-cover [object-position:93%_50%] md:object-center"
+            src="/videos/hero-bg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-hidden
+          />
 
-        {/* Dark gradient overlay — left side lighter to keep text legible */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(to right, rgba(5,5,20,0.82) 0%, rgba(5,5,20,0.72) 50%, rgba(5,5,20,0.35) 100%)',
-          }}
-          aria-hidden
-        />
+          {/* Dark gradient overlay — left side lighter to keep text legible */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to right, rgba(5,5,20,0.82) 0%, rgba(5,5,20,0.72) 50%, rgba(5,5,20,0.35) 100%)',
+            }}
+            aria-hidden
+          />
 
-        <HeroCloudHint />
-        <HeroCloudWipe />
+          <HeroCloudHint />
+          <HeroCloudWipe />
 
-        {/* Left-aligned content */}
-        <div className="hero-content relative z-50 max-w-2xl">
-          <p className="hero-enter mb-3 font-body text-xs font-semibold uppercase tracking-[0.08em] text-cyan-strong opacity-0 sm:tracking-widest sm:text-sm">
-            AI Systems · Built for Blue-Collar &amp; Service Businesses
-          </p>
+          {/* Left-aligned content */}
+          <div className="hero-content relative z-50 max-w-2xl">
+            <p className="hero-enter mb-3 font-body text-xs font-semibold uppercase tracking-[0.08em] text-cyan-strong opacity-0 sm:tracking-widest sm:text-sm">
+              AI Systems · Built for Blue-Collar &amp; Service Businesses
+            </p>
 
-          <h1 className="hero-enter font-heading text-3xl font-extrabold leading-[1.08] text-offwhite opacity-0 sm:text-4xl md:text-5xl lg:text-7xl">
-            Your biggest daily headache,{' '}
-            <span className="bg-gradient-to-r from-violet-ray to-cyan-strong bg-clip-text text-transparent">
-              turned into your sharpest advantage.
-            </span>
-          </h1>
+            <h1 className="hero-enter font-heading text-3xl font-extrabold leading-[1.08] text-offwhite opacity-0 sm:text-4xl md:text-5xl lg:text-7xl">
+              Your biggest daily headache,{' '}
+              <span className="bg-gradient-to-r from-violet-ray to-cyan-strong bg-clip-text text-transparent">
+                turned into your sharpest advantage.
+              </span>
+            </h1>
 
-          <p className="hero-enter mt-4 font-body text-sm leading-relaxed text-offwhite/80 opacity-0 sm:text-base md:text-lg">
-            <span className="font-bold text-offwhite">
-              Most blue-collar and service businesses leave 20–30% of revenue on the table,
-            </span>
-            {' '}not from lack of work, but from problems they can already name.
-            We build the AI systems and products that fix them, for the businesses
-            that service and build the world. You own everything.
-            It starts with a free audit.
-          </p>
+            {/* Hidden on mobile — too much text in a small hero. Visible sm+ */}
+            <p className="hero-enter mt-4 hidden font-body text-sm leading-relaxed text-offwhite/80 opacity-0 sm:block sm:text-base md:text-lg">
+              <span className="font-bold text-offwhite">
+                Most blue-collar and service businesses leave 20–30% of revenue on the table,
+              </span>
+              {' '}not from lack of work, but from problems they can already name.
+              We build the AI systems and products that fix them, for the businesses
+              that service and build the world. You own everything.
+              It starts with a free audit.
+            </p>
 
-          <div className="hero-enter mt-8 flex flex-col gap-4 opacity-0 sm:flex-row">
-            <Button variant="primary" href="/contact">
-              Get your free audit
-            </Button>
-            <LightBeamButton href="/how-it-works">
-              See how it works
-            </LightBeamButton>
+            <div className="hero-enter mt-8 flex flex-col gap-4 opacity-0 sm:flex-row">
+              <Button variant="primary" href="/contact">
+                Get your free audit
+              </Button>
+              <LightBeamButton href="/how-it-works">
+                See how it works
+              </LightBeamButton>
+            </div>
           </div>
-        </div>
 
-        {/* Scroll cue */}
-        <div className="hero-cue absolute bottom-6 left-1/2 z-[70] -translate-x-1/2 text-offwhite/60 motion-safe:animate-bounce">
-          <ChevronDownIcon className="h-6 w-6" aria-hidden />
-          <span className="sr-only">Scroll to continue</span>
-        </div>
-      </section>
-    </div>
+          {/* Scroll cue */}
+          <div className="hero-cue absolute bottom-6 left-1/2 z-[70] -translate-x-1/2 text-offwhite/60 motion-safe:animate-bounce">
+            <ChevronDownIcon className="h-6 w-6" aria-hidden />
+            <span className="sr-only">Scroll to continue</span>
+          </div>
+        </section>
+      </div>
+
+      {/*
+        Viewport gap fill: when mobile browser chrome hides mid-scroll, the
+        viewport grows beyond 100svh. The GSAP-pinned hero (fixed, 100svh tall)
+        leaves a gap at the bottom where the body's offwhite shows through.
+        This fixed navy element covers that gap. HeroCloudWipe hides it after
+        the pin zone ends so it never overlays other sections.
+      */}
+      <div
+        data-hero-gap-fill
+        aria-hidden
+        className="pointer-events-none bg-navy-deep"
+        style={{ position: 'fixed', top: '100svh', left: 0, right: 0, bottom: 0, zIndex: 19 }}
+      />
+    </>
   )
 }

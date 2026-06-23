@@ -40,6 +40,15 @@
     width: 100%;
   }
 
+  /* GSAP inserts a transparent spacer div around pinned elements. On mobile,
+     when the browser chrome hides and the viewport grows beyond 100svh, the
+     body's offwhite shows through this spacer below the fixed hero. Giving
+     the spacer a navy-deep background matches the hero and ValueStatement
+     so no light colour ever shows through. */
+  .gsap-pin-spacer {
+    background-color: #040F49;
+  }
+
   ::selection {
     @apply bg-violet-ray text-offwhite;
   }

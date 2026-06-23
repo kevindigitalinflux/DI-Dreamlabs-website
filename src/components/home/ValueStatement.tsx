@@ -12,19 +12,22 @@ const SLOT_WORDS = [
 
 /*
  * Text split into lines so each renders as a block. The letter-reveal delay
- * increments continuously across all three lines so the reveal sweeps the
- * whole statement left-to-right, top-to-bottom.
+ * increments continuously across all lines so the reveal sweeps the whole
+ * statement left-to-right, top-to-bottom.
+ *
+ * Line layout (mobile-first):
+ *   Line 1: "We don't sell AI, product"
+ *   Line 2: "engineering or Automated systems. We sell"
+ *   Line 3: [SlotWord alone — the purple rolladex]
  */
 const LINES = [
-  "We don't sell AI, product engineering",
-  'or Automated systems.',
-  'We sell ', // trailing nbsp keeps spacing before the SlotWord
+  "We don't sell AI, product",
+  'engineering or Automated systems. We sell',
 ] as const
 
-const CHAR_DELAY_MS = 28 // delay between each letter starting its reveal
-const REVEAL_DURATION_MS = 620 // how long each letter's animation takes
+const CHAR_DELAY_MS = 28
+const REVEAL_DURATION_MS = 620
 
-/** Compute total ms before all static text has finished revealing. */
 const totalStaticChars = LINES.reduce((n, l) => n + l.length, 0)
 const SLOT_START_DELAY_MS = totalStaticChars * CHAR_DELAY_MS + REVEAL_DURATION_MS + 200
 
@@ -47,7 +50,6 @@ const Letter = ({ char, delay, inView, reduceMotion }: LetterProps) => (
         : { opacity: 0 }
     }
   >
-    {/* Spaces rendered as nbsp so inline-block doesn't collapse them */}
     {char === ' ' ? ' ' : char}
   </span>
 )
@@ -55,7 +57,8 @@ const Letter = ({ char, delay, inView, reduceMotion }: LetterProps) => (
 /**
  * Full-bleed dark section between the hero and the Sound Familiar section.
  * Reveals a bold value statement letter-by-letter (fade + slide-up + blur),
- * then cycles the final phrase through a slot-machine word animation.
+ * then cycles the final phrase through a slot-machine word animation on its
+ * own dedicated line.
  */
 export const ValueStatement = () => {
   const ref = useRef<HTMLDivElement>(null)
@@ -75,35 +78,52 @@ export const ValueStatement = () => {
       <div className="relative mx-auto max-w-content">
         <p className="font-heading font-extrabold leading-[1.15] tracking-tight text-offwhite text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
           {LINES.map((line, lineIdx) => {
-            const isLastLine = lineIdx === LINES.length - 1
+            const words = line.split(' ')
             return (
               <span key={lineIdx} className="block">
-                {line.split('').map((char, charIdx) => {
-                  const currentDelay = delay
-                  if (char !== ' ') delay += CHAR_DELAY_MS
-                  return (
-                    <Letter
-                      key={`${lineIdx}-${charIdx}`}
-                      char={char}
-                      delay={currentDelay}
-                      inView={inView}
-                      reduceMotion={reduceMotion}
-                    />
-                  )
-                })}
-
-                {/* Slot-machine word lives inline at the end of the last line */}
-                {isLastLine && (
-                  <SlotWord
-                    words={SLOT_WORDS}
-                    cycleMs={3200}
-                    delayMs={reduceMotion ? 0 : SLOT_START_DELAY_MS}
-                    className="text-violet-ray"
-                  />
-                )}
+                {words.map((word, wordIdx) => (
+                  <span key={wordIdx}>
+                    {wordIdx > 0 && (
+                      // Space lives outside the whitespace-nowrap word span so
+                      // the browser can only break at word boundaries, never
+                      // mid-character inside a word.
+                      <Letter
+                        char=" "
+                        delay={delay}
+                        inView={inView}
+                        reduceMotion={reduceMotion}
+                      />
+                    )}
+                    <span className="inline-block whitespace-nowrap">
+                      {word.split('').map((char, charIdx) => {
+                        const currentDelay = delay
+                        delay += CHAR_DELAY_MS
+                        return (
+                          <Letter
+                            key={`${lineIdx}-${wordIdx}-${charIdx}`}
+                            char={char}
+                            delay={currentDelay}
+                            inView={inView}
+                            reduceMotion={reduceMotion}
+                          />
+                        )
+                      })}
+                    </span>
+                  </span>
+                ))}
               </span>
             )
           })}
+
+          {/* SlotWord on its own block line so the rolladex sits alone */}
+          <span className="block">
+            <SlotWord
+              words={SLOT_WORDS}
+              cycleMs={3200}
+              delayMs={reduceMotion ? 0 : SLOT_START_DELAY_MS}
+              className="text-violet-ray"
+            />
+          </span>
         </p>
       </div>
     </section>

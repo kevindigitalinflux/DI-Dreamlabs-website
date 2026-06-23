@@ -64,11 +64,6 @@ export const HeroCloudWipe = () => {
       // Scroll runway for the rise + backdrop fade to play out gradually
       // instead of snapping shut. Kept just over one viewport so the pin
       // doesn't eat too much scroll before SF's content appears underneath.
-      // Hide/show the viewport gap-fill div that sits beneath the fixed hero.
-      // On mobile, when the browser chrome hides mid-scroll the viewport grows
-      // beyond 100svh, exposing the body's offwhite below the pinned hero.
-      // The gap-fill covers that space; we hide it once the pin zone ends so
-      // it never overlays the sections beneath.
       const gapFill = document.querySelector<HTMLElement>('[data-hero-gap-fill]')
 
       const tl = gsap.timeline({
@@ -90,6 +85,14 @@ export const HeroCloudWipe = () => {
           onEnterBack: () => { if (gapFill) gapFill.style.display = '' },
         },
       })
+
+      // GSAP wraps the pinned element in .gsap-pin-spacer synchronously.
+      // Set its background imperatively (JS > CSS specificity) so the body's
+      // offwhite never shows through the transparent spacer during the pin.
+      const spacer = hero.parentElement
+      if (spacer?.classList.contains('gsap-pin-spacer')) {
+        spacer.style.backgroundColor = '#040F49'
+      }
 
       tl.fromTo(backdrop, { opacity: 0 }, { opacity: 1, ease: 'none' }, 0)
 

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Button } from '@/components/ui/Button'
@@ -50,6 +50,18 @@ export const HeroAssembly = () => {
     { scope: containerRef },
   )
 
+  // Viewport gap fill: on mobile, when the browser address bar hides mid-scroll
+  // the viewport grows taller than the hero's pinned height (100svh in px).
+  // We set the gap-fill div's top position to exactly window.innerHeight in
+  // pixels at mount time — the same value GSAP captures for the pin height —
+  // so the fill covers the exposed strip below the fixed hero.
+  // Using px (not svh) ensures it works on all iOS/Android versions.
+  useEffect(() => {
+    const gapFill = document.querySelector<HTMLElement>('[data-hero-gap-fill]')
+    if (!gapFill) return
+    gapFill.style.top = `${window.innerHeight}px`
+  }, [])
+
   return (
     <>
       <div ref={containerRef} data-hero className="relative z-20 overflow-hidden bg-navy-deep">
@@ -93,7 +105,14 @@ export const HeroAssembly = () => {
               </span>
             </h1>
 
-            {/* Hidden on mobile — too much text in a small hero. Visible sm+ */}
+            {/* Mobile: short hook targeting the ICP's core pain */}
+            <p className="hero-enter mt-4 font-body text-sm leading-relaxed text-offwhite/80 opacity-0 sm:hidden">
+              You already know what's costing you.{' '}
+              <span className="font-bold text-offwhite">We build the AI systems that fix it,</span>
+              {' '}fast, practical, and you own everything.
+            </p>
+
+            {/* Desktop: full narrative paragraph */}
             <p className="hero-enter mt-4 hidden font-body text-sm leading-relaxed text-offwhite/80 opacity-0 sm:block sm:text-base md:text-lg">
               <span className="font-bold text-offwhite">
                 Most blue-collar and service businesses leave 20–30% of revenue on the table,
@@ -123,17 +142,17 @@ export const HeroAssembly = () => {
       </div>
 
       {/*
-        Viewport gap fill: when mobile browser chrome hides mid-scroll, the
-        viewport grows beyond 100svh. The GSAP-pinned hero (fixed, 100svh tall)
-        leaves a gap at the bottom where the body's offwhite shows through.
-        This fixed navy element covers that gap. HeroCloudWipe hides it after
-        the pin zone ends so it never overlays other sections.
+        Viewport gap fill: covers body offwhite that shows below the pinned hero
+        when mobile browser chrome hides and the viewport grows. Top is set in px
+        via useEffect (window.innerHeight at mount = same value GSAP uses for the
+        pin height), so it works on all iOS/Android without needing svh support.
+        HeroCloudWipe hides this via onLeave once the pin zone ends.
       */}
       <div
         data-hero-gap-fill
         aria-hidden
         className="pointer-events-none bg-navy-deep"
-        style={{ position: 'fixed', top: '100svh', left: 0, right: 0, bottom: 0, zIndex: 19 }}
+        style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 19 }}
       />
     </>
   )

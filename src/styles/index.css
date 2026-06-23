@@ -40,12 +40,19 @@
     width: 100%;
   }
 
-  /* GSAP inserts a transparent spacer div around pinned elements. On mobile,
-     when the browser chrome hides and the viewport grows beyond 100svh, the
-     body's offwhite shows through this spacer below the fixed hero. Giving
-     the spacer a navy-deep background matches the hero and ValueStatement
-     so no light colour ever shows through. */
+  /* GSAP pin spacer: transparent by default, shows body bg if uncovered. */
   .gsap-pin-spacer {
+    background-color: #040F49;
+  }
+
+  /* When the hero section is present (homepage only), override body background
+     to navy-deep. This is the root fix for the white/offwhite flash during fast
+     scroll on mobile — the body's offwhite (#F5F4EF) shows through any gap
+     between fixed/pinned elements and the viewport edge. With the body itself
+     navy-deep, there is nothing light to show through regardless of timing,
+     z-index, or viewport unit behaviour. All other sections set their own
+     bg-offwhite explicitly, so they are unaffected. */
+  body:has([data-hero]) {
     background-color: #040F49;
   }
 

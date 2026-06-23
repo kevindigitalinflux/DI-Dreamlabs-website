@@ -3,8 +3,8 @@ import { spawnBubbles, updateBubbles } from './bubblePhysics'
 import type { Bubble } from './bubblePhysics'
 
 const COUNT = 35
-const MIN_R = 18
-const MAX_R = 56
+const MIN_R = 11
+const MAX_R = 34
 
 /**
  * Draws one bubble matching the atmos-bubble-fill SVG gradient exactly.

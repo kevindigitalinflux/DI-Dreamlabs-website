@@ -21,7 +21,7 @@ const COLUMN_OFFSETS = [60, 0, 80, 40] as const
 const CARD_W = 280
 const CARD_GAP = 16
 const CARD_STRIDE = CARD_W + CARD_GAP  // 296px per step
-const AUTO_SPEED = 0.5                  // px/frame — gentle continuous scroll
+const AUTO_SPEED = 0.9                  // px/frame — continuous scroll speed
 const SNAP_PAUSE = 900                  // ms to pause auto-play after a user swipe
 const EASE = 0.09
 

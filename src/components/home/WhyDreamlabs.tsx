@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useRef, useState, useLayoutEffect, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -62,8 +62,8 @@ const USPS: WhyCardData[] = [
 ]
 
 /** Individual trust-signal card with duotone image treatment (matches Industries). */
-const WhyCard = ({ icon: Icon, title, body, image, imageAlt }: WhyCardData) => (
-  <article className="group flex w-[calc(100vw-3rem)] flex-shrink-0 flex-col overflow-hidden rounded-card border border-offwhite/10 bg-navy-deep transition-all duration-300 hover:border-violet-ray/50 hover:shadow-glow-violet sm:w-80">
+const WhyCard = ({ icon: Icon, title, body, image, imageAlt, className }: WhyCardData & { className?: string }) => (
+  <article className={`group flex flex-shrink-0 flex-col overflow-hidden rounded-card border border-offwhite/10 bg-navy-deep transition-all duration-300 hover:border-violet-ray/50 hover:shadow-glow-violet ${className ?? 'w-[calc(100vw-3rem)] sm:w-80'}`}>
     <div className="relative h-56 overflow-hidden">
       <img
         src={image}
@@ -108,6 +108,125 @@ const DrawnUnderline = () => (
     />
   </motion.svg>
 )
+
+// Carousel constants — matches Industries carousel speed
+const CARD_W = 280
+const CARD_GAP = 16
+const CARD_STRIDE = CARD_W + CARD_GAP
+const AUTO_SPEED = 0.9
+const SNAP_PAUSE = 900
+const EASE = 0.09
+
+function lerp(a: number, b: number, t: number) { return a + (b - a) * t }
+
+/** Auto-scrolling swipe carousel for Why Dreamlabs cards — mobile only. */
+const WhyCarousel = () => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const rafRef = useRef(0)
+  const scrollRef = useRef({ current: 0, target: 0 })
+  const dragRef = useRef({
+    isDown: false, startX: 0, startY: 0, startScroll: 0,
+    intentDetermined: false, isHorizontal: false,
+  })
+  const velRef = useRef({ v: 0, lastX: 0, lastTime: 0 })
+  const snapUntilRef = useRef(0)
+
+  const cards = [...USPS, ...USPS, ...USPS]
+  const setWidth = CARD_STRIDE * USPS.length
+
+  useEffect(() => {
+    scrollRef.current.current = setWidth
+    scrollRef.current.target = setWidth
+
+    const tick = () => {
+      const container = containerRef.current
+      const track = trackRef.current
+      if (!container || !track || container.offsetWidth === 0) {
+        rafRef.current = requestAnimationFrame(tick)
+        return
+      }
+      const s = scrollRef.current
+      const isDragging = dragRef.current.isDown
+      const isSnapping = performance.now() < snapUntilRef.current
+      if (!isDragging && !isSnapping) { s.target += AUTO_SPEED; s.current += AUTO_SPEED }
+      s.current = lerp(s.current, s.target, EASE)
+      if (s.current >= setWidth * 1.5) { s.current -= setWidth; s.target -= setWidth; dragRef.current.startScroll -= setWidth }
+      if (s.current < setWidth * 0.5) { s.current += setWidth; s.target += setWidth; dragRef.current.startScroll += setWidth }
+      const padLeft = (container.offsetWidth - CARD_W) / 2
+      track.style.transform = `translateX(${padLeft - s.current}px)`
+      const centerX = container.offsetWidth / 2
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return
+        const cx = padLeft - s.current + i * CARD_STRIDE + CARD_W / 2
+        const d = Math.max(-1, Math.min(1, (cx - centerX) / (container.offsetWidth * 0.65)))
+        el.style.transform = `translateY(${d * d * 16}px) scale(${1 - Math.abs(d) * 0.05})`
+        el.style.opacity = String(Math.max(0.3, 1 - Math.abs(d) * 0.4))
+      })
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [setWidth])
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0]; const d = dragRef.current
+    d.isDown = true; d.startX = t.clientX; d.startY = t.clientY
+    d.startScroll = scrollRef.current.current; d.intentDetermined = false; d.isHorizontal = false
+    velRef.current = { v: 0, lastX: t.clientX, lastTime: performance.now() }
+  }
+  const onTouchMove = (e: React.TouchEvent) => {
+    const d = dragRef.current; if (!d.isDown) return
+    const t = e.touches[0]
+    if (!d.intentDetermined) {
+      const dx = Math.abs(t.clientX - d.startX); const dy = Math.abs(t.clientY - d.startY)
+      if (dx < 6 && dy < 6) return
+      d.intentDetermined = true; d.isHorizontal = dx > dy * 0.9
+    }
+    if (!d.isHorizontal) return
+    const now = performance.now(); const dt = now - velRef.current.lastTime
+    if (dt > 8 && dt < 100) { const rawV = (velRef.current.lastX - t.clientX) / dt; velRef.current.v = Math.max(-4, Math.min(4, rawV)) }
+    velRef.current.lastX = t.clientX; velRef.current.lastTime = now
+    scrollRef.current.target = d.startScroll + (d.startX - t.clientX) * 1.1
+  }
+  const onTouchEnd = () => {
+    const d = dragRef.current; if (!d.isDown) return
+    d.isDown = false; if (!d.isHorizontal) return
+    const s = scrollRef.current
+    const projected = s.target + velRef.current.v * 160
+    const baseCard = Math.round(s.target / CARD_STRIDE)
+    const clamped = Math.max((baseCard - 2) * CARD_STRIDE, Math.min((baseCard + 2) * CARD_STRIDE, projected))
+    s.target = Math.round(clamped / CARD_STRIDE) * CARD_STRIDE
+    snapUntilRef.current = performance.now() + SNAP_PAUSE
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="mt-8 overflow-hidden py-4"
+      style={{ touchAction: 'pan-y' }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      <div ref={trackRef} className="flex" style={{ willChange: 'transform' }}>
+        {cards.map((usp, i) => (
+          <div
+            key={i}
+            ref={el => { cardRefs.current[i] = el }}
+            aria-hidden={i < USPS.length || i >= USPS.length * 2}
+            className="shrink-0"
+            style={{ width: `${CARD_W}px`, marginRight: `${CARD_GAP}px`, willChange: 'transform, opacity' }}
+          >
+            <WhyCard {...usp} className="!w-full" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 /** Section 4 — trust builders, sticky horizontal scroll gallery (Brief §7). */
 export const WhyDreamlabs = () => {
@@ -220,8 +339,9 @@ export const WhyDreamlabs = () => {
           At Dreamlabs we are all about giving our clients as much value upfront. We understand
           that sometimes business owners can be hesitant, which is why we do this
         </p>
-        <div className="-mx-6 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4">
-          {USPS.map((usp) => <WhyCard key={usp.title} {...usp} />)}
+        {/* Break out of px-6 section padding for full-width carousel track */}
+        <div className="-mx-6">
+          <WhyCarousel />
         </div>
       </div>
 

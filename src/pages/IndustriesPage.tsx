@@ -404,56 +404,81 @@ const HorizontalGallery = ({
         </div>
       </div>
 
-      {/* ── Mobile: compact 2-column image-card grid ── */}
-      <div className={`md:hidden px-5 py-14 ${isDark ? 'bg-navy-deep' : 'bg-offwhite'}`}>
-        <Reveal className="mb-8">
-          <span className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
-            {eyebrow}
-          </span>
-          <h2 className={`mt-2 font-heading text-2xl font-bold leading-snug ${isDark ? 'text-offwhite' : 'text-navy-deep'}`}>
-            {title}
-          </h2>
-          <p className={`mt-3 font-body text-sm leading-relaxed ${isDark ? 'text-offwhite/70' : 'text-navy-deep/70'}`}>
-            {lede}
-          </p>
-        </Reveal>
-        <div className="grid grid-cols-2 gap-3">
+      {/* ── Mobile: full industry content stack — same layout as before ── */}
+      <div className={`md:hidden ${isDark ? 'bg-navy-deep' : 'bg-offwhite'}`}>
+        <div className="px-6 pb-8 pt-16">
+          <Reveal>
+            <span className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+              {eyebrow}
+            </span>
+            <h2 className={`mt-3 font-heading text-2xl font-bold leading-snug ${isDark ? 'text-offwhite' : 'text-navy-deep'}`}>
+              {title}
+            </h2>
+            <p className={`mt-4 font-body text-base leading-relaxed ${isDark ? 'text-offwhite/75' : 'text-navy-deep/75'}`}>
+              {lede}
+            </p>
+          </Reveal>
+        </div>
+        <div className="space-y-10 px-6 pb-16">
           {blocks.map((block) => {
             const BIcon = block.icon
+            const textBase = isDark ? 'text-offwhite' : 'text-navy-deep'
+            const textMuted = isDark ? 'text-offwhite/75' : 'text-navy-deep/75'
+            const dividerCls = isDark ? 'border-offwhite/10' : 'border-navy-deep/10'
+            const noteCls = isDark ? 'text-offwhite/35' : 'text-navy-deep/35'
+            const linkCls = isDark ? 'text-cyan-strong' : 'text-violet-ray'
             return (
-              <Link
-                key={block.slug}
-                to={`/tools/bottleneck-check?industry=${block.slug}`}
-                className="group relative overflow-hidden rounded-card"
-                aria-label={`Check your ${block.name.toLowerCase()} bottleneck`}
-              >
-                <div className="aspect-square">
+              <div key={block.slug}>
+                {/* Full industry content */}
+                <div className="mb-5">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
+                      <BIcon className="h-4 w-4" aria-hidden />
+                    </span>
+                    <h3 className={`font-heading text-xl font-semibold ${textBase}`}>{block.name}</h3>
+                  </div>
+                  <p className={`mt-3 font-body text-sm leading-relaxed ${textMuted}`}>
+                    <strong className="font-medium">An example of a common bottleneck:</strong>{' '}{block.pain}
+                  </p>
+                  <p className={`mt-2 font-body text-sm leading-relaxed ${textMuted}`}>
+                    <strong className="font-medium">What we build:</strong>{' '}{block.fix}
+                  </p>
+                  <div className={`mt-4 grid grid-cols-2 gap-3 border-t ${dividerCls} pt-4`}>
+                    {block.metrics.map(m => (
+                      <MetricStat key={m.label} {...m} surface={isDark ? 'dark' : 'light'} />
+                    ))}
+                  </div>
+                  <p className={`mt-2 font-body text-xs italic ${noteCls}`}>{METRICS_NOTE}</p>
+                  <Link
+                    to={`/tools/bottleneck-check?industry=${block.slug}`}
+                    className={`mt-4 inline-flex items-center gap-2 font-body text-xs font-bold hover:underline ${linkCls}`}
+                  >
+                    Check your {block.name.toLowerCase()} bottleneck
+                    <ArrowRightIcon className="h-3.5 w-3.5" aria-hidden />
+                  </Link>
+                </div>
+                {/* Industry image */}
+                <div className="relative overflow-hidden rounded-card">
                   <img
                     src={block.image}
-                    alt=""
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    alt={`${block.name} industry`}
                     loading="lazy"
-                    width={400}
-                    height={400}
+                    width={800}
+                    height={600}
+                    className="aspect-[4/3] w-full object-cover"
                   />
-                </div>
-                <div
-                  aria-hidden
-                  className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/50 to-transparent"
-                />
-                <span className="absolute bottom-3 left-3 flex items-center gap-2">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
-                    <BIcon className="h-3.5 w-3.5" aria-hidden />
+                  <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-navy-deep/90 via-navy-deep/50 to-violet-ray/50 mix-blend-multiply" />
+                  <span className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-full bg-violet-ray text-offwhite">
+                    <BIcon className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="font-heading text-xs font-semibold text-offwhite">{block.name}</span>
-                </span>
-              </Link>
+                  <span className="absolute bottom-[18px] left-[60px] font-heading text-base font-semibold text-offwhite">
+                    {block.name}
+                  </span>
+                </div>
+              </div>
             )
           })}
         </div>
-        <p className={`mt-4 font-body text-xs ${isDark ? 'text-offwhite/35' : 'text-navy-deep/35'}`}>
-          Tap any card to check your industry's bottleneck
-        </p>
       </div>
     </>
   )

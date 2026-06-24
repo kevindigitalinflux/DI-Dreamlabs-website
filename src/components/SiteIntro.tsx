@@ -7,12 +7,21 @@ import { AnimatePresence, motion } from 'framer-motion'
  * creating a cinematic "zoom into the hero" transition.
  */
 export const SiteIntro = () => {
-  const [visible, setVisible] = useState(true)
+  // Only show on the very first page load of the browser session.
+  // Skipping on subsequent navigations prevents the overlay from blocking
+  // LCP on every route change and hurting Core Web Vitals scores.
+  const [visible, setVisible] = useState(() => {
+    if (typeof sessionStorage === 'undefined') return false
+    if (sessionStorage.getItem('intro-shown')) return false
+    return true
+  })
 
   useEffect(() => {
+    if (!visible) return
+    sessionStorage.setItem('intro-shown', '1')
     const t = setTimeout(() => setVisible(false), 1500)
     return () => clearTimeout(t)
-  }, [])
+  }, [visible])
 
   return (
     <AnimatePresence>

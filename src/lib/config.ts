@@ -9,7 +9,7 @@ export const SHOW_PROOF = false
  */
 export const BOOKING_URL: string | null = 'kevin-zamora-saenz-a1nikc/30min'
 
-export const SITE_URL = 'https://di-dreamlabs.com'
+export const SITE_URL = 'https://didreamlabs.com'
 export const SITE_NAME = 'DI Dreamlabs'
 export const POSITIONING_LINE =
   'Enterprise capability. Human-scale pricing. Built for the businesses that build and service the world.'

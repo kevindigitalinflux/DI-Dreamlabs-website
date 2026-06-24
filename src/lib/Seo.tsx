@@ -1,5 +1,5 @@
 import { Head } from 'vite-react-ssg'
-import { CONTACT_EMAIL, CONTACT_PHONE, SITE_NAME, SITE_URL } from '@/lib/config'
+import { CONTACT_ADDRESS, CONTACT_EMAIL, CONTACT_PHONE, SITE_NAME, SITE_URL } from '@/lib/config'
 import montserrat800 from '@fontsource/montserrat/files/montserrat-latin-800-normal.woff2?url'
 import dmSans400 from '@fontsource/dm-sans/files/dm-sans-latin-400-normal.woff2?url'
 
@@ -29,17 +29,42 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     name: 'Digital Influx Dreamlabs Ltd',
     alternateName: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/icon-512.png`,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/icon-512.png`,
+      width: 512,
+      height: 512,
+    },
     description:
       'AI product engineering and automated systems agency for blue-collar and service SMEs. Free audit, pilot before retainer, you own everything we build.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'London',
       addressCountry: 'GB',
+      ...(CONTACT_ADDRESS ? { streetAddress: CONTACT_ADDRESS } : {}),
     },
     ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
     ...(CONTACT_PHONE ? { telephone: CONTACT_PHONE } : {}),
     areaServed: 'GB',
+    priceRange: '££',
+    sameAs: [
+      'https://www.linkedin.com/company/digital-influx-dreamlabs',
+    ],
+  }
+
+  const website = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: SITE_URL,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/tools/bottleneck-check?industry={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   }
 
   return (
@@ -64,6 +89,7 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={`${SITE_URL}/og/default.png`} />
       <script type="application/ld+json">{JSON.stringify(organization)}</script>
+      <script type="application/ld+json">{JSON.stringify(website)}</script>
       {jsonLd.map((block, i) => (
         <script key={i} type="application/ld+json">
           {JSON.stringify({ '@context': 'https://schema.org', ...block })}

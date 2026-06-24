@@ -149,7 +149,36 @@ export const ServicesPage = () => (
       title="Services: AI Product Engineering, Automated Systems & Product Development"
       description="Three service pillars: AI product engineering, custom automated systems, and end-to-end product development. Built for blue-collar and service SMEs across the UK, free audit, you own everything we build."
       path="/services"
-      jsonLd={[breadcrumbs(['Services', '/services'])]}
+      jsonLd={[
+        breadcrumbs(['Services', '/services']),
+        {
+          '@type': 'Service',
+          name: 'AI Product Engineering',
+          description:
+            'End-to-end AI product design and engineering for blue-collar and service SMEs. Free audit, 2–8 week build, client owns all code and accounts from day one.',
+          provider: { '@type': 'Organization', name: 'Digital Influx Dreamlabs Ltd', url: 'https://didreamlabs.com' },
+          areaServed: 'GB',
+          url: 'https://didreamlabs.com/services#ai-engineering',
+        },
+        {
+          '@type': 'Service',
+          name: 'Automated Systems',
+          description:
+            'Custom automation that removes the single operational bottleneck costing an SME the most — invoicing, scheduling, reporting, or comms — connected to existing tools.',
+          provider: { '@type': 'Organization', name: 'Digital Influx Dreamlabs Ltd', url: 'https://didreamlabs.com' },
+          areaServed: 'GB',
+          url: 'https://didreamlabs.com/services#automated-systems',
+        },
+        {
+          '@type': 'Service',
+          name: 'Product Development',
+          description:
+            'Full-cycle digital product development: discovery, UX research, design, full-stack engineering, and handover. For SMEs launching a product or internal tool.',
+          provider: { '@type': 'Organization', name: 'Digital Influx Dreamlabs Ltd', url: 'https://didreamlabs.com' },
+          areaServed: 'GB',
+          url: 'https://didreamlabs.com/services#product-development',
+        },
+      ]}
     />
     <PageHero
       eyebrow="Services"

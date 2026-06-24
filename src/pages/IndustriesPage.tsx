@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { useRef, useLayoutEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Link } from 'react-router-dom'
 import { PageHero } from '@/components/PageHero'
 import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
-import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Button } from '@/components/ui/Button'
 import { MetricStat, type MetricEntry } from '@/components/ui/MetricStat'
 import {
@@ -16,6 +16,8 @@ import {
 } from '@/components/icons'
 import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
+
+gsap.registerPlugin(ScrollTrigger)
 
 type IconFn = (props: { className?: string; 'aria-hidden'?: boolean }) => JSX.Element
 type IndustryBlock = {
@@ -224,174 +226,240 @@ const SERVICE_BLOCKS: IndustryBlock[] = [
 ]
 
 /**
- * Sticky content switch: left panel pins in place while right-side images scroll.
- * As each image enters the viewport centre the left panel animates to show its content.
- * Mobile: full content stacked above each image.
+ * Pinned horizontal gallery for desktop: vertical scroll locks while panels slide
+ * sideways. First panel is a title slide; remaining panels are industry detail screens.
+ *
+ * GSAP init runs inside setTimeout(150ms) inside useLayoutEffect so the browser
+ * has completed its layout pass and container.offsetWidth is accurate before
+ * ScrollTrigger calculates pin geometry.
+ *
+ * Mobile: compact 2-column image-card grid linking to the bottleneck checker.
  */
-function StickyIndustryScroll({ blocks, surface }: { blocks: IndustryBlock[]; surface: 'workshop' | 'dream' }) {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const imgRefs = useRef<(HTMLDivElement | null)[]>([])
-  const reduceMotion = useReducedMotion()
+const HorizontalGallery = ({
+  blocks, eyebrow, title, lede, surface,
+}: {
+  blocks: IndustryBlock[]
+  eyebrow: string
+  title: string
+  lede: string
+  surface: 'workshop' | 'dream'
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const dotRefs = useRef<(HTMLDivElement | null)[]>([])
+  const totalPanels = blocks.length + 1  // +1 for title slide
   const isDark = surface === 'dream'
-  const textBase = isDark ? 'text-offwhite' : 'text-navy-deep'
-  const textMuted = isDark ? 'text-offwhite/75' : 'text-navy-deep/75'
-  const dividerCls = isDark ? 'border-offwhite/10' : 'border-navy-deep/10'
-  const noteCls = isDark ? 'text-offwhite/35' : 'text-navy-deep/35'
-  const linkCls = isDark ? 'text-cyan-strong' : 'text-violet-ray'
-  const active = (blocks[activeIndex] ?? blocks[0]) as IndustryBlock
-  const ActiveIcon = active.icon
 
-  useEffect(() => {
-    const observers = imgRefs.current.map((el, i) => {
-      if (!el) return null
-      const io = new IntersectionObserver(
-        (entries) => { if (entries[0]?.isIntersecting) setActiveIndex(i) },
-        { rootMargin: '-25% 0px -25% 0px', threshold: 0 },
-      )
-      io.observe(el)
-      return io
-    })
-    return () => observers.forEach(o => o?.disconnect())
-  }, [])
+  useLayoutEffect(() => {
+    let ctx: gsap.Context | undefined
+
+    // 150ms safety delay: ensures DOM is fully painted and widths are accurate
+    // before ScrollTrigger measures the container for pin geometry.
+    const timer = setTimeout(() => {
+      const container = containerRef.current
+      const track = trackRef.current
+      if (!container || !track) return
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+      ctx = gsap.context(() => {
+        gsap.to(track, {
+          x: () => -(window.innerWidth * (totalPanels - 1)),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top top',
+            end: () => `+=${window.innerWidth * (totalPanels - 1)}`,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const idx = Math.min(
+                Math.round(self.progress * (totalPanels - 1)),
+                totalPanels - 1,
+              )
+              dotRefs.current.forEach((dot, i) => {
+                if (!dot) return
+                dot.style.width = i === idx ? '2rem' : '0.5rem'
+                dot.style.opacity = i === idx ? '1' : '0.4'
+              })
+            },
+          },
+        })
+      }, container)
+    }, 150)
+
+    return () => {
+      clearTimeout(timer)
+      ctx?.revert()
+    }
+  }, [totalPanels])
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-16">
-
-      {/* LEFT — sticky text panel, desktop only */}
-      <div className="hidden lg:block lg:sticky lg:top-28">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
-            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+    <>
+      {/* ── Desktop: GSAP-pinned horizontal gallery ── */}
+      <div
+        ref={containerRef}
+        className="relative hidden overflow-hidden md:block"
+        style={{ height: '100vh' }}
+        aria-label={`${eyebrow} gallery`}
+      >
+        <div
+          ref={trackRef}
+          className="flex h-full"
+          style={{ width: `${totalPanels * 100}vw`, willChange: 'transform' }}
+        >
+          {/* Panel 0 — title slide */}
+          <div
+            className={`relative flex h-full w-screen flex-shrink-0 items-center justify-center px-12 ${isDark ? 'bg-navy-deep' : 'bg-offwhite'}`}
           >
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
-                <ActiveIcon className="h-5 w-5" aria-hidden />
+            <div className="max-w-2xl text-center">
+              <span className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+                {eyebrow}
               </span>
-              <h3 className={`font-heading text-2xl font-semibold md:text-[2rem] ${textBase}`}>
-                {active.name}
-              </h3>
+              <h2 className={`mt-3 font-heading text-4xl font-bold leading-tight lg:text-5xl ${isDark ? 'text-offwhite' : 'text-navy-deep'}`}>
+                {title}
+              </h2>
+              <p className={`mt-5 font-body text-lg leading-relaxed ${isDark ? 'text-offwhite/70' : 'text-navy-deep/70'}`}>
+                {lede}
+              </p>
+              <p
+                className={`mt-10 font-body text-sm ${isDark ? 'text-offwhite/35' : 'text-navy-deep/35'}`}
+                aria-hidden
+              >
+                Scroll to explore →
+              </p>
             </div>
-            <p className={`mt-5 font-body text-base leading-relaxed ${textMuted}`}>
-              <strong className="font-medium">An example of a common bottleneck in this field:</strong>{' '}
-              {active.pain}
-            </p>
-            <p className={`mt-3 font-body text-base leading-relaxed ${textMuted}`}>
-              <strong className="font-medium">What we build:</strong>{' '}{active.fix}
-            </p>
-            <div className={`mt-6 grid grid-cols-2 gap-4 border-t ${dividerCls} pt-5`}>
-              {active.metrics.map(m => (
-                <MetricStat key={m.label} {...m} surface={isDark ? 'dark' : 'light'} />
-              ))}
-            </div>
-            <p className={`mt-3 font-body text-xs italic ${noteCls}`}>{METRICS_NOTE}</p>
-            <Link
-              to={`/tools/bottleneck-check?industry=${active.slug}`}
-              className={`mt-6 inline-flex items-center gap-2 font-body text-sm font-bold hover:underline ${linkCls}`}
-            >
-              Check your {active.name.toLowerCase()} bottleneck
-              <ArrowRightIcon className="h-4 w-4" aria-hidden />
-            </Link>
-          </motion.div>
-        </AnimatePresence>
+          </div>
 
-        {/* Pill-dot navigation — shows all industries, active expands, click scrolls to image */}
-        <div className="mt-8 flex flex-wrap gap-2" role="list" aria-label="Industry navigation">
-          {blocks.map((block, i) => (
-            <button
-              key={block.slug}
-              type="button"
-              role="listitem"
-              aria-label={`Jump to ${block.name}`}
-              aria-current={i === activeIndex ? 'true' : undefined}
-              onClick={() => imgRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-              className={`h-2 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                i === activeIndex
-                  ? `w-8 ${isDark ? 'bg-cyan-strong' : 'bg-violet-ray'}`
-                  : `w-2 cursor-pointer ${isDark ? 'bg-offwhite/25 hover:bg-offwhite/50' : 'bg-navy-deep/20 hover:bg-navy-deep/40'}`
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Counter label — e.g. "3 of 8" */}
-        <p className={`mt-3 font-body text-xs ${noteCls}`}>
-          {activeIndex + 1} of {blocks.length}
-        </p>
-      </div>
-
-      {/* RIGHT — scrolling images (+ full content on mobile) */}
-      <div className="space-y-10 lg:space-y-16">
-        {blocks.map((block, i) => {
-          const BIcon = block.icon
-          return (
-            <div key={block.slug}>
-              {/* Mobile: content above image */}
-              <div className="mb-5 lg:hidden">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
-                    <BIcon className="h-4 w-4" aria-hidden />
-                  </span>
-                  <h3 className={`font-heading text-xl font-semibold ${textBase}`}>{block.name}</h3>
-                </div>
-                <p className={`mt-3 font-body text-sm leading-relaxed ${textMuted}`}>
-                  <strong className="font-medium">An example of a common bottleneck:</strong>{' '}{block.pain}
-                </p>
-                <p className={`mt-2 font-body text-sm leading-relaxed ${textMuted}`}>
-                  <strong className="font-medium">What we build:</strong>{' '}{block.fix}
-                </p>
-                <div className={`mt-4 grid grid-cols-2 gap-3 border-t ${dividerCls} pt-4`}>
-                  {block.metrics.map(m => (
-                    <MetricStat key={m.label} {...m} surface={isDark ? 'dark' : 'light'} />
-                  ))}
-                </div>
-                <p className={`mt-2 font-body text-xs italic ${noteCls}`}>{METRICS_NOTE}</p>
-                <Link
-                  to={`/tools/bottleneck-check?industry=${block.slug}`}
-                  className={`mt-4 inline-flex items-center gap-2 font-body text-xs font-bold hover:underline ${linkCls}`}
-                >
-                  Check your {block.name.toLowerCase()} bottleneck
-                  <ArrowRightIcon className="h-3.5 w-3.5" aria-hidden />
-                </Link>
-              </div>
-
-              {/* Image with active highlight ring */}
+          {/* Panels 1–N — industry detail panels */}
+          {blocks.map((block, i) => {
+            const BIcon = block.icon
+            return (
               <div
-                ref={el => { imgRefs.current[i] = el }}
-                className="relative overflow-hidden rounded-card"
+                key={block.slug}
+                className="relative flex h-full w-screen flex-shrink-0 items-center"
               >
                 <img
                   src={block.image}
                   alt={`${block.name} industry`}
+                  className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"
-                  width={800}
-                  height={600}
-                  className="aspect-[4/3] w-full object-cover"
+                  width={1200}
+                  height={900}
                 />
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-navy-deep/90 via-navy-deep/50 to-violet-ray/50 mix-blend-multiply" />
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-navy-deep via-navy-deep/85 to-navy-deep/35" />
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 via-transparent to-transparent" />
+
+                <div className="relative z-10 max-w-xl px-12 lg:px-20">
+                  <div className="mb-5 flex items-center gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
+                      <BIcon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <span className="font-body text-xs font-semibold uppercase tracking-widest text-offwhite/50">
+                      {i + 1} of {blocks.length}
+                    </span>
+                  </div>
+                  <h2 className="font-heading text-3xl font-bold text-offwhite lg:text-4xl">{block.name}</h2>
+                  <p className="mt-5 font-body text-sm leading-relaxed text-offwhite/80 lg:text-base">
+                    <span className="font-semibold text-offwhite">Common bottleneck: </span>
+                    {block.pain}
+                  </p>
+                  <p className="mt-2 font-body text-sm leading-relaxed text-offwhite/80 lg:text-base">
+                    <span className="font-semibold text-offwhite">What we build: </span>
+                    {block.fix}
+                  </p>
+                  <div className="mt-6 grid grid-cols-2 gap-4 border-t border-offwhite/15 pt-5">
+                    {block.metrics.map(m => (
+                      <MetricStat key={m.label} {...m} surface="dark" />
+                    ))}
+                  </div>
+                  <p className="mt-2 font-body text-xs italic text-offwhite/30">{METRICS_NOTE}</p>
+                  <Link
+                    to={`/tools/bottleneck-check?industry=${block.slug}`}
+                    className="mt-5 inline-flex items-center gap-2 font-body text-sm font-bold text-cyan-strong hover:underline"
+                  >
+                    Check your {block.name.toLowerCase()} bottleneck
+                    <ArrowRightIcon className="h-4 w-4" aria-hidden />
+                  </Link>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Progress dots — updated via DOM refs in onUpdate, no re-renders on scroll */}
+        <div
+          className="pointer-events-none absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2"
+          aria-hidden
+        >
+          {Array.from({ length: totalPanels }, (_, i) => (
+            <div
+              key={i}
+              ref={el => { dotRefs.current[i] = el }}
+              className="h-1.5 rounded-full bg-violet-ray transition-all duration-300"
+              style={{ width: i === 0 ? '2rem' : '0.5rem', opacity: i === 0 ? '1' : '0.4' }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── Mobile: compact 2-column image-card grid ── */}
+      <div className={`md:hidden px-5 py-14 ${isDark ? 'bg-navy-deep' : 'bg-offwhite'}`}>
+        <Reveal className="mb-8">
+          <span className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-violet-ray">
+            {eyebrow}
+          </span>
+          <h2 className={`mt-2 font-heading text-2xl font-bold leading-snug ${isDark ? 'text-offwhite' : 'text-navy-deep'}`}>
+            {title}
+          </h2>
+          <p className={`mt-3 font-body text-sm leading-relaxed ${isDark ? 'text-offwhite/70' : 'text-navy-deep/70'}`}>
+            {lede}
+          </p>
+        </Reveal>
+        <div className="grid grid-cols-2 gap-3">
+          {blocks.map((block) => {
+            const BIcon = block.icon
+            return (
+              <Link
+                key={block.slug}
+                to={`/tools/bottleneck-check?industry=${block.slug}`}
+                className="group relative overflow-hidden rounded-card"
+                aria-label={`Check your ${block.name.toLowerCase()} bottleneck`}
+              >
+                <div className="aspect-square">
+                  <img
+                    src={block.image}
+                    alt=""
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    width={400}
+                    height={400}
+                  />
+                </div>
                 <div
                   aria-hidden
-                  className={`absolute inset-0 rounded-card border-2 transition-colors duration-500 ${i === activeIndex ? 'border-violet-ray/80' : 'border-transparent'}`}
+                  className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/50 to-transparent"
                 />
-                <span className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-full bg-violet-ray text-offwhite">
-                  <BIcon className="h-5 w-5" aria-hidden />
+                <span className="absolute bottom-3 left-3 flex items-center gap-2">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
+                    <BIcon className="h-3.5 w-3.5" aria-hidden />
+                  </span>
+                  <span className="font-heading text-xs font-semibold text-offwhite">{block.name}</span>
                 </span>
-                <span className="absolute bottom-[18px] left-[60px] font-heading text-base font-semibold text-offwhite">
-                  {block.name}
-                </span>
-              </div>
-            </div>
-          )
-        })}
+              </Link>
+            )
+          })}
+        </div>
+        <p className={`mt-4 font-body text-xs ${isDark ? 'text-offwhite/35' : 'text-navy-deep/35'}`}>
+          Tap any card to check your industry's bottleneck
+        </p>
       </div>
-    </div>
+    </>
   )
 }
 
-/** Blue-collar and service SME verticals with sticky content-switch layout. */
+/** Blue-collar and service SME verticals as GSAP-pinned horizontal scroll galleries. */
 export const IndustriesPage = () => (
   <>
     <Seo
@@ -407,35 +475,21 @@ export const IndustriesPage = () => (
       background={<BubblePitBackground />}
     />
 
-    {/* Blue-collar SMEs */}
-    <Section surface="workshop">
-      <Reveal>
-        <SectionHeading
-          eyebrow="Blue-collar SMEs"
-          title="Built for the businesses that build the world"
-          lede="If your work happens in vans, on sites, and in buildings, not just behind desks, you are exactly who we built Dreamlabs for."
-          surface="light"
-        />
-      </Reveal>
-      <div className="mt-16 lg:mt-20">
-        <StickyIndustryScroll blocks={PHYSICAL_BLOCKS} surface="workshop" />
-      </div>
-    </Section>
+    <HorizontalGallery
+      blocks={PHYSICAL_BLOCKS}
+      eyebrow="Blue-collar SMEs"
+      title="Built for the businesses that build the world"
+      lede="If your work happens in vans, on sites, and in buildings, not just behind desks, you are exactly who we built Dreamlabs for."
+      surface="workshop"
+    />
 
-    {/* Service SMEs */}
-    <Section surface="dream">
-      <Reveal>
-        <SectionHeading
-          eyebrow="Service SMEs"
-          title="Built for the businesses that service the world"
-          lede="If your business runs on client relationships, expertise, and fast-moving teams, Dreamlabs builds the systems that let you scale without adding headcount."
-          surface="dark"
-        />
-      </Reveal>
-      <div className="mt-16 lg:mt-20">
-        <StickyIndustryScroll blocks={SERVICE_BLOCKS} surface="dream" />
-      </div>
-    </Section>
+    <HorizontalGallery
+      blocks={SERVICE_BLOCKS}
+      eyebrow="Service SMEs"
+      title="Built for the businesses that service the world"
+      lede="If your business runs on client relationships, expertise, and fast-moving teams, Dreamlabs builds the systems that let you scale without adding headcount."
+      surface="dream"
+    />
 
     {/* CTA */}
     <Section surface="workshop" className="text-center">

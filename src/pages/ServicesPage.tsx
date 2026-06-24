@@ -101,36 +101,41 @@ const PillarImage = ({ src, alt, borderClass, hoverBorderClass }: {
  * scaleX from origin-left instead of scaleY from origin-top.
  */
 const EngagementSection = () => {
-  const ref = useRef<HTMLDivElement>(null)
+  const lineRef = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 60%'] })
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
+  const { scrollYProgress } = useScroll({ target: lineRef, offset: ['start 75%', 'end 60%'] })
+  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
     <Section surface="dream">
       <Reveal>
         <SectionHeading eyebrow="The engagement" title="How an engagement actually runs" surface="dark" />
       </Reveal>
-      <div ref={ref} className="relative mx-auto mt-10 max-w-3xl">
-        <div className="absolute inset-x-5 top-7 hidden h-px bg-offwhite/15 sm:block" aria-hidden />
+      <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl">
+        {/* Vertical connecting line — same animation as The Dreamlabs Method */}
+        <div className="absolute bottom-5 left-[1.4rem] top-5 w-px bg-offwhite/10" aria-hidden />
         <motion.div
-          className="absolute inset-x-5 top-7 hidden h-px origin-left bg-violet-ray sm:block"
-          style={{ scaleX: reduceMotion ? 1 : scaleX }}
+          className="absolute bottom-5 left-[1.4rem] top-5 w-px origin-top bg-violet-ray"
+          style={{ scaleY: reduceMotion ? 1 : scaleY }}
           aria-hidden
         />
-        <div className="grid gap-6 sm:grid-cols-3">
+        <ol className="space-y-10">
           {STEPS.map(({ icon: Icon, label, detail }, i) => (
-            <Reveal key={label} delay={i * 80} className="relative z-10 text-center">
-              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-navy-deep text-cyan-strong ring-1 ring-offwhite/20">
-                <Icon className="h-7 w-7" aria-hidden />
-              </span>
-              <h3 className="mt-4 font-heading text-base font-semibold text-offwhite">{label}</h3>
-              <p className="mt-1 font-body text-sm text-offwhite/65">{detail}</p>
-            </Reveal>
+            <li key={label}>
+              <Reveal delay={i * 80} className="flex gap-6">
+                <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy-deep text-cyan-strong ring-1 ring-offwhite/20 shadow-card">
+                  <Icon className="h-6 w-6" aria-hidden />
+                </span>
+                <div className="pt-1">
+                  <h3 className="font-heading text-lg font-semibold text-offwhite md:text-[1.375rem]">{label}</h3>
+                  <p className="mt-1.5 font-body text-base leading-relaxed text-offwhite/65">{detail}</p>
+                </div>
+              </Reveal>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
-      <Reveal className="mt-12 text-center">
+      <Reveal className="mt-14 text-center">
         <Button variant="primary" href="/contact">Start with the free audit</Button>
       </Reveal>
     </Section>

@@ -290,6 +290,19 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   closes on route change (added `pathname` effect).
 - Animation reference skill created: `~/.claude/commands/website-animations.md` —
   15 animation patterns documented with implementation code, file references, and gotchas.
+- Custom domain `didreamlabs.com` assigned to Cloudflare Pages project via API.
+
+**Session 2026-06-24 — Full SEO audit (commit 92d5317):**
+- 6-agent parallel audit (technical, performance, visual, content, schema, GEO).
+- Critical: `SITE_URL` was `di-dreamlabs.com` (wrong) — fixed to `didreamlabs.com` in `src/lib/config.ts`; this had been poisoning all canonical/OG/JSON-LD since launch.
+- `SiteIntro.tsx`: sessionStorage gate — overlay only fires once per browser session (was blocking LCP on every page load).
+- `@remotion/player` + `remotion` removed from `package.json` — not used anywhere in source.
+- Schema: `logo` upgraded to ImageObject, `WebSite`+`SearchAction` added site-wide, `Service` schemas added to ServicesPage, `priceRange: '££'` + `sameAs` added to Organization.
+- `public/llms.txt` created — AI agent-readable site summary for ChatGPT/Perplexity.
+- `public/robots.txt` updated with explicit AI crawler directives (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, Google-Extended).
+- `public/sitemap.xml`: domain corrected, `<priority>` tags removed, `lastmod` updated.
+- `public/_headers` CSP: `https://cal.com https://app.cal.com` added to `img-src`; Supabase added to `connect-src`.
+- `PainPoints.tsx`: `$126,000/yr` → `£98,000/yr`, `$76,800/yr` → `£60,000/yr` (UK audience credibility).
 
 **In progress:** Nothing.
 
@@ -299,8 +312,11 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
   API → `service_role` key (the long secret one — never commit it). Until set, the contact form
   returns 202 (success UI shown to user) but leads are not stored.
 - **WAF rate-limit rule** on `/api/lead` (30 req/min/IP) — Cloudflare dashboard, see `docs/security-audit-2026-06-12.md`.
-- **Custom domain** (di-dreamlabs.com) — Cloudflare Pages → di-dreamlabs-website → Custom domains.
-- Phone and address → `src/lib/config.ts` (footer + JSON-LD schema).
+- **Registered company address** → `CONTACT_ADDRESS` in `src/lib/config.ts` — activates `PostalAddress` in JSON-LD schema. Use Companies House registered address.
+- **Phone number** → `CONTACT_PHONE` in `src/lib/config.ts` — activates phone in JSON-LD schema.
+- **LinkedIn company page URL** → add to `sameAs` array in `src/lib/Seo.tsx` (placeholder currently: `'https://www.linkedin.com/company/digital-influx-dreamlabs'`). High AI citation value.
+- **Named founder bio on About page** — single highest E-E-A-T lever. One named person + title + LinkedIn URL transforms Google trust signals. Add to `AboutPage.tsx` story section.
+- **Real case studies** → flip `SHOW_PROOF = true` in `src/lib/config.ts` once a real client story (even anonymised) is ready. Even one verified outcome outweighs all illustrative metrics.
 - Legal pages need a solicitor pass; company details are placeholders.
 - n8n automations in `docs/automations-required.md` — not yet built.
 

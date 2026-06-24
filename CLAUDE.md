@@ -273,6 +273,22 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - To redeploy: `npm run build && npx wrangler pages deploy dist --project-name di-dreamlabs-website`
   (wrangler is now authenticated on this machine).
 
+**Session 2026-06-24 — Who We Serve gallery + nav animation:**
+- `IndustriesPage.tsx` rebuilt: each of the 16 industries is now a large standalone card
+  (image + name + pain + fix + 4 MetricStat + disclaimer + CTA link) in a GSAP-pinned
+  horizontal scroll gallery. Two galleries: blue-collar SMEs (8 cards) and service SMEs
+  (8 cards). `HorizontalCardGallery` component: `useLayoutEffect` + 150ms safety delay,
+  `track.scrollWidth - container.offsetWidth` distance, `invalidateOnRefresh: true`,
+  `start: 'top 64px'` to clear fixed nav. Card width `min(85vw, 480px)`.
+- `SiteNav.tsx` mobile dropdown animated with Framer Motion `AnimatePresence`:
+  dropdown slides down + fades in, each nav item staggers in from the left (`x: -10 → 0`,
+  40ms stagger). Hamburger ↔ close icon rotates in/out (`mode="wait"`). Brand colour
+  accents: `violet-ray/30` border, `from-violet-ray via-cyan-strong/60` gradient divider,
+  active link `border-l-2 border-violet-ray`, hover `bg-violet-ray/[0.08]`. Menu also
+  closes on route change (added `pathname` effect).
+- Animation reference skill created: `~/.claude/commands/website-animations.md` —
+  15 animation patterns documented with implementation code, file references, and gotchas.
+
 **In progress:** Nothing.
 
 **Not yet done / needs Kevin:**

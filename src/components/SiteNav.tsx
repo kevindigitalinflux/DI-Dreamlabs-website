@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import { MenuIcon, CloseIcon } from '@/components/icons'
 
 const NAV_LINKS = [
@@ -10,6 +11,26 @@ const NAV_LINKS = [
   { to: '/about', label: 'About' },
   { to: '/faq', label: 'FAQ' },
 ] as const
+
+/** Dropdown panel slides down + fades in; each item staggers in from the left. */
+const dropdownVariants = {
+  hidden: { opacity: 0, y: -6 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1], staggerChildren: 0.04, delayChildren: 0.04 },
+  },
+  exit: {
+    opacity: 0,
+    y: -6,
+    transition: { duration: 0.16, ease: [0.4, 0, 1, 1] },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.18, ease: 'easeOut' } },
+}
 
 /**
  * Fixed site navigation — Deep Navy glass bar with animated logo bubbles.
@@ -32,6 +53,9 @@ export const SiteNav = () => {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [pathname])
+
+  // Close menu on route change
+  useEffect(() => { setOpen(false) }, [pathname])
 
   return (
     <header
@@ -93,36 +117,79 @@ export const SiteNav = () => {
           aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+          <AnimatePresence mode="wait" initial={false}>
+            {open ? (
+              <motion.span
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="block"
+              >
+                <CloseIcon className="h-6 w-6" />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="menu"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="block"
+              >
+                <MenuIcon className="h-6 w-6" />
+              </motion.span>
+            )}
+          </AnimatePresence>
         </button>
       </nav>
 
-      {open && (
-        <div id="mobile-nav" className="border-t border-offwhite/10 bg-navy-deep px-4 py-4 sm:px-6 lg:hidden">
-          <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map(({ to, label }) => (
-              <li key={to}>
-                <NavLink
-                  to={to}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-nav"
+            key="mobile-nav"
+            variants={dropdownVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="border-t border-violet-ray/30 bg-navy-deep px-4 py-4 sm:px-6 lg:hidden"
+          >
+            {/* Violet accent line at the top of the dropdown */}
+            <div aria-hidden className="mb-3 h-px bg-gradient-to-r from-violet-ray via-cyan-strong/60 to-transparent" />
+
+            <ul className="flex flex-col gap-1">
+              {NAV_LINKS.map(({ to, label }) => (
+                <motion.li key={to} variants={itemVariants}>
+                  <NavLink
+                    to={to}
+                    onClick={() => setOpen(false)}
+                    className={({ isActive }) =>
+                      `block rounded-card px-3 py-3 font-body text-base font-medium transition-colors ${
+                        isActive
+                          ? 'border-l-2 border-violet-ray pl-[10px] text-violet-text'
+                          : 'text-offwhite hover:bg-violet-ray/[0.08] hover:text-violet-text'
+                      }`
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                </motion.li>
+              ))}
+              <motion.li className="mt-2" variants={itemVariants}>
+                <Link
+                  to="/contact"
                   onClick={() => setOpen(false)}
-                  className="block rounded-card px-3 py-3 font-body text-base font-medium text-offwhite hover:bg-offwhite/5"
+                  className="block rounded-card bg-violet-ray px-5 py-3.5 text-center font-body text-base font-bold text-offwhite transition-all hover:shadow-glow-violet active:scale-[0.98]"
                 >
-                  {label}
-                </NavLink>
-              </li>
-            ))}
-            <li className="mt-2">
-              <Link
-                to="/contact"
-                onClick={() => setOpen(false)}
-                className="block rounded-card bg-violet-ray px-5 py-3.5 text-center font-body text-base font-bold text-offwhite"
-              >
-                Get your free audit
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
+                  Get your free audit
+                </Link>
+              </motion.li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

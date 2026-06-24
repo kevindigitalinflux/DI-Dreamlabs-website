@@ -35,9 +35,9 @@ export const Pillars = () => (
           <div className="relative mt-6 overflow-hidden rounded-card border border-violet-ray/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-violet-ray/80">
             <div className="aspect-[4/3]">
               <img
-                src="/images/services/ai-product-engineering.png"
-                alt="AI product engineering illustration"
-                className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                src="/images/services/ai-product-engineering.jpg"
+                alt="AI product engineering"
+                className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
               />
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-violet-ray/10 to-transparent" />
@@ -69,9 +69,9 @@ export const Pillars = () => (
           <div className="relative mt-6 overflow-hidden rounded-card border border-cyan-strong/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-cyan-strong/80">
             <div className="aspect-[4/3]">
               <img
-                src="/images/services/automated-systems.png"
-                alt="Automated systems illustration"
-                className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                src="/images/services/automated-systems.jpg"
+                alt="Automated systems"
+                className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
               />
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cyan-strong/10 to-transparent" />
@@ -103,9 +103,9 @@ export const Pillars = () => (
           <div className="relative mt-6 overflow-hidden rounded-card border border-magenta-bloom/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-magenta-bloom/80">
             <div className="aspect-[4/3]">
               <img
-                src="/images/services/end-to-end-product.jpg"
-                alt="End-to-end product development illustration"
-                className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                src="/images/services/end-to-end-product-dev.jpg"
+                alt="End-to-end product development"
+                className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
               />
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-magenta-bloom/10 to-transparent" />

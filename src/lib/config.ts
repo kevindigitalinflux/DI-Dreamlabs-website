@@ -1,7 +1,7 @@
 /** Site-wide feature flags and stubbed external links. */
 
 /** Results/Proof section stays hidden until real case studies exist (spec §4). */
-export const SHOW_PROOF = false
+export const SHOW_PROOF = true
 
 /**
  * Cal.com booking link — the path only, e.g. "kevin-di/free-audit".

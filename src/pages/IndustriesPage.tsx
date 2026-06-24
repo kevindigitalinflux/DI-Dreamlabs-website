@@ -246,7 +246,7 @@ const IndustryCard = ({ block, surface }: { block: IndustryBlock; surface: 'work
       style={{ width: 'min(85vw, 480px)', minWidth: '280px' }}
     >
       {/* Industry image */}
-      <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
+      <div className="relative aspect-video overflow-hidden md:aspect-[21/9]">
         <img
           src={block.image}
           alt={`${block.name} industry`}
@@ -262,7 +262,7 @@ const IndustryCard = ({ block, surface }: { block: IndustryBlock; surface: 'work
       </div>
 
       {/* Full industry content — identical detail level to the original layout */}
-      <div className="p-5">
+      <div className="p-5 md:p-4">
         <h3 className={`font-heading text-xl font-semibold ${textBase}`}>{block.name}</h3>
         <p className={`mt-3 font-body text-sm leading-relaxed ${textMuted}`}>
           <strong className="font-medium">An example of a common bottleneck:</strong>{' '}{block.pain}
@@ -270,7 +270,7 @@ const IndustryCard = ({ block, surface }: { block: IndustryBlock; surface: 'work
         <p className={`mt-2 font-body text-sm leading-relaxed ${textMuted}`}>
           <strong className="font-medium">What we build:</strong>{' '}{block.fix}
         </p>
-        <div className={`mt-4 grid grid-cols-2 gap-3 border-t ${dividerCls} pt-4`}>
+        <div className={`mt-4 md:mt-3 grid grid-cols-2 gap-3 border-t ${dividerCls} pt-4`}>
           {block.metrics.map(m => (
             <MetricStat key={m.label} {...m} surface={isDark ? 'dark' : 'light'} />
           ))}
@@ -278,7 +278,7 @@ const IndustryCard = ({ block, surface }: { block: IndustryBlock; surface: 'work
         <p className={`mt-2 font-body text-xs italic ${noteCls}`}>{METRICS_NOTE}</p>
         <Link
           to={`/tools/bottleneck-check?industry=${block.slug}`}
-          className={`mt-4 inline-flex items-center gap-2 font-body text-xs font-bold hover:underline ${linkCls}`}
+          className={`mt-4 md:mt-3 inline-flex items-center gap-2 font-body text-xs font-bold hover:underline ${linkCls}`}
         >
           Check your {block.name.toLowerCase()} bottleneck
           <ArrowRightIcon className="h-3.5 w-3.5" aria-hidden />
@@ -349,7 +349,7 @@ const HorizontalCardGallery = ({
     >
       <div
         ref={trackRef}
-        className="flex gap-5 px-6 py-8 lg:px-10 lg:py-10"
+        className="flex gap-5 px-6 py-8 lg:px-10 lg:py-6"
         style={{ willChange: 'transform' }}
       >
         {blocks.map(block => (

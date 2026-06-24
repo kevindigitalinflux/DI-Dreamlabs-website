@@ -67,7 +67,7 @@ export const Pillars = () => (
             handles both before lunch, automatically.
           </p>
           <div className="relative mt-6 overflow-hidden rounded-card border border-cyan-strong/30 bg-offwhite/95 transition-colors duration-300 group-hover:border-cyan-strong/80">
-            <div className="aspect-[4/3]">
+            <div className="aspect-video">
               <img
                 src="/images/services/automated-systems.jpg"
                 alt="Automated systems"

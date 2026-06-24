@@ -78,7 +78,7 @@ const PillarImage = ({ src, alt, borderClass, hoverBorderClass }: {
     <Reveal className="mt-8">
       <div
         ref={ref}
-        className={`group relative mx-auto max-w-2xl overflow-hidden rounded-card border ${borderClass} shadow-card transition-colors duration-300 ${hoverBorderClass}`}
+        className={`group relative mx-auto max-w-2xl overflow-hidden rounded-card border ${borderClass} shadow-card transition-colors duration-300 md:max-w-4xl ${hoverBorderClass}`}
       >
         <div className="aspect-[4/3] overflow-hidden">
           <motion.img
@@ -111,7 +111,7 @@ const EngagementSection = () => {
       <Reveal>
         <SectionHeading eyebrow="The engagement" title="How an engagement actually runs" surface="dark" />
       </Reveal>
-      <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl">
+      <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl md:max-w-4xl">
         {/* Vertical connecting line — same animation as The Dreamlabs Method */}
         <div className="absolute bottom-5 left-[1.4rem] top-5 w-px bg-offwhite/10" aria-hidden />
         <motion.div

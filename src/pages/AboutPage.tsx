@@ -344,7 +344,7 @@ export const AboutPage = () => (
     />
 
     <Section surface="workshop">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-3xl md:max-w-5xl">
         <Reveal>
           <SectionHeading eyebrow="The story" title="Why we exist" surface="light" align="left" />
         </Reveal>
@@ -384,7 +384,7 @@ export const AboutPage = () => (
         />
       </Reveal>
       <Reveal className="mt-10">
-        <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
+        <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2 md:max-w-4xl">
           {TALENT_PARTNERS.map((p) => (
             <TalentPartnerCard key={p.id} {...p} />
           ))}

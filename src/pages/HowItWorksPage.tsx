@@ -63,7 +63,7 @@ const StepsJourney = () => {
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
-    <div ref={ref} className="relative mx-auto max-w-3xl">
+    <div ref={ref} className="relative mx-auto max-w-3xl md:max-w-4xl">
       <div className="absolute bottom-5 left-[1.4rem] top-5 w-px bg-navy-deep/10" aria-hidden />
       <motion.div
         className="absolute bottom-5 left-[1.4rem] top-5 w-px origin-top bg-violet-ray"

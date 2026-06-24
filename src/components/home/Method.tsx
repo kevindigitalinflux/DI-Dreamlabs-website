@@ -74,7 +74,7 @@ export const Method = () => {
       {/* Frosted panel — light counterpart to the SF heading treatment, so
           the heading stays legible no matter which bubble drifts behind it. */}
       <Reveal>
-        <div className="mx-auto max-w-2xl rounded-card border border-navy-deep/10 bg-white/70 px-6 py-8 backdrop-blur-md md:px-10 md:py-10">
+        <div className="mx-auto max-w-2xl rounded-card border border-navy-deep/10 bg-white/70 px-6 py-8 backdrop-blur-md md:max-w-3xl md:px-10 md:py-10">
           <SectionHeading
             eyebrow="The Dreamlabs method"
             title="A path with no leap of faith required"
@@ -90,7 +90,7 @@ export const Method = () => {
         </div>
       </Reveal>
 
-      <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl">
+      <div ref={lineRef} className="relative mx-auto mt-14 max-w-2xl md:max-w-4xl">
         {/* Connecting line — echoes the hero's thread motif at small scale */}
         <div className="absolute bottom-5 left-[1.4rem] top-5 w-px bg-navy-deep/10" aria-hidden />
         <motion.div
@@ -123,7 +123,7 @@ export const Method = () => {
       </div>
 
       <Reveal className="mt-14">
-        <div className="mx-auto flex max-w-2xl items-start gap-4 rounded-card border border-violet-ray/25 bg-white p-6 shadow-card">
+        <div className="mx-auto flex max-w-2xl items-start gap-4 rounded-card border border-violet-ray/25 bg-white p-6 shadow-card md:max-w-4xl">
           <GuaranteeIcon className="h-8 w-8 shrink-0 text-violet-ray" aria-hidden />
           <p className="font-body text-base leading-relaxed text-navy-deep">
             <strong className="font-medium">The promise in plain English:</strong> you pilot the

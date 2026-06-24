@@ -268,7 +268,9 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Cloudflare Pages project created: `di-dreamlabs-website` (account: kevindigitalinflux@gmail.com).
 - First production deployment via `wrangler pages deploy dist` — 148 files uploaded, Pages
   Function (`functions/api/lead.ts`) detected and deployed (`uses_functions: true`).
-- **Live at: https://di-dreamlabs-website.pages.dev**
+- **Live at: https://didreamlabs.com** (and https://di-dreamlabs-website.pages.dev)
+- Custom domain `didreamlabs.com` added to Pages project via API; CNAME record
+  `didreamlabs.com → di-dreamlabs-website.pages.dev` created (proxied, Google CA).
 - `SUPABASE_URL` already set as env var in both production and preview environments.
 - To redeploy: `npm run build && npx wrangler pages deploy dist --project-name di-dreamlabs-website`
   (wrangler is now authenticated on this machine).

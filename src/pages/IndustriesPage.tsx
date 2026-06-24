@@ -259,9 +259,6 @@ const IndustryCard = ({ block, surface }: { block: IndustryBlock; surface: 'work
         <span className="absolute bottom-3 left-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-ray text-offwhite">
           <BIcon className="h-4 w-4" aria-hidden />
         </span>
-        <span className="absolute bottom-[14px] left-[48px] font-heading text-sm font-semibold text-offwhite">
-          {block.name}
-        </span>
       </div>
 
       {/* Full industry content — identical detail level to the original layout */}
@@ -328,7 +325,7 @@ const HorizontalCardGallery = ({
           ease: 'none',
           scrollTrigger: {
             trigger: container,
-            start: 'top top',
+            start: 'top 64px',
             end: () => `+=${distance()}`,
             scrub: 1,
             pin: true,

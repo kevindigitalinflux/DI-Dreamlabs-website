@@ -60,8 +60,8 @@ export const CalInlineEmbed = () => {
       elementOrSelector: `#my-cal-inline-${CAL_NS}`,
       config: {
         layout: 'month_view',
-        useSlotsViewOnSmallScreen: 'true',
-        theme: 'auto',
+        useSlotsViewOnSmallScreen: true,
+        theme: 'light',
       },
       calLink: CAL_LINK,
     })
@@ -69,7 +69,6 @@ export const CalInlineEmbed = () => {
     Cal.ns[CAL_NS]('ui', {
       cssVarsPerTheme: {
         light: { 'cal-brand': '#8B32FF' },
-        dark:  { 'cal-brand': '#040F49' },
       },
       hideEventTypeDetails: false,
       layout: 'month_view',
@@ -79,7 +78,7 @@ export const CalInlineEmbed = () => {
   return (
     <div
       id={`my-cal-inline-${CAL_NS}`}
-      style={{ width: '100%', minHeight: 'clamp(420px, 70vh, 600px)', overflow: 'scroll' }}
+      style={{ width: '100%', minHeight: 'clamp(420px, 70vh, 600px)' }}
     />
   )
 }

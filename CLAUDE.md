@@ -66,6 +66,10 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - `src/components/interactive/atmosphere/BubblePitBackground.tsx` — reusable violet canvas
   bubble field (35 bubbles, cursor repulsion, ResizeObserver-aware). Used via Section `background`
   prop + `elevateContent`. Wrap heading in `bg-white/70 backdrop-blur-md` panel for legibility.
+- `src/components/ui/LightRays.tsx` — reusable WebGL light ray background (OGL). Props: `raysOrigin`,
+  `raysColor`, `raysSpeed`, `lightSpread`, `rayLength`, `pulsating`, `followMouse`, `mouseInfluence`,
+  `noiseAmount`, `distortion`. Mount via Section `background` prop. IntersectionObserver + ResizeObserver
+  aware — canvas tracks section height even when accordion content expands it.
 - `src/lib/Seo.tsx` — per-route head tags + Organization/ProfessionalService JSON-LD.
 - `docs/supabase-leads.sql` — run in Supabase SQL editor when wiring the lead pipeline.
 - `docs/automations-required.md` — n8n workflow specs for lead notify, Google Sheets, weekly
@@ -304,6 +308,32 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - `public/_headers` CSP: `https://cal.com https://app.cal.com` added to `img-src`; Supabase added to `connect-src`.
 - `PainPoints.tsx`: `$126,000/yr` → `£98,000/yr`, `$76,800/yr` → `£60,000/yr` (UK audience credibility).
 
+**Session 2026-06-25 — Testimonials section (Proof.tsx) complete:**
+- `SHOW_PROOF = true` in `src/lib/config.ts` — Testimonials section now live on homepage.
+- `src/components/ui/LightRays.tsx` — new reusable WebGL light ray background component (OGL-based).
+  Fullscreen triangle renderer, transparent canvas overlay. `IntersectionObserver` gate so WebGL
+  only runs while the section is visible. `ResizeObserver` on the container so the canvas always
+  fills the section — including when accordion cards expand it. Window-level mouse tracking works
+  through `pointer-events-none` parent. TypeScript strict clean.
+- `ogl` (^1.0.11) installed — WebGL renderer used by LightRays.
+- Proof section: `surface="dream"`, `border-t-2 border-violet-ray/25` divides from CalculatorSection
+  above. LightRays passed as `background` prop — violet-ray (#8B32FF), top-center, pulsating,
+  slow (0.6×), wide spread (1.5), long rays (1.8×), subtle mouse influence (0.05).
+- Cards: light white-to-offwhite gradient fill (`from-white via-white to-offwhite`, matches BeamCard)
+  on dark navy section — logos pop clearly. Closed-state `shadow-card`; coloured glow when expanded.
+- `ACCENT` tokens restructured: `accent` key = icons/borders/fills only — never body text.
+  Cyan-strong (#00DFDF) is 1.65:1 contrast on white; magenta-bloom is 3.82:1 — both fail AA for
+  text. All label/body text uses `text-navy-deep` throughout.
+- Compact button fixed height `h-[340px]` — all three cards identical height regardless of pillar count.
+- Accent underline (`h-px w-10`) after client name — mirrors BeamCard pattern.
+- "Read the full case study" / "Close case study" CTA bar at bottom of compact card (dark text,
+  accent-coloured border + chevron) — replaces hard-to-notice top-right chevron.
+- Frosted glass nav pill wrapping carousel controls: `rounded-full border border-offwhite/12
+  bg-navy-deep/50 backdrop-blur-md` — arrows and dots clearly readable above the LightRays.
+- Section heading: "Just some SMEs who got real results, real impact".
+- Mr Brush logo replaced with higher-quality PNG.
+- Three real clients: Mr Brush & Co. (violet), UX Tree (cyan), JM Publicidad (magenta).
+
 **In progress:** Nothing.
 
 **Not yet done / needs Kevin:**
@@ -316,7 +346,7 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - **Phone number** → `CONTACT_PHONE` in `src/lib/config.ts` — activates phone in JSON-LD schema.
 - **LinkedIn company page URL** → add to `sameAs` array in `src/lib/Seo.tsx` (placeholder currently: `'https://www.linkedin.com/company/digital-influx-dreamlabs'`). High AI citation value.
 - **Named founder bio on About page** — single highest E-E-A-T lever. One named person + title + LinkedIn URL transforms Google trust signals. Add to `AboutPage.tsx` story section.
-- **Real case studies** → flip `SHOW_PROOF = true` in `src/lib/config.ts` once a real client story (even anonymised) is ready. Even one verified outcome outweighs all illustrative metrics.
+- **Testimonials — links and permissions:** Mr Brush can get a "Visit site →" link (public relationship confirmed). UX Tree: add a "Confidential" badge (NDA, no link). JM Publicidad: hold until metrics confirmed and client approves public reference. Do not add screenshots without explicit written permission from each client.
 - Legal pages need a solicitor pass; company details are placeholders.
 - n8n automations in `docs/automations-required.md` — not yet built.
 

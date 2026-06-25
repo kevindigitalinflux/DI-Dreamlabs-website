@@ -334,15 +334,20 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 - Mr Brush logo replaced with higher-quality PNG.
 - Three real clients: Mr Brush & Co. (violet), UX Tree (cyan), JM Publicidad (magenta).
 
+**Session 2026-06-26 — Lead pipeline unblocked:**
+- `SUPABASE_SERVICE_ROLE_KEY` set in Cloudflare Pages dashboard (production). Verified working —
+  test lead stored in Supabase `leads` table at 2026-06-25 22:57 UTC. Pipeline: form → Cloudflare
+  Function → Supabase `leads`. CORS bug (old `di-dreamlabs.com` domain) also fixed same session.
+- **Known issue:** `payload` field is stored as a JSON string inside JSONB (function calls
+  `JSON.stringify` before sending). Readable, but n8n will need to parse it as string, not object.
+  Fix when building WF-LEAD-NOTIFY: change `lead.ts` to send `payload` as the raw object (not stringified).
+
 **In progress:** Nothing.
 
 **Not yet done / needs Kevin:**
 
-### Lead pipeline (do in this order)
-- **Add `SUPABASE_SERVICE_ROLE_KEY` to Cloudflare Pages** ← BLOCKER for all automations.
-  Pages dashboard → di-dreamlabs-website → Settings → Environment Variables.
-  Value: Supabase Dashboard → Project Settings → API → `service_role` key (the long secret one — never commit it).
-  Until set, the contact form returns 202 (success UI shown to user) but leads are not stored.
+### Lead pipeline (next steps)
+- ~~**Add `SUPABASE_SERVICE_ROLE_KEY` to Cloudflare Pages**~~ ✓ Done 2026-06-26.
 - **Set up Supabase Database Webhook** → WF-LEAD-NOTIFY in n8n.
   Supabase Dashboard → Database → Webhooks → Create hook → Table: `leads`, Event: `INSERT`,
   POST to n8n webhook URL. Then build WF-LEAD-NOTIFY: Webhook → Set (format body) → Gmail → kevindigitalinflux@gmail.com.

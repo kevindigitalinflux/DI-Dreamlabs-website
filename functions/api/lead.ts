@@ -31,7 +31,7 @@ type LeadBody = {
   website?: unknown // honeypot — humans never see or fill this field
 }
 
-const ALLOWED_ORIGINS = ['https://di-dreamlabs.com', 'https://www.di-dreamlabs.com']
+const ALLOWED_ORIGINS = ['https://didreamlabs.com', 'https://www.didreamlabs.com']
 const ALLOWED_SOURCES = ['calculator', 'contact', 'newsletter'] as const
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 

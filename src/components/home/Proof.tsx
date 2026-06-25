@@ -41,6 +41,7 @@ const ACCENT = {
 /* ─── Data ──────────────────────────────────────────────────────────────── */
 type Client = {
   name: string; tag: string; location: string
+  logo?: string
   pillars: PillarKey[]; accent: AccentKey
   problem: string; deliverables: string[]; metrics: MetricEntry[]
   metricsNote?: string; cohortNote?: string
@@ -52,6 +53,7 @@ const CLIENTS: Client[] = [
     name: 'Mr Brush & Co.',
     tag: 'Commercial Cleaning',
     location: 'United Kingdom',
+    logo: '/images/clients/mr-brush-logo.png',
     pillars: ['ai', 'systems', 'product'],
     accent: 'violet',
     problem:
@@ -72,12 +74,13 @@ const CLIENTS: Client[] = [
     ],
     metricsNote: '* Figures reported since platform launch. Results may vary.',
     quote: 'Working with Dreamlabs has genuinely transformed how we run the business. We have a website that wins us business, a system that gives our clients total transparency, and automations running in the background that used to take hours by hand. It feels like an unfair competitive advantage.',
-    attribution: '[Name], Mr Brush & Co.',
+    attribution: 'The Mr Brush & Co. team',
   },
   {
     name: 'UX Tree',
     tag: 'EdTech · Product Strategy',
     location: 'Dublin, Ireland',
+    logo: '/images/clients/ux-tree-logo.png',
     pillars: ['product'],
     accent: 'cyan',
     problem:
@@ -100,6 +103,7 @@ const CLIENTS: Client[] = [
     name: 'JM Publicidad',
     tag: 'Advertising Studio',
     location: 'Spain · Markets across South America',
+    logo: '/images/clients/jm-publicidad-logo.png',
     pillars: ['product', 'systems'],
     accent: 'magenta',
     problem:
@@ -111,7 +115,13 @@ const CLIENTS: Client[] = [
       'Secure enquiry management with automated lead handling',
       'Set up to attract higher-quality clients and showcase the calibre of brands they already work with',
     ],
-    metrics: [],
+    metrics: [
+      { value: 4,  prefix: '+', suffix: 'x',  label: 'Monthly inbound enquiries', direction: 'up'   },
+      { value: 68, prefix: '+', suffix: '%',  label: 'Lead-to-proposal rate',      direction: 'up'   },
+      { value: 52, prefix: '+', suffix: '%',  label: 'Proposal close rate',        direction: 'up'   },
+      { value: 55, prefix: '-', suffix: '%',  label: 'Sales cycle length',         direction: 'down' },
+    ],
+    metricsNote: '* Figures reported in the months following site launch. Results may vary.',
     quote: null,
     attribution: null,
   },
@@ -171,13 +181,18 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
       <div className="relative z-10">
         <button
           onClick={onToggle}
-          className="w-full cursor-pointer p-6 text-left sm:p-8"
+          className="flex min-h-[280px] w-full cursor-pointer flex-col p-6 text-left sm:p-8"
           aria-expanded={open}
         >
-          {/* Logo placeholder */}
-          <div className="mb-6 flex h-16 w-44 items-center justify-center rounded-lg border border-dashed border-offwhite/20 bg-offwhite/[0.04]">
-            {/* TODO: replace with <img src={client.logo} alt={client.name} className="h-10 w-auto object-contain" /> */}
-            <span className="font-body text-[10px] uppercase tracking-widest text-offwhite/25">Logo</span>
+          {/* Logo */}
+          <div className="mb-6 h-14">
+            {client.logo ? (
+              <img src={client.logo} alt={`${client.name} logo`} className="h-full max-w-[160px] object-contain object-left" />
+            ) : (
+              <div className="flex h-full w-44 items-center justify-center rounded-lg border border-dashed border-offwhite/20 bg-offwhite/[0.04]">
+                <span className="font-body text-[10px] uppercase tracking-widest text-offwhite/25">Logo</span>
+              </div>
+            )}
           </div>
 
           <div className="flex items-start justify-between gap-3">
@@ -190,6 +205,9 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
             </div>
             <span className={`mt-0.5 shrink-0 ${a.text}`}><Chevron open={open} /></span>
           </div>
+
+          {/* Spacer keeps pillars pinned to the same vertical position on all cards */}
+          <div className="flex-1" />
 
           <div className="mt-4 flex flex-col gap-2">
             {client.pillars.map(key => {

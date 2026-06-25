@@ -337,18 +337,41 @@ docs/                        # Brief, spec, plan, supabase-leads.sql, security a
 **In progress:** Nothing.
 
 **Not yet done / needs Kevin:**
-- **Add `SUPABASE_SERVICE_ROLE_KEY` to Cloudflare Pages** — Pages dashboard → di-dreamlabs-website
-  → Settings → Environment Variables. Get value from: Supabase Dashboard → Project Settings →
-  API → `service_role` key (the long secret one — never commit it). Until set, the contact form
-  returns 202 (success UI shown to user) but leads are not stored.
+
+### Lead pipeline (do in this order)
+- **Add `SUPABASE_SERVICE_ROLE_KEY` to Cloudflare Pages** ← BLOCKER for all automations.
+  Pages dashboard → di-dreamlabs-website → Settings → Environment Variables.
+  Value: Supabase Dashboard → Project Settings → API → `service_role` key (the long secret one — never commit it).
+  Until set, the contact form returns 202 (success UI shown to user) but leads are not stored.
+- **Set up Supabase Database Webhook** → WF-LEAD-NOTIFY in n8n.
+  Supabase Dashboard → Database → Webhooks → Create hook → Table: `leads`, Event: `INSERT`,
+  POST to n8n webhook URL. Then build WF-LEAD-NOTIFY: Webhook → Set (format body) → Gmail → kevindigitalinflux@gmail.com.
+  This is the minimum viable "get emailed on enquiry" — ~10 mins to build.
+- **Build WF-CAL-BOOKED** — Cal.com webhook on BOOKING_CREATED → n8n → UPDATE leads SET status='booked'. Stops follow-up sequence.
+- **Build WF-LEAD-SHEET** — append each lead row to a Google Sheet for manual tracking.
+  Create the sheet first; connect Google Sheets credentials in n8n.
+- **Build WF-LEAD-FOLLOWUP** — weekly schedule, days 7/14/21 follow-up sequence. Build last.
+  Full specs in `docs/automations-required.md`.
 - **WAF rate-limit rule** on `/api/lead` (30 req/min/IP) — Cloudflare dashboard, see `docs/security-audit-2026-06-12.md`.
+
+### Google visibility (do in this order)
+- **Google Search Console** — verify `didreamlabs.com` ownership (add TXT record to Cloudflare DNS),
+  submit sitemap at `https://didreamlabs.com/sitemap.xml`, then URL Inspection → Request Indexing
+  on the homepage. Without this Google has no signal the site exists.
+- **Google Business Profile** — free listing at search.google.com/business/profile.
+  Shows branded knowledge panel on "DI Dreamlabs" searches. Requires company address.
+- **Get Mr Brush to link to didreamlabs.com** — one real inbound client link is the highest-value
+  SEO action available right now. Ask for a "Built by DI Dreamlabs" footer credit.
+- **LinkedIn company page** → once created, add URL to `sameAs` array in `src/lib/Seo.tsx`
+  (placeholder: `'https://www.linkedin.com/company/digital-influx-dreamlabs'`). High AI citation value.
+- **Named founder bio on About page** — single highest E-E-A-T lever. One named person + title +
+  LinkedIn URL transforms Google trust signals. Add to `AboutPage.tsx` story section.
+
+### Content & legal
 - **Registered company address** → `CONTACT_ADDRESS` in `src/lib/config.ts` — activates `PostalAddress` in JSON-LD schema. Use Companies House registered address.
 - **Phone number** → `CONTACT_PHONE` in `src/lib/config.ts` — activates phone in JSON-LD schema.
-- **LinkedIn company page URL** → add to `sameAs` array in `src/lib/Seo.tsx` (placeholder currently: `'https://www.linkedin.com/company/digital-influx-dreamlabs'`). High AI citation value.
-- **Named founder bio on About page** — single highest E-E-A-T lever. One named person + title + LinkedIn URL transforms Google trust signals. Add to `AboutPage.tsx` story section.
 - **Testimonials — links and permissions:** Mr Brush can get a "Visit site →" link (public relationship confirmed). UX Tree: add a "Confidential" badge (NDA, no link). JM Publicidad: hold until metrics confirmed and client approves public reference. Do not add screenshots without explicit written permission from each client.
 - Legal pages need a solicitor pass; company details are placeholders.
-- n8n automations in `docs/automations-required.md` — not yet built.
 
 **Known issues / notes:**
 - Lighthouse perf ~0.63 on emulated slow-4G mobile against the *uncompressed* vite preview

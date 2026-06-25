@@ -5,6 +5,7 @@ import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MetricStat, type MetricEntry } from '@/components/ui/MetricStat'
 import { FlaskIcon, BuildIcon, LayersIcon } from '@/components/icons'
+import { LightRays } from '@/components/ui/LightRays'
 
 const AUTO_INTERVAL = 3500
 const MANUAL_PAUSE  = 6000
@@ -373,9 +374,27 @@ const ProofCarousel = () => {
 }
 
 /** Section 7 — Testimonials.
- *  border-t separates from adjacent CalculatorSection (also dream surface). */
+ *  border-t separates from adjacent CalculatorSection (also dream surface).
+ *  LightRays provides atmospheric violet illumination behind the cards. */
 export const Proof = () => (
-  <Section surface="dream" className="border-t-2 border-violet-ray/25">
+  <Section
+    surface="dream"
+    className="border-t-2 border-violet-ray/25"
+    background={
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#8B32FF"
+        raysSpeed={0.6}
+        lightSpread={1.5}
+        rayLength={1.8}
+        pulsating={true}
+        followMouse={true}
+        mouseInfluence={0.05}
+        noiseAmount={0.02}
+        distortion={0.04}
+      />
+    }
+  >
     <Reveal>
       <SectionHeading
         eyebrow="Testimonials"

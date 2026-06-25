@@ -349,25 +349,28 @@ const ProofCarousel = () => {
         </motion.div>
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-5">
-        <NavArrow dir="left" onClick={() => go(active - 1)} disabled={active === 0} />
+      {/* Frosted glass pill — lifts nav above the LightRays background */}
+      <div className="mt-8 flex justify-center">
+        <div className="flex items-center gap-4 rounded-full border border-offwhite/12 bg-navy-deep/50 px-4 py-2.5 backdrop-blur-md">
+          <NavArrow dir="left" onClick={() => go(active - 1)} disabled={active === 0} />
 
-        <div className="flex items-center gap-2.5">
-          {CLIENTS.map((client, i) => (
-            <button
-              key={i}
-              onClick={() => go(i)}
-              aria-label={`View ${client.name}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === active
-                  ? `w-8 ${ACCENT[client.accent].dotBg}`
-                  : 'w-1.5 bg-offwhite/25 hover:bg-offwhite/45'
-              }`}
-            />
-          ))}
+          <div className="flex items-center gap-2.5">
+            {CLIENTS.map((client, i) => (
+              <button
+                key={i}
+                onClick={() => go(i)}
+                aria-label={`View ${client.name}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === active
+                    ? `w-8 ${ACCENT[client.accent].dotBg}`
+                    : 'w-1.5 bg-offwhite/30 hover:bg-offwhite/55'
+                }`}
+              />
+            ))}
+          </div>
+
+          <NavArrow dir="right" onClick={() => go(active + 1)} disabled={active === count - 1} />
         </div>
-
-        <NavArrow dir="right" onClick={() => go(active + 1)} disabled={active === count - 1} />
       </div>
     </div>
   )
@@ -398,7 +401,7 @@ export const Proof = () => (
     <Reveal>
       <SectionHeading
         eyebrow="Testimonials"
-        title="SMEs who got real results, real impact"
+        title="Just some SMEs who got real results, real impact"
         lede="Real work. Real outcomes. No promises we haven't already kept."
         surface="dark"
       />

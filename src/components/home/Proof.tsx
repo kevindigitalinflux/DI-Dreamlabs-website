@@ -6,8 +6,8 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { MetricStat, type MetricEntry } from '@/components/ui/MetricStat'
 import { FlaskIcon, BuildIcon, LayersIcon } from '@/components/icons'
 
-const AUTO_INTERVAL = 3500  // ms between auto-advances
-const MANUAL_PAUSE  = 6000  // ms cooldown after user interaction
+const AUTO_INTERVAL = 3500
+const MANUAL_PAUSE  = 6000
 
 /* ─── Pillar definitions ─────────────────────────────────────────────────── */
 const PILLARS = {
@@ -17,7 +17,7 @@ const PILLARS = {
 } as const
 type PillarKey = keyof typeof PILLARS
 
-/* ─── Per-card beam colours ─────────────────────────────────────────────── */
+/* ─── Per-card beam & accent tokens ─────────────────────────────────────── */
 type AccentKey = 'violet' | 'cyan' | 'magenta'
 
 const BEAM = {
@@ -32,10 +32,11 @@ const GLOW = {
   magenta: '0 0 56px 8px rgba(240, 56, 107, 0.35)',
 }
 
+/* accent: icon/border/fill colours only — never used for body text (contrast fails on white for cyan/magenta) */
 const ACCENT = {
-  violet:  { tag: 'bg-violet-ray/10 text-violet-ray',        text: 'text-violet-ray',       divider: 'border-violet-ray/20',    quoteBorder: 'border-violet-ray/40',    dotBg: 'bg-violet-ray',    ctaBorder: 'border-violet-ray/15'    },
-  cyan:    { tag: 'bg-cyan-strong/10 text-cyan-strong',       text: 'text-cyan-strong',      divider: 'border-cyan-strong/20',   quoteBorder: 'border-cyan-strong/40',   dotBg: 'bg-cyan-strong',   ctaBorder: 'border-cyan-strong/15'   },
-  magenta: { tag: 'bg-magenta-bloom/10 text-magenta-bloom',   text: 'text-magenta-bloom',    divider: 'border-magenta-bloom/20', quoteBorder: 'border-magenta-bloom/40', dotBg: 'bg-magenta-bloom', ctaBorder: 'border-magenta-bloom/15' },
+  violet:  { tagBg: 'bg-violet-ray/10',     accent: 'text-violet-ray',     line: 'bg-violet-ray/60',     divider: 'border-violet-ray/20',     quoteBorder: 'border-violet-ray/40',     ctaBorder: 'border-violet-ray/15',     dotBg: 'bg-violet-ray'     },
+  cyan:    { tagBg: 'bg-cyan-strong/10',     accent: 'text-cyan-strong',    line: 'bg-cyan-strong/50',    divider: 'border-cyan-strong/20',     quoteBorder: 'border-cyan-strong/40',    ctaBorder: 'border-cyan-strong/15',    dotBg: 'bg-cyan-strong'    },
+  magenta: { tagBg: 'bg-magenta-bloom/10',   accent: 'text-magenta-bloom',  line: 'bg-magenta-bloom/55',  divider: 'border-magenta-bloom/20',   quoteBorder: 'border-magenta-bloom/40',  ctaBorder: 'border-magenta-bloom/15',  dotBg: 'bg-magenta-bloom'  },
 }
 
 /* ─── Data ──────────────────────────────────────────────────────────────── */
@@ -170,22 +171,23 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
       style={{
         background: BEAM[client.accent],
         animation: 'border-spin 3.5s linear infinite',
-        boxShadow: open ? GLOW[client.accent] : '0 0 0 0 transparent',
+        /* Closed: same subtle navy shadow as Card light; open: coloured glow */
+        boxShadow: open ? GLOW[client.accent] : '0 4px 24px rgba(4, 15, 73, 0.12)',
         transition: 'box-shadow 0.5s ease',
       }}
     >
-      {/* Off-white interior fill — 1.5 px gap creates the visible beam border */}
-      <div aria-hidden className="absolute inset-[1.5px] rounded-[10.5px] bg-offwhite" />
+      {/* White-to-offwhite gradient fill — matches BeamCard pattern */}
+      <div aria-hidden className="absolute inset-[1.5px] rounded-[10.5px] bg-gradient-to-br from-white via-white to-offwhite" />
 
-      {/* Content */}
       <div className="relative z-10">
+        {/* ── Compact header (always visible) ── */}
         <button
           onClick={onToggle}
-          className="flex min-h-[280px] w-full cursor-pointer flex-col p-6 text-left sm:p-8"
+          className="flex h-[340px] w-full cursor-pointer flex-col p-6 text-left sm:p-8"
           aria-expanded={open}
         >
           {/* Logo */}
-          <div className="mb-6 h-14">
+          <div className="mb-5 h-14">
             {client.logo ? (
               <img src={client.logo} alt={`${client.name} logo`} className="h-full max-w-[160px] object-contain object-left" />
             ) : (
@@ -195,40 +197,40 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
             )}
           </div>
 
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <p className="font-heading text-xl font-bold text-navy-deep">{client.name}</p>
-              <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                <span className={`rounded-full px-2.5 py-0.5 font-body text-xs font-semibold ${a.tag}`}>{client.tag}</span>
-                <span className="font-body text-xs text-navy-deep/50">{client.location}</span>
-              </div>
-            </div>
+          {/* Name + accent line — mirrors BeamCard heading pattern */}
+          <p className="font-heading text-xl font-bold text-navy-deep">{client.name}</p>
+          <div className={`mt-2 h-px w-10 ${a.line}`} />
+
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className={`rounded-full px-2.5 py-0.5 font-body text-xs font-medium text-navy-deep/65 ${a.tagBg}`}>{client.tag}</span>
+            <span className="font-body text-xs text-navy-deep/40">{client.location}</span>
           </div>
 
-          {/* Spacer keeps CTA pinned to the same vertical position on all cards */}
+          {/* Spacer pushes pillars + CTA to bottom — equal height across all cards */}
           <div className="flex-1" />
 
           <div className="mt-4 flex flex-col gap-2">
             {client.pillars.map(key => {
               const { label, Icon } = PILLARS[key]
               return (
-                <span key={key} className="flex items-center gap-2 font-body text-sm text-navy-deep/60">
-                  <Icon className="h-4 w-4 shrink-0 text-navy-deep/35" aria-hidden />
+                <span key={key} className="flex items-center gap-2 font-body text-sm text-navy-deep/55">
+                  <Icon className={`h-4 w-4 shrink-0 ${a.accent}`} aria-hidden />
                   {label}
                 </span>
               )
             })}
           </div>
 
-          {/* Expand CTA — primary affordance for the accordion */}
-          <div className={`mt-5 flex items-center justify-between rounded-lg border px-4 py-3 ${a.ctaBorder} bg-navy-deep/[0.03]`}>
-            <span className={`font-body text-sm font-semibold ${a.text}`}>
+          {/* Expand CTA — accent border, dark readable text */}
+          <div className={`mt-5 flex items-center justify-between rounded-lg border px-4 py-3 ${a.ctaBorder} bg-navy-deep/[0.025]`}>
+            <span className="font-body text-sm font-semibold text-navy-deep/80">
               {open ? 'Close case study' : 'Read the full case study'}
             </span>
-            <span className={a.text}><Chevron open={open} /></span>
+            <span className={a.accent}><Chevron open={open} /></span>
           </div>
         </button>
 
+        {/* ── Expanded body ── */}
         <AnimatePresence initial={false}>
           {open && (
             <motion.div
@@ -240,14 +242,14 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
               style={{ overflow: 'hidden' }}
             >
               <div className={`mx-6 border-t pb-6 pt-5 sm:mx-8 sm:pb-8 ${a.divider}`}>
-                <p className="font-body text-xs font-semibold uppercase tracking-widest text-navy-deep/40">The problem</p>
-                <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">{client.problem}</p>
+                <p className="font-body text-xs font-semibold uppercase tracking-widest text-navy-deep/45">The problem</p>
+                <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/70">{client.problem}</p>
 
-                <p className="mt-5 font-body text-xs font-semibold uppercase tracking-widest text-navy-deep/40">What we built</p>
+                <p className="mt-5 font-body text-xs font-semibold uppercase tracking-widest text-navy-deep/45">What we built</p>
                 <ul className="mt-2 space-y-1.5">
                   {client.deliverables.map(d => (
-                    <li key={d} className="flex gap-2 font-body text-sm leading-snug text-navy-deep/75">
-                      <span className={`mt-px shrink-0 ${a.text}`} aria-hidden>›</span>{d}
+                    <li key={d} className="flex gap-2 font-body text-sm leading-snug text-navy-deep/70">
+                      <span className={`mt-px shrink-0 ${a.accent}`} aria-hidden>›</span>{d}
                     </li>
                   ))}
                 </ul>
@@ -265,13 +267,13 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
 
                 {client.cohortNote && (
                   <div className={`mt-5 rounded-card border bg-navy-deep/[0.03] px-4 py-3 ${a.ctaBorder}`}>
-                    <p className={`font-body text-xs font-medium ${a.text}`}>{client.cohortNote}</p>
+                    <p className="font-body text-xs font-medium text-navy-deep/60">{client.cohortNote}</p>
                   </div>
                 )}
 
                 {client.quote && (
                   <blockquote className={`mt-5 border-l-2 pl-4 ${a.quoteBorder}`}>
-                    <p className="font-body text-sm italic leading-relaxed text-navy-deep/75">"{client.quote}"</p>
+                    <p className="font-body text-sm italic leading-relaxed text-navy-deep/70">"{client.quote}"</p>
                     {client.attribution && (
                       <footer className="mt-2 font-body text-xs font-semibold text-navy-deep/45">— {client.attribution}</footer>
                     )}
@@ -295,14 +297,12 @@ const ProofCarousel = () => {
   const dirRef        = useRef(1)
   const count         = CLIENTS.length
 
-  /** Navigate to card i, collapsing any open card and setting a manual-pause cooldown. */
   const go = (i: number) => {
     setActive(Math.max(0, Math.min(count - 1, i)))
     setExpandedIndex(null)
     pauseUntilRef.current = Date.now() + MANUAL_PAUSE
   }
 
-  /** Auto-advance: ping-pong (0→1→2→1→0→…). Pauses when a card is open. */
   useEffect(() => {
     if (expandedIndex !== null) return
 
@@ -329,12 +329,7 @@ const ProofCarousel = () => {
 
   return (
     <div>
-      {/* Card track */}
-      <div
-        className="overflow-hidden"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
+      <div className="overflow-hidden" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <motion.div
           className="flex"
           style={{ width: `${count * 100}%` }}
@@ -353,7 +348,6 @@ const ProofCarousel = () => {
         </motion.div>
       </div>
 
-      {/* Navigation: ← dots → */}
       <div className="mt-8 flex items-center justify-center gap-5">
         <NavArrow dir="left" onClick={() => go(active - 1)} disabled={active === 0} />
 
@@ -378,8 +372,8 @@ const ProofCarousel = () => {
   )
 }
 
-/** Section 7 — Testimonials. Gated by SHOW_PROOF in src/lib/config.ts.
- *  border-t separates visually from the adjacent CalculatorSection (also dream surface). */
+/** Section 7 — Testimonials.
+ *  border-t separates from adjacent CalculatorSection (also dream surface). */
 export const Proof = () => (
   <Section surface="dream" className="border-t-2 border-violet-ray/25">
     <Reveal>

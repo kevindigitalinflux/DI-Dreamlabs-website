@@ -252,13 +252,16 @@ export const LightRays = ({
         rafRef.current = requestAnimationFrame(loop)
       }
 
-      window.addEventListener('resize', resize)
+      /* ResizeObserver fires whenever the container changes size — catches both
+         window resizes and section height changes caused by card expansion. */
+      const ro = new ResizeObserver(resize)
+      if (containerRef.current) ro.observe(containerRef.current)
       resize()
       rafRef.current = requestAnimationFrame(loop)
 
       cleanupRef.current = () => {
         if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
-        window.removeEventListener('resize', resize)
+        ro.disconnect()
         if (canvas.parentNode) canvas.parentNode.removeChild(canvas)
       }
     }

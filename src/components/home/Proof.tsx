@@ -27,15 +27,15 @@ const BEAM = {
 }
 
 const GLOW = {
-  violet:  '0 0 48px 6px rgba(139, 50, 255, 0.22)',
-  cyan:    '0 0 48px 6px rgba(0, 223, 223, 0.18)',
-  magenta: '0 0 48px 6px rgba(240, 56, 107, 0.22)',
+  violet:  '0 0 56px 8px rgba(139, 50, 255, 0.35)',
+  cyan:    '0 0 56px 8px rgba(0, 223, 223, 0.28)',
+  magenta: '0 0 56px 8px rgba(240, 56, 107, 0.35)',
 }
 
 const ACCENT = {
-  violet:  { tag: 'bg-violet-ray/15 text-violet-ray',       text: 'text-violet-ray',       divider: 'border-violet-ray/20',    quoteBorder: 'border-violet-ray/50',    dotBg: 'bg-violet-ray'    },
-  cyan:    { tag: 'bg-cyan-strong/15 text-cyan-strong',      text: 'text-cyan-strong',      divider: 'border-cyan-strong/20',   quoteBorder: 'border-cyan-strong/50',   dotBg: 'bg-cyan-strong'   },
-  magenta: { tag: 'bg-magenta-bloom/15 text-magenta-bloom',  text: 'text-magenta-bloom',    divider: 'border-magenta-bloom/20', quoteBorder: 'border-magenta-bloom/50', dotBg: 'bg-magenta-bloom' },
+  violet:  { tag: 'bg-violet-ray/10 text-violet-ray',        text: 'text-violet-ray',       divider: 'border-violet-ray/20',    quoteBorder: 'border-violet-ray/40',    dotBg: 'bg-violet-ray',    ctaBorder: 'border-violet-ray/15'    },
+  cyan:    { tag: 'bg-cyan-strong/10 text-cyan-strong',       text: 'text-cyan-strong',      divider: 'border-cyan-strong/20',   quoteBorder: 'border-cyan-strong/40',   dotBg: 'bg-cyan-strong',   ctaBorder: 'border-cyan-strong/15'   },
+  magenta: { tag: 'bg-magenta-bloom/10 text-magenta-bloom',   text: 'text-magenta-bloom',    divider: 'border-magenta-bloom/20', quoteBorder: 'border-magenta-bloom/40', dotBg: 'bg-magenta-bloom', ctaBorder: 'border-magenta-bloom/15' },
 }
 
 /* ─── Data ──────────────────────────────────────────────────────────────── */
@@ -133,9 +133,9 @@ const Chevron = ({ open }: { open: boolean }) => (
   <motion.svg
     animate={{ rotate: open ? 180 : 0 }}
     transition={{ duration: 0.3, ease: 'easeInOut' }}
-    width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden
+    width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden
   >
-    <path d="M4.5 6.75L9 11.25L13.5 6.75" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
   </motion.svg>
 )
 
@@ -144,7 +144,7 @@ const NavArrow = ({ dir, onClick, disabled }: { dir: 'left' | 'right'; onClick: 
     onClick={onClick}
     disabled={disabled}
     aria-label={dir === 'left' ? 'Previous client' : 'Next client'}
-    className="flex h-10 w-10 items-center justify-center rounded-full border border-navy-deep/15 bg-navy-deep/5 text-navy-deep/40 transition-all hover:border-navy-deep/30 hover:text-navy-deep disabled:pointer-events-none disabled:opacity-20"
+    className="flex h-10 w-10 items-center justify-center rounded-full border border-offwhite/15 bg-offwhite/5 text-offwhite/50 transition-all hover:border-offwhite/35 hover:text-offwhite disabled:pointer-events-none disabled:opacity-20"
   >
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
       <path
@@ -174,8 +174,8 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
         transition: 'box-shadow 0.5s ease',
       }}
     >
-      {/* Navy interior fill — 1.5 px gap creates the visible beam border */}
-      <div aria-hidden className="absolute inset-[1.5px] rounded-[10.5px] bg-navy-deep/95" />
+      {/* Off-white interior fill — 1.5 px gap creates the visible beam border */}
+      <div aria-hidden className="absolute inset-[1.5px] rounded-[10.5px] bg-offwhite" />
 
       {/* Content */}
       <div className="relative z-10">
@@ -189,36 +189,43 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
             {client.logo ? (
               <img src={client.logo} alt={`${client.name} logo`} className="h-full max-w-[160px] object-contain object-left" />
             ) : (
-              <div className="flex h-full w-44 items-center justify-center rounded-lg border border-dashed border-offwhite/20 bg-offwhite/[0.04]">
-                <span className="font-body text-[10px] uppercase tracking-widest text-offwhite/25">Logo</span>
+              <div className="flex h-full w-44 items-center justify-center rounded-lg border border-dashed border-navy-deep/20 bg-navy-deep/[0.04]">
+                <span className="font-body text-[10px] uppercase tracking-widest text-navy-deep/30">Logo</span>
               </div>
             )}
           </div>
 
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="font-heading text-xl font-bold text-offwhite">{client.name}</p>
+              <p className="font-heading text-xl font-bold text-navy-deep">{client.name}</p>
               <div className="mt-1.5 flex flex-wrap items-center gap-2">
                 <span className={`rounded-full px-2.5 py-0.5 font-body text-xs font-semibold ${a.tag}`}>{client.tag}</span>
-                <span className="font-body text-xs text-offwhite/40">{client.location}</span>
+                <span className="font-body text-xs text-navy-deep/50">{client.location}</span>
               </div>
             </div>
-            <span className={`mt-0.5 shrink-0 ${a.text}`}><Chevron open={open} /></span>
           </div>
 
-          {/* Spacer keeps pillars pinned to the same vertical position on all cards */}
+          {/* Spacer keeps CTA pinned to the same vertical position on all cards */}
           <div className="flex-1" />
 
           <div className="mt-4 flex flex-col gap-2">
             {client.pillars.map(key => {
               const { label, Icon } = PILLARS[key]
               return (
-                <span key={key} className="flex items-center gap-2 font-body text-sm text-offwhite/60">
-                  <Icon className="h-4 w-4 shrink-0 text-offwhite/40" aria-hidden />
+                <span key={key} className="flex items-center gap-2 font-body text-sm text-navy-deep/60">
+                  <Icon className="h-4 w-4 shrink-0 text-navy-deep/35" aria-hidden />
                   {label}
                 </span>
               )
             })}
+          </div>
+
+          {/* Expand CTA — primary affordance for the accordion */}
+          <div className={`mt-5 flex items-center justify-between rounded-lg border px-4 py-3 ${a.ctaBorder} bg-navy-deep/[0.03]`}>
+            <span className={`font-body text-sm font-semibold ${a.text}`}>
+              {open ? 'Close case study' : 'Read the full case study'}
+            </span>
+            <span className={a.text}><Chevron open={open} /></span>
           </div>
         </button>
 
@@ -233,13 +240,13 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
               style={{ overflow: 'hidden' }}
             >
               <div className={`mx-6 border-t pb-6 pt-5 sm:mx-8 sm:pb-8 ${a.divider}`}>
-                <p className="font-body text-xs font-semibold uppercase tracking-widest text-offwhite/40">The problem</p>
-                <p className="mt-2 font-body text-sm leading-relaxed text-offwhite/70">{client.problem}</p>
+                <p className="font-body text-xs font-semibold uppercase tracking-widest text-navy-deep/40">The problem</p>
+                <p className="mt-2 font-body text-sm leading-relaxed text-navy-deep/75">{client.problem}</p>
 
-                <p className="mt-5 font-body text-xs font-semibold uppercase tracking-widest text-offwhite/40">What we built</p>
+                <p className="mt-5 font-body text-xs font-semibold uppercase tracking-widest text-navy-deep/40">What we built</p>
                 <ul className="mt-2 space-y-1.5">
                   {client.deliverables.map(d => (
-                    <li key={d} className="flex gap-2 font-body text-sm leading-snug text-offwhite/70">
+                    <li key={d} className="flex gap-2 font-body text-sm leading-snug text-navy-deep/75">
                       <span className={`mt-px shrink-0 ${a.text}`} aria-hidden>›</span>{d}
                     </li>
                   ))}
@@ -248,25 +255,25 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
                 {client.metrics.length > 0 && (
                   <div className={`mt-5 border-t pt-4 ${a.divider}`}>
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                      {client.metrics.map(m => <MetricStat key={m.label} {...m} surface="dark" />)}
+                      {client.metrics.map(m => <MetricStat key={m.label} {...m} surface="light" />)}
                     </div>
                     {client.metricsNote && (
-                      <p className="mt-3 font-body text-xs italic text-offwhite/30">{client.metricsNote}</p>
+                      <p className="mt-3 font-body text-xs italic text-navy-deep/35">{client.metricsNote}</p>
                     )}
                   </div>
                 )}
 
                 {client.cohortNote && (
-                  <div className={`mt-5 rounded-card border bg-white/5 px-4 py-3 ${a.divider}`}>
+                  <div className={`mt-5 rounded-card border bg-navy-deep/[0.03] px-4 py-3 ${a.ctaBorder}`}>
                     <p className={`font-body text-xs font-medium ${a.text}`}>{client.cohortNote}</p>
                   </div>
                 )}
 
                 {client.quote && (
                   <blockquote className={`mt-5 border-l-2 pl-4 ${a.quoteBorder}`}>
-                    <p className="font-body text-sm italic leading-relaxed text-offwhite/70">"{client.quote}"</p>
+                    <p className="font-body text-sm italic leading-relaxed text-navy-deep/75">"{client.quote}"</p>
                     {client.attribution && (
-                      <footer className="mt-2 font-body text-xs font-semibold text-offwhite/40">— {client.attribution}</footer>
+                      <footer className="mt-2 font-body text-xs font-semibold text-navy-deep/45">— {client.attribution}</footer>
                     )}
                   </blockquote>
                 )}
@@ -283,7 +290,7 @@ const ProofCard = ({ client, open, onToggle }: ProofCardProps) => {
 const ProofCarousel = () => {
   const [active, setActive]               = useState(0)
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-  const touchStartX  = useRef<number | null>(null)
+  const touchStartX   = useRef<number | null>(null)
   const pauseUntilRef = useRef(0)
   const dirRef        = useRef(1)
   const count         = CLIENTS.length
@@ -359,7 +366,7 @@ const ProofCarousel = () => {
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === active
                   ? `w-8 ${ACCENT[client.accent].dotBg}`
-                  : 'w-1.5 bg-navy-deep/15 hover:bg-navy-deep/30'
+                  : 'w-1.5 bg-offwhite/25 hover:bg-offwhite/45'
               }`}
             />
           ))}
@@ -371,15 +378,16 @@ const ProofCarousel = () => {
   )
 }
 
-/** Section 7 — Testimonials. Gated by SHOW_PROOF in src/lib/config.ts. */
+/** Section 7 — Testimonials. Gated by SHOW_PROOF in src/lib/config.ts.
+ *  border-t separates visually from the adjacent CalculatorSection (also dream surface). */
 export const Proof = () => (
-  <Section surface="workshop">
+  <Section surface="dream" className="border-t-2 border-violet-ray/25">
     <Reveal>
       <SectionHeading
         eyebrow="Testimonials"
         title="SMEs who got real results, real impact"
         lede="Real work. Real outcomes. No promises we haven't already kept."
-        surface="light"
+        surface="dark"
       />
     </Reveal>
     <Reveal delay={100}>

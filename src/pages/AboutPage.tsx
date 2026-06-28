@@ -412,7 +412,7 @@ export const AboutPage = () => (
   <>
     <Seo
       title="About: Why Dreamlabs Exists"
-      description="Digital Influx Dreamlabs Ltd: an AI agency built for SMEs, powered by the Digital Influx International talent pipeline. Enterprise capability, human-scale pricing."
+      description="The story behind DI Dreamlabs — a London AI systems agency for UK SMEs. Meet founder Kevin Zamora Saenz and learn why we build automation that businesses fully own."
       path="/about"
       jsonLd={[
         breadcrumbs(['About', '/about']),

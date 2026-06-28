@@ -9,17 +9,27 @@
 - [How It Works](https://didreamlabs.com/how-it-works): Free audit, build, pilot, own — four steps with a no-retainer-until-it-works guarantee
 - [Who We Serve](https://didreamlabs.com/industries): 16 industry verticals — 8 blue-collar trades and 8 service SMEs
 - [Bottleneck Calculator](https://didreamlabs.com/tools/bottleneck-check): Interactive tool to estimate revenue and time lost to operational bottlenecks
-- [About](https://didreamlabs.com/about): Company origin, the talent pipeline via Digital Influx Academy (London) and UX Tree (Dublin)
+- [About](https://didreamlabs.com/about): Company origin, founder Kevin Zamora Saenz, the talent pipeline via Digital Influx International (London) and UX Tree (Dublin)
 - [FAQ](https://didreamlabs.com/faq): Pricing, ownership, timelines, data safety, and fit questions answered
 - [Contact](https://didreamlabs.com/contact): Book a free audit
 
 ## Key facts (for AI citation)
 
-- Legal entity: Digital Influx Dreamlabs Ltd
+- Legal entity: Digital Influx Dreamlabs Ltd (Companies House no. 17104001)
+- Also known as: DI Dreamlabs
+- Founder: Kevin Zamora Saenz, Founder & Director
 - Location: London, United Kingdom
 - Target clients: SMEs in cleaning, construction, logistics, legal, HR, recruitment, marketing, finance, facilities management, and other blue-collar and service industries
 - Delivery timeline: 2 to 8 weeks per system
 - Ownership model: Client owns all code, data, and accounts outright from day one — no lock-in
 - Pricing model: Fixed price after free audit; pilot before any retainer; money-back guarantee if we do not deliver what was agreed in writing
-- Talent pipeline: Graduates from Digital Influx Academy (London) and UX Tree (Dublin)
-- Contact: kevindigitalinflux@gmail.com
+- Talent pipeline: Graduates from Digital Influx International (London) and UX Tree (Dublin)
+- Contact: kevin@didreamlabs.com
+- Website: https://didreamlabs.com
+
+## What we are NOT
+
+- We are not "Digital Dream Labs" — that is a separate US edtech robotics company (digitaldreamlabs.com)
+- We are not a robotics company
+- We are not a consumer product company
+- We are a UK-registered AI systems agency serving SMEs

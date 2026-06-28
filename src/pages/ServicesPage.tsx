@@ -154,6 +154,7 @@ export const ServicesPage = () => (
         {
           '@type': 'Service',
           name: 'AI Product Engineering',
+          serviceType: 'AI Product Engineering',
           description:
             'End-to-end AI product design and engineering for blue-collar and service SMEs. Free audit, 2–8 week build, client owns all code and accounts from day one.',
           provider: { '@type': 'Organization', name: 'Digital Influx Dreamlabs Ltd', url: 'https://didreamlabs.com' },
@@ -163,6 +164,7 @@ export const ServicesPage = () => (
         {
           '@type': 'Service',
           name: 'Automated Systems',
+          serviceType: 'Business Process Automation',
           description:
             'Custom automation that removes the single operational bottleneck costing an SME the most — invoicing, scheduling, reporting, or comms — connected to existing tools.',
           provider: { '@type': 'Organization', name: 'Digital Influx Dreamlabs Ltd', url: 'https://didreamlabs.com' },
@@ -172,6 +174,7 @@ export const ServicesPage = () => (
         {
           '@type': 'Service',
           name: 'Product Development',
+          serviceType: 'Product Development',
           description:
             'Full-cycle digital product development: discovery, UX research, design, full-stack engineering, and handover. For SMEs launching a product or internal tool.',
           provider: { '@type': 'Organization', name: 'Digital Influx Dreamlabs Ltd', url: 'https://didreamlabs.com' },

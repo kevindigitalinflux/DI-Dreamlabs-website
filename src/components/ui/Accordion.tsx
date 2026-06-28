@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ChevronDownIcon } from '@/components/icons'
 
 export type AccordionItem = {
@@ -11,7 +11,8 @@ type AccordionProps = {
   items: ReadonlyArray<AccordionItem>
 }
 
-/** Keyboard-accessible disclosure list for FAQs (Brief §7.8). */
+/** Keyboard-accessible disclosure list for FAQs (Brief §7.8).
+ * Answers are always present in the DOM so SSG pre-renders them for AI crawlers. */
 export const Accordion = ({ items }: AccordionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const baseId = useId()
@@ -42,24 +43,28 @@ export const Accordion = ({ items }: AccordionProps) => {
                 />
               </button>
             </h3>
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="overflow-hidden"
-                >
-                  <p className="px-6 pb-5 font-body text-base leading-relaxed text-navy-deep/80">
-                    {item.answer}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Answer is always rendered in the DOM so SSG includes it for search crawlers.
+                Visual open/close is handled purely by animated height + opacity. */}
+            <motion.div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              aria-hidden={!isOpen}
+              initial={false}
+              animate={
+                isOpen
+                  ? { height: 'auto', opacity: 1 }
+                  : reduceMotion
+                    ? { height: 0, opacity: 0 }
+                    : { height: 0, opacity: 0 }
+              }
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="overflow-hidden"
+            >
+              <p className="px-6 pb-5 font-body text-base leading-relaxed text-navy-deep/80">
+                {item.answer}
+              </p>
+            </motion.div>
           </div>
         )
       })}

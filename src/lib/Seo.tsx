@@ -3,6 +3,8 @@ import {
   CONTACT_ADDRESS,
   CONTACT_EMAIL,
   CONTACT_PHONE,
+  FOUNDER_NAME,
+  FOUNDER_TITLE,
   SITE_NAME,
   SITE_URL,
   SOCIAL_FACEBOOK,
@@ -25,8 +27,8 @@ type SeoProps = {
 
 /**
  * Per-route head tags (Brief §12): unique title/description, canonical,
- * Open Graph/Twitter cards, plus Organization + ProfessionalService
- * structured data site-wide. Rendered into the static HTML at build time.
+ * Open Graph/Twitter cards, plus Organization + WebSite structured data
+ * site-wide. Rendered into the static HTML at build time via vite-react-ssg.
  */
 export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: SeoProps) => {
   const url = `${SITE_URL}${path === '/' ? '' : path}`
@@ -34,9 +36,12 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
 
   const organization = {
     '@context': 'https://schema.org',
-    '@type': ['Organization', 'ProfessionalService'],
-    name: 'Digital Influx Dreamlabs Ltd',
-    alternateName: SITE_NAME,
+    '@type': 'ProfessionalService',
+    '@id': `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    legalName: 'Digital Influx Dreamlabs Ltd',
+    alternateName: 'Digital Influx Dreamlabs',
+    slogan: 'Enterprise capability. Human-scale pricing.',
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
@@ -45,7 +50,7 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
       height: 1300,
     },
     description:
-      'AI product engineering and automated systems agency for blue-collar and service SMEs. Free audit, pilot before retainer, you own everything we build.',
+      'AI product engineering and automated systems agency for blue-collar and service SMEs in the UK. Free audit, pilot before retainer, you own everything we build.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'London',
@@ -54,9 +59,35 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     },
     ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
     ...(CONTACT_PHONE ? { telephone: CONTACT_PHONE } : {}),
+    ...(CONTACT_EMAIL ? {
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer enquiries',
+        email: CONTACT_EMAIL,
+        areaServed: 'GB',
+        availableLanguage: 'English',
+      },
+    } : {}),
     areaServed: 'GB',
     priceRange: '££',
-    sameAs: [SOCIAL_LINKEDIN, SOCIAL_INSTAGRAM, SOCIAL_FACEBOOK],
+    founder: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#founder`,
+      name: FOUNDER_NAME,
+      jobTitle: FOUNDER_TITLE,
+      url: `${SITE_URL}/about`,
+    },
+    identifier: {
+      '@type': 'PropertyValue',
+      name: 'Companies House',
+      value: '17104001',
+    },
+    sameAs: [
+      SOCIAL_LINKEDIN,
+      SOCIAL_INSTAGRAM,
+      SOCIAL_FACEBOOK,
+      'https://find-and-update.company-information.service.gov.uk/company/17104001',
+    ],
   }
 
   const website = {
@@ -66,10 +97,7 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     url: SITE_URL,
     potentialAction: {
       '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/tools/bottleneck-check?industry={search_term_string}`,
-      },
+      target: `${SITE_URL}/tools/bottleneck-check?industry={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   }

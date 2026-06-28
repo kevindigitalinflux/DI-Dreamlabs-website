@@ -22,7 +22,7 @@ export const CONTACT_ADDRESS: string | null = null
 /** Social media profiles. */
 export const SOCIAL_LINKEDIN = 'https://www.linkedin.com/company/130434578/'
 export const SOCIAL_INSTAGRAM = 'https://www.instagram.com/di_dreamlabs/'
-export const SOCIAL_FACEBOOK = 'https://www.facebook.com/profile.php?id=61589287250886'
+export const SOCIAL_FACEBOOK = 'https://www.facebook.com/61589287250886/'
 
 /** Founder details for E-E-A-T structured data and About page bio. */
 export const FOUNDER_NAME = 'Kevin Zamora Saenz'

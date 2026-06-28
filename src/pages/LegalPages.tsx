@@ -21,7 +21,7 @@ export const PrivacyPage = () => (
   <>
     <Seo
       title="Privacy Policy"
-      description="How Digital Influx Dreamlabs Ltd collects, uses and protects your data on di-dreamlabs.com."
+      description="How Digital Influx Dreamlabs Ltd collects, uses and protects your data on didreamlabs.com."
       path="/privacy"
     />
     <PageHero eyebrow="Legal" title="Privacy Policy" lede="Last updated: June 2026" />
@@ -29,7 +29,7 @@ export const PrivacyPage = () => (
       <Prose>
         <p>
           Digital Influx Dreamlabs Ltd ("Dreamlabs", "we") respects your privacy. This policy
-          explains what we collect on di-dreamlabs.com, why, and your rights over it.
+          explains what we collect on didreamlabs.com, why, and your rights over it.
         </p>
         <h2>What we collect</h2>
         <ul>
@@ -85,7 +85,7 @@ export const TermsPage = () => (
   <>
     <Seo
       title="Terms of Use"
-      description="Terms of use for di-dreamlabs.com, operated by Digital Influx Dreamlabs Ltd."
+      description="Terms of use for didreamlabs.com, operated by Digital Influx Dreamlabs Ltd."
       path="/terms"
     />
     <PageHero eyebrow="Legal" title="Terms of Use" lede="Last updated: June 2026" />
@@ -93,7 +93,7 @@ export const TermsPage = () => (
       <Prose>
         <h2>Using this site</h2>
         <p>
-          di-dreamlabs.com is operated by Digital Influx Dreamlabs Ltd. By using the site you
+          didreamlabs.com is operated by Digital Influx Dreamlabs Ltd. By using the site you
           accept these terms. Content is provided for general information about our services.
         </p>
         <h2>The Bottleneck Check</h2>

@@ -418,11 +418,16 @@ export const AboutPage = () => (
         breadcrumbs(['About', '/about']),
         {
           '@type': 'Person',
+          '@id': `${SITE_URL}/#founder`,
           name: FOUNDER_NAME,
           jobTitle: FOUNDER_TITLE,
-          url: FOUNDER_LINKEDIN,
+          url: `${SITE_URL}/about`,
+          image: `${SITE_URL}/images/about/kevin.png`,
+          description: 'Founder and Director of Digital Influx Dreamlabs Ltd. Leads AI product engineering and automation projects for SMEs across the UK.',
+          sameAs: [FOUNDER_LINKEDIN],
           worksFor: {
             '@type': 'Organization',
+            '@id': `${SITE_URL}/#organization`,
             name: 'Digital Influx Dreamlabs Ltd',
             url: SITE_URL,
           },

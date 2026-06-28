@@ -40,9 +40,9 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: `${SITE_URL}/icon-512.png`,
-      width: 512,
-      height: 512,
+      url: `${SITE_URL}/brand/logo-search.png`,
+      width: 1300,
+      height: 1300,
     },
     description:
       'AI product engineering and automated systems agency for blue-collar and service SMEs. Free audit, pilot before retainer, you own everything we build.',

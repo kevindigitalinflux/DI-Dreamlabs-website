@@ -40,7 +40,7 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
     legalName: 'Digital Influx Dreamlabs Ltd',
-    alternateName: 'Digital Influx Dreamlabs',
+    alternateName: ['Digital Influx Dreamlabs', 'DI Dreamlabs'],
     slogan: 'Enterprise capability. Human-scale pricing.',
     url: SITE_URL,
     logo: {

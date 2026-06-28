@@ -1,5 +1,14 @@
 import { Head } from 'vite-react-ssg'
-import { CONTACT_ADDRESS, CONTACT_EMAIL, CONTACT_PHONE, SITE_NAME, SITE_URL } from '@/lib/config'
+import {
+  CONTACT_ADDRESS,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  SITE_NAME,
+  SITE_URL,
+  SOCIAL_FACEBOOK,
+  SOCIAL_INSTAGRAM,
+  SOCIAL_LINKEDIN,
+} from '@/lib/config'
 import montserrat800 from '@fontsource/montserrat/files/montserrat-latin-800-normal.woff2?url'
 import dmSans400 from '@fontsource/dm-sans/files/dm-sans-latin-400-normal.woff2?url'
 
@@ -47,9 +56,7 @@ export const Seo = ({ title, description, path, jsonLd = [], noIndex = false }: 
     ...(CONTACT_PHONE ? { telephone: CONTACT_PHONE } : {}),
     areaServed: 'GB',
     priceRange: '££',
-    sameAs: [
-      'https://www.linkedin.com/company/digital-influx-dreamlabs',
-    ],
+    sameAs: [SOCIAL_LINKEDIN, SOCIAL_INSTAGRAM, SOCIAL_FACEBOOK],
   }
 
   const website = {

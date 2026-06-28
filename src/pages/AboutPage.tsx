@@ -5,7 +5,13 @@ import { Section } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Button } from '@/components/ui/Button'
-import { POSITIONING_LINE } from '@/lib/config'
+import {
+  POSITIONING_LINE,
+  FOUNDER_NAME,
+  FOUNDER_TITLE,
+  FOUNDER_LINKEDIN,
+  SITE_URL,
+} from '@/lib/config'
 import { BubblePitBackground } from '@/components/interactive/atmosphere/BubblePitBackground'
 import { Seo, breadcrumbs } from '@/lib/Seo'
 
@@ -42,8 +48,8 @@ interface TalentPartner {
 
 const TALENT_PARTNERS: TalentPartner[] = [
   {
-    id: 'dia',
-    name: 'Influx Academy',
+    id: 'dii',
+    name: 'Digital Influx International',
     hq: 'London, UK',
     logo: '/images/about/digital-influx-logo.svg',
     tagline: 'Producing AI Product Designers who are job-ready builders from day one.',
@@ -327,14 +333,101 @@ const PillarsPyramid = () => {
   )
 }
 
+const LinkedInIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+)
+
+/**
+ * Named founder bio for Google E-E-A-T signals.
+ * Drop a headshot at public/images/about/kevin.jpg to activate the photo frame.
+ */
+const FounderBio = () => (
+  <div className="mx-auto max-w-3xl md:max-w-5xl">
+    <Reveal>
+      <SectionHeading eyebrow="The founder" title="Behind the mission" surface="light" align="left" />
+    </Reveal>
+    <Reveal className="mt-8">
+      <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
+        <div className="shrink-0 md:w-52">
+          <div className="relative overflow-hidden rounded-card border border-violet-ray/30 shadow-card">
+            <div className="aspect-[3/4]">
+              <img
+                src="/images/about/kevin.png"
+                alt="Kevin Zamora Saenz, Founder and Director of DI Dreamlabs"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-navy-deep/60 via-navy-deep/20 to-violet-ray/30 mix-blend-multiply"
+            />
+          </div>
+        </div>
+        <div className="flex-1 pt-1">
+          <p className="font-body text-xs font-semibold uppercase tracking-[0.12em] text-violet-text">
+            {FOUNDER_TITLE}
+          </p>
+          <h2 className="mt-1 font-heading text-3xl font-bold text-navy-deep md:text-4xl">
+            {FOUNDER_NAME}
+          </h2>
+          <div className="mt-3 h-px w-10 bg-violet-ray/60" />
+          <p className="mt-4 font-body text-base leading-relaxed text-navy-deep/75">
+            Kevin founded Digital Influx Dreamlabs Ltd with one conviction: the businesses that
+            build and service the world deserve the same technology advantages as the largest
+            enterprises — at a price that actually makes sense. As Founder and Director, Kevin
+            leads every client engagement from the initial free audit through to delivery,
+            ensuring the work gets done rather than delegated.
+          </p>
+          <a
+            href={FOUNDER_LINKEDIN}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-2 rounded-card border border-violet-ray/30 bg-violet-ray/[0.06] px-4 py-2.5 font-body text-sm font-semibold text-navy-deep transition-all hover:border-violet-ray/60 hover:bg-violet-ray/[0.12]"
+          >
+            <LinkedInIcon className="h-4 w-4 text-violet-text" />
+            Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+)
+
 /** Brand story, Academy pipeline, why Dreamlabs exists (Brief §5). */
 export const AboutPage = () => (
   <>
     <Seo
       title="About: Why Dreamlabs Exists"
-      description="Digital Influx Dreamlabs Ltd: an AI agency built for SMEs, powered by the Digital Influx Academy talent pipeline. Enterprise capability, human-scale pricing."
+      description="Digital Influx Dreamlabs Ltd: an AI agency built for SMEs, powered by the Digital Influx International talent pipeline. Enterprise capability, human-scale pricing."
       path="/about"
-      jsonLd={[breadcrumbs(['About', '/about'])]}
+      jsonLd={[
+        breadcrumbs(['About', '/about']),
+        {
+          '@type': 'Person',
+          name: FOUNDER_NAME,
+          jobTitle: FOUNDER_TITLE,
+          url: FOUNDER_LINKEDIN,
+          worksFor: {
+            '@type': 'Organization',
+            name: 'Digital Influx Dreamlabs Ltd',
+            url: SITE_URL,
+          },
+        },
+      ]}
     />
     <PageHero
       eyebrow="About"
@@ -374,12 +467,16 @@ export const AboutPage = () => (
       </div>
     </Section>
 
+    <Section surface="workshop">
+      <FounderBio />
+    </Section>
+
     <Section surface="dream">
       <Reveal>
         <SectionHeading
           eyebrow="The talent engine"
           title="How we keep enterprise quality at SME pricing"
-          lede="Dreamlabs is a partner company to Digital Influx Academy, based in London, and UX Tree, based in Dublin, two internationally established EdTech institutions that serve as our in-house talent pipeline. Together, they draw from communities spanning Ireland, the UK, the US, Australia, Hong Kong, Nigeria, and beyond. We do not source expensive external contractors; we draw from a pipeline of engineers, designers and builders developed by institutions with that kind of global reach. Big-firm capability, human-scale pricing, no compromise on quality."
+          lede="Dreamlabs is a partner company to Digital Influx International, based in London, and UX Tree, based in Dublin, two internationally established EdTech institutions that serve as our in-house talent pipeline. Together, they draw from communities spanning Ireland, the UK, the US, Australia, Hong Kong, Nigeria, and beyond. We do not source expensive external contractors; we draw from a pipeline of engineers, designers and builders developed by institutions with that kind of global reach. Big-firm capability, human-scale pricing, no compromise on quality."
           surface="dark"
         />
       </Reveal>

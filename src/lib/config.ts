@@ -16,7 +16,7 @@ export const POSITIONING_LINE =
 
 /** Contact details. */
 export const CONTACT_EMAIL: string | null = 'kevin@didreamlabs.com'
-export const CONTACT_PHONE: string | null = null
+export const CONTACT_PHONE: string | null = '+447539831460'
 export const CONTACT_ADDRESS: string | null = null
 
 /** Social media profiles. */

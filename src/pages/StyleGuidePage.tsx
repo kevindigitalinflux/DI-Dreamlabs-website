@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Input, Select, TextArea } from '@/components/ui/Field'
@@ -20,8 +21,9 @@ const SWATCHES = [
 const ICON_ENTRIES = Object.entries(Icons).filter(([name]) => name.endsWith('Icon'))
 
 /** Internal design-system review page — not linked from navigation. */
-export const StyleGuidePage = () => (
-  <div className="pt-16">
+export const StyleGuidePage = () => {
+  if (!import.meta.env.DEV) return <Navigate to="/404" replace />
+  return <div className="pt-16">
     <Seo title="Style Guide" description="Internal design system reference." path="/style-guide" noIndex />
     {/* Dark surface demos */}
     <section className="relative overflow-hidden bg-navy-deep px-6 py-20">
@@ -146,7 +148,7 @@ export const StyleGuidePage = () => (
       </div>
     </section>
   </div>
-)
+}
 
 /** React Router lazy-route entry. */
 export const Component = StyleGuidePage

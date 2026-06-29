@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom'
 import { buildAtmosphere } from '@/components/interactive/atmosphere/atmosphere'
 import { AtmosphereDefs } from '@/components/interactive/atmosphere/AtmosphereDefs'
 import { CloudShape } from '@/components/interactive/atmosphere/cloudShapes'
@@ -6,6 +7,7 @@ import { Seo } from '@/lib/Seo'
 
 /** Internal scratch page to review atmosphere shapes statically. Not linked. */
 export const AtmospherePreviewPage = () => {
+  if (!import.meta.env.DEV) return <Navigate to="/404" replace />
   const cfg = buildAtmosphere({ seed: 7, mobile: false })
   return (
     <div

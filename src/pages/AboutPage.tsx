@@ -486,13 +486,6 @@ export const AboutPage = () => (
             <div className="mt-5">
               <LetterBlur text={POSITIONING_LINE} />
             </div>
-            <Reveal className="mt-6">
-              <img
-                src="/images/about/dreamlabs-logo-bg.png"
-                alt="Digital Influx Dreamlabs"
-                className="h-auto w-full max-w-[220px]"
-              />
-            </Reveal>
           </div>
           <StoryImage />
         </div>

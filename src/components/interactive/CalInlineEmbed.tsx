@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Head } from 'vite-react-ssg'
 
+const FALLBACK_DELAY_MS = 9000
+
 // Cal.com SDK doesn't ship TypeScript types; targeted casts used throughout.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CalAny = any
@@ -85,9 +87,35 @@ const CalSkeleton = () => (
  * embed.js starts loading at module import time (above), so it's already
  * in-flight before React hydrates. useEffect only handles init + render.
  */
+/** Shown when the Cal.com iframe hasn't appeared after FALLBACK_DELAY_MS. */
+const CalFallback = () => (
+  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-card bg-offwhite/5 p-6 text-center">
+    <p className="font-body text-sm text-offwhite/70">
+      The calendar is taking longer than expected to load.
+    </p>
+    <a
+      href={`https://cal.com/${CAL_LINK}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 rounded-card border border-violet-ray/50 bg-violet-ray/10 px-5 py-3 font-body text-sm font-semibold text-offwhite transition-all hover:bg-violet-ray/20"
+    >
+      Book directly on Cal.com →
+    </a>
+  </div>
+)
+
 export const CalInlineEmbed = () => {
   const [loaded, setLoaded] = useState(false)
+  const [timedOut, setTimedOut] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loaded) setTimedOut(true)
+    }, FALLBACK_DELAY_MS)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const Cal = (window as CalAny).Cal
@@ -131,10 +159,12 @@ export const CalInlineEmbed = () => {
       <Head>
         <link rel="preconnect" href="https://app.cal.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://app.cal.com" />
+        <link rel="preload" as="script" href={EMBED_SRC} crossOrigin="anonymous" />
       </Head>
 
       <div className="relative" style={{ minHeight: MIN_H }}>
-        {!loaded && <CalSkeleton />}
+        {!loaded && !timedOut && <CalSkeleton />}
+        {!loaded && timedOut && <CalFallback />}
         <div
           ref={containerRef}
           id={`my-cal-inline-${CAL_NS}`}

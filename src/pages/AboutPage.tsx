@@ -44,6 +44,7 @@ interface TalentPartner {
   tagline: string
   countries: readonly string[]
   beamSpeed: number
+  linkedin: string
 }
 
 const TALENT_PARTNERS: TalentPartner[] = [
@@ -55,6 +56,7 @@ const TALENT_PARTNERS: TalentPartner[] = [
     tagline: 'Producing AI Product Designers who are job-ready builders from day one.',
     countries: ['UK', 'US', 'Australia', 'Hong Kong', 'Nigeria'],
     beamSpeed: 3,
+    linkedin: 'https://www.linkedin.com/company/digitalinflux/posts/?feedView=all',
   },
   {
     id: 'uxt',
@@ -64,6 +66,7 @@ const TALENT_PARTNERS: TalentPartner[] = [
     tagline: 'Producing experienced UX Designers and AI Product Strategists ready to deliver.',
     countries: ['Ireland', 'Europe'],
     beamSpeed: 2.2,
+    linkedin: 'https://www.linkedin.com/company/ux-tree/posts/?feedView=all',
   },
 ]
 
@@ -102,7 +105,7 @@ const BeamCard = ({
 )
 
 /** Interactive 3D-tilt partner institution card with hover-reveal country reach. */
-const TalentPartnerCard = ({ name, hq, logo, tagline, countries, beamSpeed }: TalentPartner) => {
+const TalentPartnerCard = ({ name, hq, logo, tagline, countries, beamSpeed, linkedin }: TalentPartner) => {
   const [hovered, setHovered] = useState(false)
   const reduceMotion = useReducedMotion()
   const mouseX = useMotionValue(0)
@@ -175,6 +178,15 @@ const TalentPartnerCard = ({ name, hq, logo, tagline, countries, beamSpeed }: Ta
                 </motion.span>
               ))}
             </div>
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 font-body text-xs font-semibold text-violet-ray/80 transition-colors hover:text-violet-ray"
+            >
+              <LinkedInIcon className="h-3.5 w-3.5" />
+              View on LinkedIn
+            </a>
           </div>
         </div>
       </motion.div>
@@ -355,7 +367,13 @@ const LinkedInIcon = ({ className = '' }: { className?: string }) => (
  * Named founder bio for Google E-E-A-T signals.
  * Drop a headshot at public/images/about/kevin.jpg to activate the photo frame.
  */
-const FounderBio = () => (
+const FounderBio = () => {
+  const imgRef = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: imgRef, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+
+  return (
   <div className="mx-auto max-w-3xl md:max-w-5xl">
     <Reveal>
       <SectionHeading eyebrow="The founder" title="Behind the mission" surface="light" align="left" />
@@ -363,12 +381,13 @@ const FounderBio = () => (
     <Reveal className="mt-8">
       <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
         <div className="shrink-0 md:w-52">
-          <div className="relative overflow-hidden rounded-card border border-violet-ray/30 shadow-card">
-            <div className="aspect-[3/4]">
-              <img
+          <div ref={imgRef} className="relative overflow-hidden rounded-card border border-violet-ray/30 shadow-card">
+            <div className="aspect-[3/4] overflow-hidden">
+              <motion.img
                 src="/images/about/kevin.png"
                 alt="Kevin Zamora Saenz, Founder and Director of DI Dreamlabs"
                 className="h-full w-full object-cover"
+                style={{ scale: 1.15, y: reduceMotion ? 0 : y }}
               />
             </div>
             <div
@@ -405,7 +424,8 @@ const FounderBio = () => (
       </div>
     </Reveal>
   </div>
-)
+  )
+}
 
 /** Brand story, Academy pipeline, why Dreamlabs exists (Brief §5). */
 export const AboutPage = () => (
@@ -466,6 +486,13 @@ export const AboutPage = () => (
             <div className="mt-5">
               <LetterBlur text={POSITIONING_LINE} />
             </div>
+            <Reveal className="mt-6">
+              <img
+                src="/images/about/dreamlabs-logo-bg.png"
+                alt="Digital Influx Dreamlabs"
+                className="h-auto w-full max-w-[220px]"
+              />
+            </Reveal>
           </div>
           <StoryImage />
         </div>

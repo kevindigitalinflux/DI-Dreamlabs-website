@@ -101,8 +101,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return json(400, { error: 'Invalid source.' }, origin)
   }
   const payload =
-    body.payload && typeof body.payload === 'object'
-      ? JSON.stringify(body.payload).slice(0, 4000)
+    body.payload && typeof body.payload === 'object' && !Array.isArray(body.payload)
+      ? body.payload
       : null
 
   // Credentials not configured yet — acknowledge without storing (spec §7).

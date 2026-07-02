@@ -24,6 +24,7 @@ type PagesFunction<E = unknown> = (context: {
 type LeadBody = {
   name?: unknown
   email?: unknown
+  phone?: unknown
   company?: unknown
   industry?: unknown
   source?: unknown
@@ -87,6 +88,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const email = typeof body.email === 'string' ? body.email.trim() : ''
+  const phone = typeof body.phone === 'string' ? body.phone.trim().slice(0, 30) : null
   const company = typeof body.company === 'string' ? body.company.trim().slice(0, 200) : null
   const industry = typeof body.industry === 'string' ? body.industry.trim().slice(0, 60) : null
   const source = typeof body.source === 'string' ? body.source : ''
@@ -119,7 +121,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       'Content-Type': 'application/json',
       Prefer: 'return=minimal',
     },
-    body: JSON.stringify({ name, email, company, industry, source, payload }),
+    body: JSON.stringify({ name, email, phone, company, industry, source, payload }),
   })
 
   if (!insert.ok) {

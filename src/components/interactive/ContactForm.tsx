@@ -11,6 +11,7 @@ type Status = 'idle' | 'submitting' | 'sent' | 'error'
 export const ContactForm = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [company, setCompany] = useState('')
   const [industry, setIndustry] = useState('')
   const [message, setMessage] = useState('')
@@ -28,10 +29,15 @@ export const ContactForm = () => {
       setError('Please enter a valid email address.')
       return
     }
+    if (phone.replace(/\D/g, '').length < 7) {
+      setError('Please enter a valid phone number.')
+      return
+    }
     setStatus('submitting')
     const result = await submitLead({
       name,
       email,
+      phone,
       company,
       industry,
       source: 'contact',
@@ -76,10 +82,18 @@ export const ContactForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
           required
-          error={error ?? undefined}
         />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
+        <Input
+          label="Phone number"
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          autoComplete="tel"
+          required
+          error={error ?? undefined}
+        />
         <Input
           label="Company (optional)"
           value={company}

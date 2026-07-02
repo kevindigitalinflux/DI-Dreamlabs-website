@@ -23,6 +23,7 @@ export const CalculatorResult = ({ answers, estimate, onRestart }: CalculatorRes
   const [unlocked, setUnlocked] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -31,10 +32,15 @@ export const CalculatorResult = ({ answers, estimate, onRestart }: CalculatorRes
   const handleUnlock = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
+    if (phone.replace(/\D/g, '').length < 7) {
+      setError('Please enter a valid phone number.')
+      return
+    }
     setSubmitting(true)
     const result = await submitLead({
       name,
       email,
+      phone,
       industry: answers.industry,
       source: 'calculator',
       payload: { ...answers, ...estimate },
@@ -87,6 +93,14 @@ export const CalculatorResult = ({ answers, estimate, onRestart }: CalculatorRes
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
+              required
+            />
+            <Input
+              label="Phone number"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              autoComplete="tel"
               error={error ?? undefined}
               required
             />

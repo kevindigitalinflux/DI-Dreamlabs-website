@@ -5,6 +5,7 @@ export type LeadSource = 'calculator' | 'contact' | 'newsletter'
 export type LeadSubmission = {
   name: string
   email: string
+  phone?: string
   company?: string
   industry?: string
   source: LeadSource
